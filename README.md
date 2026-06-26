@@ -1,2 +1,0 @@
-# Kapilbatra
-My portfolio website.
