@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapil Batra - UX Designer & Product Designer</title>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="output.css">
+
+    <!-- React & ReactDOM via UMD -->
+    <script crossorigin="anonymous" src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script crossorigin="anonymous" src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script>window.react = window.React;</script>
+    <!-- lucide-react via UMD -->
+    <script crossorigin="anonymous" src="https://unpkg.com/lucide-react@0.292.0/dist/umd/lucide-react.js"></script>
+    <!-- Babel standalone for JSX -->
+    <script crossorigin="anonymous" src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <script>
+    window.onerror = function(msg, url, line) {
+        document.body.innerHTML += '<div style="color:red; font-size:20px; z-index:9999; position:fixed; top:0; left:0; background:white; padding:20px; border: 2px solid red;">ERROR: ' + msg + ' (line ' + line + ')</div>';
+    };
+    window.addEventListener('unhandledrejection', function(event) {
+        document.body.innerHTML += '<div style="color:red; font-size:20px; z-index:9999; position:fixed; top:0; left:0; background:white; padding:20px; border: 2px solid red;">PROMISE ERROR: ' + (event.reason && event.reason.message ? event.reason.message : event.reason) + '</div>';
+    });
+    const oldError = console.error;
+    console.error = function() {
+        oldError.apply(console, arguments);
+        document.body.innerHTML += '<div style="color:red; font-size:20px; z-index:9999; position:fixed; top:0; left:0; background:white; padding:20px; border: 2px solid red;">CONSOLE ERROR: ' + Array.from(arguments).join(' ') + '</div>';
+    };
+    </script>
+    <div id="root">
+        <div
+            style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background-color: #f3f3f3; color: #1a1a1a; font-family: ui-sans-serif, system-ui, sans-serif;">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 24px;">
+                <div
+                    style="font-size: 3rem; font-weight: 800; letter-spacing: -0.05em; animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;">
+                    kb.</div>
+                <div
+                    style="width: 160px; height: 3px; background-color: rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden; position: relative;">
+                    <div
+                        style="position: absolute; top: 0; left: 0; width: 40%; height: 100%; background-color: #1a1a1a; border-radius: 4px; animation: load 1s ease-in-out infinite;">
+                    </div>
+                </div>
+            </div>
+            <style>
+                @keyframes pulse {
+
+                    0%,
+                    100% {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+
+                    50% {
+                        opacity: 0.5;
+                        transform: scale(0.95);
+                    }
+                }
+
+                @keyframes load {
+                    0% {
+                        transform: translateX(-150%);
+                    }
+
+                    100% {
+                        transform: translateX(300%);
+                    }
+                }
+            </style>
+        </div>
+    </div>
+
+    <script>
+        Babel.registerPreset('react-classic', {
+            presets: [
+                [Babel.availablePresets['react'], { runtime: 'classic' }]
+            ]
+        });
+    </script>
+    <script type="text/babel" data-presets="react-classic">
+        const { useState, useEffect, useRef } = React;
+        const { createRoot } = ReactDOM;
+        const { Linkedin, Instagram, ArrowUpRight, X, ArrowRight } = LucideReact;
+        const BehanceIcon = ({ size = 24, color = "currentColor" }) => (
+            <svg width={size} height={size} viewBox="1.5 1.5 21 21" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="3" width="18" height="18" rx="5" ry="5" />
+                <path d="M7.5 8 v8 h3.5 c2 0 2 -4 0 -4 h-3.5" />
+                <path d="M11 12 c2 0 2 -4 0 -4 h-3.5" />
+                <path d="M13.5 13.5 h4.5 c0 -2.5 -4.5 -2.5 -4.5 0 c0 2.5 4.5 2.5 4.5 0.5" />
+                <path d="M14.5 9.5 h3" />
+            </svg>
+        );
+
+        // -------------------------------------------------------------
+        // CUSTOM HOOKS & SHARED COMPONENTS
+        // -------------------------------------------------------------
+        const FadeUp = ({ children, delay = 0, className = "", ...props }) => {
+            const domRef = useRef();
+            const [isVisible, setVisible] = useState(false);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setVisible(true);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+                if (domRef.current) observer.observe(domRef.current);
+                return () => observer.disconnect();
+            }, []);
+
+            return (
+                <div
+                    ref={domRef}
+                    className={`transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? 'opacity-100 translate-y-0 transform-none' : 'opacity-0 translate-y-12'} ${className}`}
+                    style={{ transitionDelay: `${delay}s` }}
+                    {...props}
+                >
+                    {children}
+                </div>
+            );
+        };
+
+        const Header = ({ title, subtitle }) => {
+            const [scrollY, setScrollY] = useState(0);
+            useEffect(() => {
+                const handleScroll = () => setScrollY(window.scrollY);
+                window.addEventListener('scroll', handleScroll, { passive: true });
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+            return (
+                <header className="px-6 md:px-12 pt-8 pb-16 flex flex-col justify-between items-start" style={{ transform: `translateY(${scrollY * 0.1}px)` }}>
+                    <div>
+                        <FadeUp delay={0.1}>
+                            <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter leading-[1.05]">
+                                {title}
+                            </h1>
+                        </FadeUp>
+                        {subtitle && (
+                            <FadeUp delay={0.2}>
+                                <p className="mt-4 md:mt-6 text-2xl md:text-3xl font-medium tracking-tight max-w-xl text-black/80">
+                                    {subtitle}
+                                </p>
+                            </FadeUp>
+                        )}
+                    </div>
+                </header>
+            );
+        };
+
+        const Footer = ({ hasTopMargin = false, onOpenContact }) => (
+            <FadeUp delay={0.1}>
+                <footer className={`bg-[#111111] text-white py-24 md:py-32 flex flex-col items-center justify-center px-4 ${hasTopMargin ? 'mt-32' : ''}`}>
+                    <span className="text-lg font-medium mb-8 text-white/80">(Connect)</span>
+                    <h2
+                        className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-12 hover:text-gray-300 transition-all duration-300 hover:scale-105 cursor-pointer"
+                    >
+                        Let's talk
+                    </h2>
+                    <button
+                        onClick={onOpenContact}
+                        className="bg-white text-[#111] hover:bg-gray-200 px-8 py-4 rounded-full text-base font-semibold transition-all duration-300 hover:scale-105 active:scale-95 mb-24 shadow-lg hover:shadow-xl inline-block"
+                    >
+                        Get in Touch
+                    </button>
+
+                    <nav className="flex flex-wrap justify-center gap-6 md:gap-12 text-sm font-medium text-white/80">
+                        {['Home', 'About', 'Contact', 'Work', 'Blog'].map(link => (
+                            <a
+                                key={link}
+                                href={`#${link.toLowerCase()}`}
+                                className="transition-colors hover:text-white"
+                            >
+                                {link}
+                            </a>
+                        ))}
+                    </nav>
+                </footer>
+            </FadeUp>
+        );
+
+        const MenuOverlay = ({ isMenuOpen, toggleMenu, onOpenContact }) => (
+            <div
+                className={`fixed inset-0 z-50 flex flex-col justify-center items-center transition-all duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] ${isMenuOpen ? 'opacity-100 pointer-events-auto backdrop-blur-md bg-black/90' : 'opacity-0 pointer-events-none bg-black/0'
+                    }`}
+            >
+                {/* Close Button */}
+                <button
+                    onClick={toggleMenu}
+                    className={`absolute top-8 right-6 md:top-12 md:right-12 text-white/70 hover:text-white p-2 transition-all duration-700 ${isMenuOpen ? 'rotate-0 opacity-100' : 'rotate-90 opacity-0'}`}
+                    aria-label="Close menu"
+                >
+                    <X size={40} strokeWidth={1.5} />
+                </button>
+
+                {/* Menu Links */}
+                <nav className="flex flex-col items-center gap-3 md:gap-5 text-center w-full px-4">
+                    {['Home', 'Work', 'Blog', 'About', 'Contact'].map((item, index) => (
+                        <div
+                            key={item}
+                            className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isMenuOpen ? 'opacity-100 translate-y-0 blur-none' : 'opacity-0 translate-y-12 blur-sm'
+                                }`}
+                            style={{
+                                transitionDelay: isMenuOpen ? `${0.2 + (index * 0.08)}s` : '0ms'
+                            }}
+                        >
+                            <a
+                                href={`#${item.toLowerCase()}`}
+                                onClick={() => toggleMenu()}
+                                className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white/50 hover:text-white transition-all duration-300 hover:translate-x-4 inline-block"
+                            >
+                                {item}
+                            </a>
+                        </div>
+                    ))}
+                </nav>
+            </div>
+        );
+
+        // -------------------------------------------------------------
+        // PAGE COMPONENTS
+        // -------------------------------------------------------------
+
+        const HomePage = ({ scrollY }) => {
+            return (
+                <main>
+                    {/* Hero Heading with FadeUp */}
+                    <header className="px-6 md:px-12 pt-8 pb-16" style={{ transform: `translateY(${scrollY * 0.1}px)` }}>
+                        <FadeUp delay={0.1}>
+                            <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter leading-[1.05]">
+                                <span style={{ display: 'block' }}>Kapil Batra</span>
+                                <span style={{ display: 'block' }}>End-to-End UX Designer</span>
+                            </h1>
+                        </FadeUp>
+                    </header>
+
+                    {/* --- HERO IMAGE --- */}
+                    <section className="w-full h-[50vh] md:h-[70vh] mb-24 overflow-hidden hero-zoom bg-[#e5e5e5]">
+                        <img
+                            src="./images/Hero.png"
+                            alt="Kapil Batra"
+                            className="w-full h-[115%] object-cover object-[center_10%]"
+                            style={{
+                                transform: `translateY(${scrollY * 0.15}px)`
+                            }}
+                            onError={(e) => {
+                                e.target.src = 'https://via.placeholder.com/2000x1000/cccccc/969696?text=Hero+Image+Placeholder';
+                            }}
+                        />
+                    </section>
+
+                    {/* --- ABOUT PREVIEW --- */}
+                    <section className="px-6 md:px-12 mb-24 max-w-7xl mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-12 md:gap-24 items-start border-t border-black/10 pt-16">
+                            <FadeUp delay={0.1}>
+                                <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight leading-tight max-w-3xl border-l-[3px] border-transparent hover:border-black pl-0 hover:pl-4 transition-all duration-300">
+                                    As a Designer, I focus on producing top-notch and impactful digital experiences.
+                                </h2>
+                            </FadeUp>
+
+                            <FadeUp delay={0.2} className="md:border-l border-black/10 md:pl-24 h-full flex flex-col justify-between min-h-[150px]">
+                                <span className="text-lg font-medium mb-8 block">(About me)</span>
+                                <div className="flex gap-3 mt-auto">
+                                    <a
+                                        href="https://www.linkedin.com/in/kapil-batra"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-10 h-10 rounded-full bg-[#1a1a1a] text-white flex items-center justify-center hover:bg-black hover:scale-110 active:scale-90 transition-all duration-200"
+                                    >
+                                        <Linkedin size={18} />
+                                    </a>
+                                    <a
+                                        href="https://www.behance.net/kapilbatra1"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-10 h-10 rounded-full bg-[#1a1a1a] text-white flex items-center justify-center hover:bg-black hover:scale-110 active:scale-90 transition-all duration-200"
+                                    >
+                                        <BehanceIcon size={18} />
+                                    </a>
+                                    <a
+                                        href="https://www.instagram.com/kyayaarbatra/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-10 h-10 rounded-full bg-[#1a1a1a] text-white flex items-center justify-center hover:bg-black hover:scale-110 active:scale-90 transition-all duration-200"
+                                    >
+                                        <Instagram size={18} />
+                                    </a>
+                                </div>
+                            </FadeUp>
+                        </div>
+                    </section>
+
+                    {/* --- WHAT I DO --- */}
+                    <section className="px-6 md:px-12 mb-32 max-w-7xl mx-auto">
+                        <div className="border-t border-black/10 pt-16 flex flex-col lg:flex-row gap-12 lg:gap-0">
+                            <div className="w-full lg:w-1/4 shrink-0">
+                                <FadeUp delay={0.1}>
+                                    <span className="text-2xl font-medium block sticky top-8">(What I do)</span>
+                                </FadeUp>
+                            </div>
+
+                            <div className="w-full lg:w-3/4 lg:border-l border-black/10 grid grid-cols-1 md:grid-cols-2">
+                                {/* Item 1 */}
+                                <FadeUp delay={0.2} className="p-0 pb-12 md:p-12 md:pt-0 border-b border-black/10 md:border-r">
+                                    <h3 className="text-2xl font-semibold mb-4 tracking-tight group-hover:text-black/70">UX Design</h3>
+                                    <p className="text-black/70 leading-relaxed text-sm md:text-base">
+                                        I craft intuitive experiences by blending user needs with business goals; shaping wireframes, prototypes, and design systems that guide users seamlessly through digital journeys for better user experiences.
+                                    </p>
+                                </FadeUp>
+                                {/* Item 2 */}
+                                <FadeUp delay={0.3} className="p-0 py-12 md:p-12 md:pt-0 border-b border-black/10">
+                                    <h3 className="text-2xl font-semibold mb-4 tracking-tight">Business Research</h3>
+                                    <p className="text-black/70 leading-relaxed text-sm md:text-base">
+                                        Understanding the "why" behind user behavior and business needs helps me design with purpose. I dive into data, competitor landscapes, and product goals to shape smarter, user-focused decisions.
+                                    </p>
+                                </FadeUp>
+                                {/* Item 3 */}
+                                <FadeUp delay={0.4} className="p-0 py-12 md:p-12 md:pb-0 border-b md:border-b-0 border-black/10 md:border-r">
+                                    <h3 className="text-2xl font-semibold mb-4 tracking-tight">Brand & Graphic Design</h3>
+                                    <p className="text-black/70 leading-relaxed text-sm md:text-base">
+                                        From logos to social media creatives, I translate ideas into powerful visuals that stay consistent across platforms building emotional connections and recognition for brands users remember.
+                                    </p>
+                                </FadeUp>
+                                {/* Item 4 */}
+                                <FadeUp delay={0.5} className="p-0 pt-12 md:p-12 md:pb-0">
+                                    <h3 className="text-2xl font-semibold mb-4 tracking-tight">Photography & Video Editing</h3>
+                                    <p className="text-black/70 leading-relaxed text-sm md:text-base">
+                                        I bring stories to life through visuals whether its product shots, team culture, or motion-based storytelling. My content elevates design presentations, brand messaging, and product demonstrations.
+                                    </p>
+                                </FadeUp>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* --- MARQUEE --- */}
+                    <FadeUp delay={0.1}>
+                        <section className="mb-32 overflow-hidden border-y border-black/10 bg-[#f3f3f3] relative z-10 flex">
+                            <div className="flex animate-marquee w-max py-4 md:py-6">
+                                {/* Content repeated multiple times */}
+                                {[...Array(8)].map((_, i) => (
+                                    <div key={i} className="flex items-center mx-6 md:mx-12 group cursor-pointer transition-transform duration-300 hover:scale-[1.03]">
+                                        <a href="#work" className="text-6xl md:text-8xl font-bold tracking-tighter text-black group-hover:text-black/50 transition-colors">Work</a>
+                                        <ArrowUpRight className="ml-2 w-12 h-12 md:w-20 md:h-20 text-black group-hover:text-black/50 transition-colors" strokeWidth={1.5} />
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    </FadeUp>
+
+                    {/* --- TESTIMONIALS --- */}
+                    <section className="px-6 md:px-12 mb-12 max-w-7xl mx-auto">
+                        <div className="border-t border-black/10 pt-16 flex flex-col lg:flex-row gap-12 lg:gap-0">
+                            <div className="w-full lg:w-1/4 shrink-0">
+                                <FadeUp delay={0.1}>
+                                    <span className="text-2xl font-medium block sticky top-8">(Testimonials)</span>
+                                </FadeUp>
+                            </div>
+
+                            <div className="w-full lg:w-3/4 lg:border-l border-black/10 grid grid-cols-1 md:grid-cols-2">
+                                {/* Testimonial 1 */}
+                                <FadeUp delay={0.2} className="p-0 pb-12 md:p-12 md:pt-0 border-b border-black/10 md:border-r flex flex-col h-full">
+                                    <h3 className="text-2xl font-semibold mb-4 tracking-tight">MotorPedia</h3>
+                                    <p className="text-black/70 leading-relaxed text-sm md:text-base flex-grow mb-8">
+                                        Kapil helped us design our mobile app from scratch. He understood our complex inventory and service flows very quickly and made them super easy to use. The designs looked premium too. Great experience working with him!
+                                    </p>
+                                    <div className="flex items-center gap-3">
+                                        <img src="./images/Vibhore.png" alt="Vibhore Kumar" className="w-10 h-10 rounded-full object-cover shadow-sm bg-black/5" onError={(e) => { e.target.src = "https://i.pravatar.cc/150?u=1"; e.target.onError = null; }} />
+                                        <div>
+                                            <h4 className="font-semibold text-sm">Vibhore Kumar</h4>
+                                            <span className="text-xs text-black/60">Founder, MotorPedia</span>
+                                        </div>
+                                    </div>
+                                </FadeUp>
+
+                                {/* Testimonial 2 */}
+                                <FadeUp delay={0.3} className="p-0 py-12 md:p-12 md:pt-0 border-b border-black/10 flex flex-col h-full">
+                                    <h3 className="text-2xl font-semibold mb-4 tracking-tight">Student Circus</h3>
+                                    <p className="text-black/70 leading-relaxed text-sm md:text-base flex-grow mb-8">
+                                        Kapil has a sharp eye for what students really need. He made our platform more user-friendly and visually appealing. He's also very cooperative and always open to feedback. Highly recommended!
+                                    </p>
+                                    <div className="flex items-center gap-3">
+                                        <img src="./images/Dhruv.png" alt="Dhruv Krishnaraj" className="w-10 h-10 rounded-full object-cover shadow-sm bg-black/5" onError={(e) => { e.target.src = "https://i.pravatar.cc/150?u=2"; e.target.onError = null; }} />
+                                        <div>
+                                            <h4 className="font-semibold text-sm">Dhruv Krishnaraj</h4>
+                                            <span className="text-xs text-black/60">Founder, Student Circus</span>
+                                        </div>
+                                    </div>
+                                </FadeUp>
+
+                                {/* Testimonial 3 */}
+                                <FadeUp delay={0.4} className="p-0 py-12 md:p-12 md:pb-0 border-b md:border-b-0 border-black/10 md:border-r flex flex-col h-full">
+                                    <h3 className="text-2xl font-semibold mb-4 tracking-tight">FlashCraft Events</h3>
+                                    <p className="text-black/70 leading-relaxed text-sm md:text-base flex-grow mb-8">
+                                        We had no idea how to show our event services online in a clean way. Kapil turned our ideas into a modern website & app. His designs brought a lot of compliments from our clients!
+                                    </p>
+                                    <div className="flex items-center gap-3">
+                                        <img src="./images/Nishant.png" alt="Nishant" className="w-10 h-10 rounded-full object-cover shadow-sm bg-black/5" onError={(e) => { e.target.src = "https://i.pravatar.cc/150?u=3"; e.target.onError = null; }} />
+                                        <div>
+                                            <h4 className="font-semibold text-sm">Nishant</h4>
+                                            <span className="text-xs text-black/60">Founder, FlashCraft Events</span>
+                                        </div>
+                                    </div>
+                                </FadeUp>
+
+                                {/* Testimonial 4 */}
+                                <FadeUp delay={0.5} className="p-0 pt-12 md:p-12 md:pb-0 flex flex-col h-full">
+                                    <h3 className="text-2xl font-semibold mb-4 tracking-tight">Metacube Softwares</h3>
+                                    <p className="text-black/70 leading-relaxed text-sm md:text-base flex-grow mb-8">
+                                        Kapil has been a huge asset to our team. He's not just a designer. He thinks about the product, the user, and the business. Always proactive and dependable. A true all-rounder!
+                                    </p>
+                                    <div className="flex items-center gap-3">
+                                        <img src="./images/Himank.png" alt="Himank Jha" className="w-10 h-10 rounded-full object-cover shadow-sm bg-black/5" onError={(e) => { e.target.src = "https://i.pravatar.cc/150?u=4"; e.target.onError = null; }} />
+                                        <div>
+                                            <h4 className="font-semibold text-sm">Himank Jha</h4>
+                                            <span className="text-xs text-black/60">UX Manager, Certinia Project</span>
+                                        </div>
+                                    </div>
+                                </FadeUp>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            );
+        };
+
+        const WorkPage = () => {
+            const handleProjectClick = (p) => {
+                if (p.password) {
+                    const entered = window.prompt("This case study is password protected. Please enter the password:");
+                    if (entered === p.password) {
+                        window.open(p.link || 'https://www.behance.net/kapilbatra1', '_blank');
+                    } else if (entered !== null) {
+                        alert("Incorrect password.");
+                    }
+                } else {
+                    window.open(p.link || 'https://www.behance.net/kapilbatra1', '_blank');
+                }
+            };
+
+            const projects = [
+                { id: 'new-1', name: 'workplanner', label: '(UX Design)', title: 'How I solved the problem of managing resources in work planner efficiently by implementing multi select.', subtitle: 'A deep dive into complex resource management.', bg: 'bg-[#1e1e1e]', img: './images/w-workplanner.png', password: 'Certinia' },
+                { id: 'new-2', name: 'ai-ux', label: '(Process & AI)', title: 'How I use notebook llm and claude in my day to day ux process', subtitle: 'Integrating AI tools to streamline UX workflows.', bg: 'bg-[#4a90e2]', img: './images/w-ai-ux.png', password: 'Certinia' },
+                { id: 'new-3', name: 'wayo-audit', label: '(UX Audit)', title: 'How I perfomed a thorogh UX audit for Wayo (A bluesmart app)', subtitle: 'Evaluating and improving the Wayo app experience.', bg: 'bg-[#ff7b00]', img: './images/w-wayo.png' },
+                { id: '1', name: 'motorpedia', label: '(End to End Digital Product Design)', title: 'Designing a Unified Dealer Platform for 10k Automotive Professionals', subtitle: 'Simplifying complex automotive workflows into a sleek mobile experience.', bg: 'bg-white', img: './images/w-motorpedia.png' },
+                { id: '2', name: 'studentcircus', label: '(UX Design)', title: 'How I Improved the average session duration by 73% for Student Circus', subtitle: 'Boosting student engagement through better UX and visual clarity.', bg: 'bg-[#3C5BFF]', img: './images/w-studentcircus.svg', link: 'https://www.figma.com/proto/deWzbWtpyFg8DHX0VVJiyZ/Case-studies?node-id=243-7449&viewport=-5103%2C371%2C0.78&t=4aeg1tzDL5MuoCRk-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1' },
+                { id: '3', name: 'mentorclan', label: '(End to End Digital Product Design)', title: 'How I designed a community of mentors & mentees - Mentor Clan', subtitle: 'Creating meaningful connections through thoughtful community design.', bg: 'bg-[#e5e5e5]', img: './images/w-mentorclan.png' },
+                { id: '4', name: 'flashcraft', label: '(UI Design)', title: 'How I designed a responsive website for Flashcraft Entertainment', subtitle: 'Bringing event magic online with a bold, mobile-friendly experience.', bg: 'bg-[#893895]', img: './images/w-flashcraft.png' },
+                { id: '5', name: 'sharpz', label: '(Visual Design & Development in Webflow)', title: 'Sharpz Landing Page', subtitle: 'Clean, bold, and conversion-focused design for a modern product.', bg: 'bg-[#2a2d2a]', img: './images/w-sharpz.png' },
+                { id: '6', name: 'rawstream', label: '(Branding & design)', title: 'Rawstream', subtitle: 'Crafting a sharp visual identity and a scroll-worthy digital home.', bg: 'bg-[#0a1843]', img: './images/w-rawstream.png' },
+            ];
+
+            return (
+                <main>
+                    <Header
+                        title="Work"
+                        subtitle="Turning confusions into clicks, with flair."
+                    />
+
+                    <section className="w-full bg-white">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
+                            {projects.map((p, i) => (
+                                <FadeUp key={p.id} delay={0.1 * (i % 3)} className={`w-full flex flex-col group cursor-pointer bg-[#f3f3f3] hover:bg-[#222222] transition-colors duration-300 border-b border-black/10 ${i % 3 !== 2 ? 'lg:border-r border-black/10' : ''}`} onClick={() => handleProjectClick(p)}>
+                                    <div className={`w-full h-[250px] md:h-[350px] relative overflow-hidden ${p.bg} border-b border-black/10`}>
+                                        {/* Added transition to the bg itself and the image */}
+                                        <img
+                                            src={p.img}
+                                            alt={p.title}
+                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+                                            onError={(e) => {
+                                                e.target.src = 'https://via.placeholder.com/800x1000/cccccc/969696?text=' + p.name;
+                                                e.target.onError = null;
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="p-8 md:p-10 flex flex-col flex-grow transition-colors duration-300">
+                                        <span className="text-sm font-medium mb-5 text-black group-hover:text-white/80 transition-colors inline-block">{p.label}</span>
+                                        <h3 className="text-2xl md:text-[1.7rem] leading-[1.2] font-bold tracking-tight mb-4 text-black group-hover:text-white transition-colors">{p.title}</h3>
+                                        <p className="text-black/70 group-hover:text-white/80 leading-relaxed text-[15px] transition-colors">{p.subtitle}</p>
+                                    </div>
+                                </FadeUp>
+                            ))}
+                        </div>
+                    </section>
+                </main>
+            );
+        };
+
+        const AboutPage = () => {
+            const experience = [
+                {
+                    title: 'UX Designer (promoted once)',
+                    company: 'Metacube Softwares, Jaipur',
+                    date: 'Mar 2022 - Present',
+                    skills: ['UX Research', 'Salesforce LDS', 'Collaboration', 'User Interaction', 'Usability testing', 'Accessibility'],
+                    bullets: [
+                        'Led usability testing, tracked issues, iterated on designs, and collaborated with product managers, developers, and visual designers to ensure alignment with business goals and user needs.',
+                        "Improving the UI & UX of Certinia's Resource & Project management tools while working/Improving the Salesforce Lightning Design System",
+                        'Collaborating with UK/Spain/US UX team to create custom design system & designs to solve user problems',
+                        'Conducted user and stakeholder research, analysed task models, defined workflows, and created wireframes and prototypes to inform design solutions and improve user experience.',
+                        'Applied AI to analyze large sets of customer interviews and usage data, identifying hidden patterns and unmet needs; used these insights to redesign workflows in Salesforce apps, reduce user friction, and boost engagement.'
+                    ]
+                },
+                {
+                    title: 'UI Designer/Product designer',
+                    company: 'FirstPrinciples holding company, Bengaluru',
+                    date: 'Aug 2021 - Mar 2022',
+                    skills: ['Mobile & Web UI Design', 'Branding', 'Collaboration', 'Social Media Posts', 'Graphic Design'],
+                    bullets: [
+                        'Created visually appealing and intuitive user interfaces for mass-market consumer apps such Omni Outreach, Syndication Pro, Rawstream etc. ensuring consistency in branding, typography, color schemes, and layout',
+                        "Designed compelling infographics and visually engaging social media posts to convey information, promote the startup's brand, and drive user engagement on various platforms"
+                    ]
+                },
+                {
+                    title: 'Freelance product designer & Video Editor',
+                    company: 'Freelance',
+                    date: 'Oct 2019 - Present',
+                    skills: ['End to End Design', 'UX Research', 'Design Systems', 'AI', 'User Interviews', 'UX Audits'],
+                    bullets: [
+                        'Designed and delivered end-to-end digital experiences across diverse industries including Automobile (Motorpedia), Education (Mentor Clan, Student Circus), Resource Management (Culture Hint), Event Management (Rayna Events, Flashcraft Entertainment) etc.',
+                        'Improved user engagement and retention by conducting user research, usability testing, and translating insights into intuitive design solutions tailored for each domain.',
+                        'Collaborated directly with clients and stakeholders, aligning business objectives with user needs through workshops, wireframes, and interactive prototypes.',
+                        "Delivered measurable impact such as increasing Student Circus' average session duration by 73% through dashboard redesign, gamification, and community features."
+                    ]
+                },
+                {
+                    title: 'Process Executive-Data',
+                    company: 'Cognizant , Gurugram',
+                    date: 'Jun 2018 - Sept 2019',
+                    skills: ['Copywriting', 'Keyword Extraction', 'Data Analysis', 'SEO'],
+                    bullets: [
+                        "Optimised search engine results and designing SMPs that appeared on google's search results page"
+                    ]
+                }
+            ];
+
+            return (
+                <main className="w-full flex flex-col lg:flex-row relative">
+                    {/* Left Sticky Image */}
+                    <div className="w-full lg:w-1/2 lg:h-[calc(100vh-80px)] lg:sticky lg:top-[80px] relative group border-r border-black/10 z-30 bg-[#e5e5e5]">
+                        <div className="absolute inset-0 overflow-hidden">
+                            <img
+                                src="./images/about.png"
+                                alt="Kapil Batra"
+                                className="w-full h-[60vh] lg:h-full object-cover transition-transform duration-1000 group-hover:scale-[1.03]"
+                                onError={(e) => { e.target.src = 'https://via.placeholder.com/1000x1500/cccccc/969696?text=About+Image'; e.target.onError = null; }}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Right Scrolling Content */}
+                    <div className="w-full lg:w-1/2 flex flex-col bg-[#f3f3f3] z-20 shadow-[-10px_0_30px_rgba(0,0,0,0.03)]">
+                        <div className="pt-8">
+                            <Header
+                                title="Kapil Batra"
+                                subtitle="As a Designer, I focus on producing top-notch and impactful digital experiences."
+                            />
+                        </div>
+
+                        <div className="px-6 md:px-12 pb-24 md:pb-32 -mt-4">
+                            {/* Profile Intro */}
+                            <FadeUp delay={0.1}>
+                                <p className="text-black/80 leading-loose text-base md:text-lg mb-8">
+                                    I am a UX Designer based in Jaipur with 5+ years of experience crafting intuitive, impactful digital products. I blend user research, systems thinking, and visual design to create experiences that are both beautiful and functional.
+                                </p>
+                                <p className="text-black/80 leading-loose text-base md:text-lg mb-16">
+                                    From mobile apps to enterprise platforms, I have worked across diverse industries - shaping wireframes, prototypes, and design systems that guide users seamlessly and help businesses grow.
+                                </p>
+                            </FadeUp>
+
+                            {/* Experience Section */}
+                            <div className="border-t border-black/10 pt-16">
+                                <FadeUp delay={0.2}>
+                                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-12">Experience</h2>
+                                </FadeUp>
+
+                                <div className="space-y-16">
+                                    {experience.map((job, idx) => (
+                                        <FadeUp key={idx} delay={0.2 + (idx * 0.1)} className="flex gap-8 group">
+                                            {/* Job Details */}
+                                            <div className="flex-grow pb-8 border-b border-black/5 last:border-0 last:pb-0">
+                                                <div className="mb-4">
+                                                    <h3 className="text-2xl font-bold tracking-tight leading-snug mb-1 group-hover:text-black/70 transition-colors">{job.title}</h3>
+                                                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                                        <span className="text-[#1a1a1a] font-medium">{job.company}</span>
+                                                        <span className="hidden md:inline text-black/30">•</span>
+                                                        <span className="text-black/50 text-sm font-medium">{job.date}</span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Bullets */}
+                                                <ul className="space-y-4 mb-6">
+                                                    {job.bullets.map((bullet, bIdx) => (
+                                                        <li key={bIdx} className="flex gap-4 text-black/80 leading-relaxed text-[15px]">
+                                                            <div className="w-[6px] h-[6px] rounded-full bg-black/30 mt-2 shrink-0"></div>
+                                                            <span>{bullet}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+
+                                                {/* Skills Pills */}
+                                                <div className="flex flex-wrap gap-2 mt-6">
+                                                    {job.skills.map(skill => (
+                                                        <span key={skill} className="px-3 py-1.5 bg-[#e5e5e5] rounded-md text-xs font-semibold tracking-wide text-black/70 hover:bg-black hover:text-white transition-colors cursor-default">{skill}</span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </FadeUp>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Awards */}
+                            <div className="border-t border-black/10 pt-16 mt-8">
+                                <FadeUp delay={0.4}>
+                                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">Awards/Appreciations</h2>
+                                    <ul className="space-y-5 mt-8">
+                                        <li className="text-lg font-medium text-black/80 flex items-center gap-4"><div className="w-[6px] h-[6px] rounded-full bg-black shrink-0"></div>Team of the Year (2024)</li>
+                                        <li className="text-lg font-medium text-black/80 flex items-center gap-4"><div className="w-[6px] h-[6px] rounded-full bg-black shrink-0"></div>Hero in the rank (2025)</li>
+                                        <li className="text-lg font-medium text-black/80 flex items-center gap-4"><div className="w-[6px] h-[6px] rounded-full bg-black shrink-0"></div>9 client appreciations in 2 years (2023 - 2025)</li>
+                                    </ul>
+                                </FadeUp>
+                            </div>
+
+                        </div>
+                    </div>
+                </main>
+            );
+        };
+
+
+
+        const ContactPage = () => {
+            const [status, setStatus] = useState('idle');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setStatus('loading');
+                const form = e.target;
+                const formData = new FormData(form);
+
+                fetch('https://formsubmit.co/ajax/kapilbatrayt@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        setStatus('success');
+                        form.reset();
+                        setTimeout(() => {
+                            setStatus('idle');
+                        }, 5000);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        setStatus('error');
+                    });
+            };
+
+            return (
+                <main className="w-full flex flex-col lg:flex-row relative">
+                    <div className="w-full lg:w-1/2 lg:h-[calc(100vh-80px)] lg:sticky lg:top-[80px] relative group border-r border-black/10 z-30 bg-[#e5e5e5]">
+                        <div className="absolute inset-0 overflow-hidden">
+                            <img
+                                src="./images/about.png"
+                                alt="Kapil Batra"
+                                className="w-full h-[60vh] lg:h-full object-cover transition-transform duration-1000 group-hover:scale-[1.03]"
+                                onError={(e) => { e.target.src = 'https://via.placeholder.com/1000x1500/cccccc/969696?text=Contact+Image'; e.target.onError = null; }}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="w-full lg:w-1/2 flex flex-col bg-[#f3f3f3] z-20 shadow-[-10px_0_30px_rgba(0,0,0,0.03)] min-h-[calc(100vh-80px)] justify-center">
+                        <div className="px-6 md:px-12 py-24 md:py-32 flex-grow flex flex-col justify-center">
+                            <FadeUp delay={0.1}>
+                                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-4 text-[#1a1a1a]">Get in touch</h2>
+                                <p className="text-black/60 mb-12 font-medium text-lg">Drop me a message and I'll get back to you soon.</p>
+
+                                {status === 'success' ? (
+                                    <div className="bg-white border border-green-200 text-green-800 p-8 rounded-2xl text-center shadow-sm">
+                                        <span className="text-4xl mb-4 block">👋</span>
+                                        <p className="font-bold text-lg">Message sent successfully!</p>
+                                        <p className="text-sm mt-2 opacity-80">Thank you for reaching out.</p>
+                                    </div>
+                                ) : (
+                                    <form onSubmit={handleSubmit} className="space-y-6 max-w-lg">
+                                        <input type="hidden" name="_captcha" value="false" />
+                                        <div>
+                                            <label className="block text-sm font-bold mb-2 text-[#1a1a1a]">Name</label>
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                required
+                                                className="w-full bg-white border border-black/10 rounded-xl px-4 py-4 focus:ring-2 focus:ring-black/20 outline-none transition-shadow text-[#1a1a1a]"
+                                                placeholder="John Doe"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-bold mb-2 text-[#1a1a1a]">Email</label>
+                                            <input
+                                                type="email"
+                                                name="email"
+                                                required
+                                                className="w-full bg-white border border-black/10 rounded-xl px-4 py-4 focus:ring-2 focus:ring-black/20 outline-none transition-shadow text-[#1a1a1a]"
+                                                placeholder="john@example.com"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-bold mb-2 text-[#1a1a1a]">Message</label>
+                                            <textarea
+                                                name="message"
+                                                required
+                                                rows="5"
+                                                className="w-full bg-white border border-black/10 rounded-xl px-4 py-4 focus:ring-2 focus:ring-black/20 outline-none transition-shadow resize-none text-[#1a1a1a]"
+                                                placeholder="How can I help you?"
+                                            ></textarea>
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            disabled={status === 'loading'}
+                                            className="w-full bg-[#1a1a1a] text-white py-4 rounded-xl font-semibold hover:bg-black transition-all hover:scale-[1.02] active:scale-[0.98] shadow-md disabled:opacity-70 disabled:hover:scale-100"
+                                        >
+                                            {status === 'loading' ? 'Sending...' : 'Send Message'}
+                                        </button>
+                                        {status === 'error' && (
+                                            <p className="text-red-500 text-sm font-medium text-center">Something went wrong. Please try again.</p>
+                                        )}
+                                    </form>
+                                )}
+                            </FadeUp>
+                        </div>
+                    </div>
+                </main>
+            );
+        };
+
+        const ContactModal = ({ isOpen, onClose }) => {
+            const [status, setStatus] = useState('idle');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setStatus('loading');
+                const form = e.target;
+                const formData = new FormData(form);
+
+                fetch('https://formsubmit.co/ajax/kapilbatrayt@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        setStatus('success');
+                        form.reset();
+                        setTimeout(() => {
+                            onClose();
+                            setStatus('idle');
+                        }, 3000);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        setStatus('error');
+                    });
+            };
+
+            if (!isOpen) return null;
+
+            return (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
+                    <div className="relative bg-[#f3f3f3] w-full max-w-lg rounded-3xl p-8 md:p-12 shadow-2xl border border-black/10 animate-[scaleIn_0.3s_ease-out]">
+                        <button
+                            onClick={onClose}
+                            className="absolute top-6 right-6 text-black/50 hover:text-black transition-colors bg-black/5 rounded-full p-2"
+                        >
+                            <X size={20} strokeWidth={2.5} />
+                        </button>
+
+                        <h2 className="text-3xl font-bold tracking-tight mb-2 text-[#1a1a1a]">Get in touch</h2>
+                        <p className="text-black/60 mb-8 font-medium">Drop me a message and I'll get back to you soon.</p>
+
+                        {status === 'success' ? (
+                            <div className="bg-white border border-green-200 text-green-800 p-8 rounded-2xl text-center shadow-sm">
+                                <span className="text-4xl mb-4 block">👋</span>
+                                <p className="font-bold text-lg">Message sent successfully!</p>
+                                <p className="text-sm mt-2 opacity-80">Thank you for reaching out.</p>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <input type="hidden" name="_captcha" value="false" />
+                                <div>
+                                    <label className="block text-sm font-bold mb-2 text-[#1a1a1a]">Name</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        required
+                                        className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 focus:ring-2 focus:ring-black/20 outline-none transition-shadow text-[#1a1a1a]"
+                                        placeholder="John Doe"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold mb-2 text-[#1a1a1a]">Email</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        required
+                                        className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 focus:ring-2 focus:ring-black/20 outline-none transition-shadow text-[#1a1a1a]"
+                                        placeholder="john@example.com"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold mb-2 text-[#1a1a1a]">Message</label>
+                                    <textarea
+                                        name="message"
+                                        required
+                                        rows="4"
+                                        className="w-full bg-white border border-black/10 rounded-xl px-4 py-3 focus:ring-2 focus:ring-black/20 outline-none transition-shadow resize-none text-[#1a1a1a]"
+                                        placeholder="How can I help you?"
+                                    ></textarea>
+                                </div>
+                                <button
+                                    type="submit"
+                                    disabled={status === 'loading'}
+                                    className="w-full bg-[#1a1a1a] text-white py-4 rounded-xl font-semibold hover:bg-black transition-all hover:scale-[1.02] active:scale-[0.98] shadow-md disabled:opacity-70 disabled:hover:scale-100"
+                                >
+                                    {status === 'loading' ? 'Sending...' : 'Send Message'}
+                                </button>
+                                {status === 'error' && (
+                                    <p className="text-red-500 text-sm font-medium text-center">Something went wrong. Please try again.</p>
+                                )}
+                            </form>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const blogPosts = [
+            { id: '1', date: 'May 12, 2023', title: 'The Power of Motion Design: Bringing Your Brand to Life', desc: 'Discover how motion design can enhance your brand\'s visual identity and captivate your audience.', img: './images/w-motorpedia.png' },
+            { id: '2', date: 'May 12, 2023', title: 'Why User Experience Matters: A Guide for Digital Designers', desc: 'Learn about the importance of user experience in digital design and how to create exceptional user experiences.', img: './images/w-studentcircus.svg' },
+            { id: '3', date: 'May 13, 2023', title: 'The Art of Art Direction: Elevating Your Brand\'s Visual Identity', desc: 'Explore the role of art direction in building a memorable and effective brand identity.', img: './images/w-mentorclan.png' },
+            { id: '4', date: 'May 13, 2023', title: 'Dos and Don\'ts of Interaction Design: A Comprehensive Guide', desc: 'Master the art of interaction design by learning the best practices and common pitfalls to avoid.', img: './images/w-flashcraft.png' },
+            { id: '5', date: 'May 12, 2023', title: 'The Future of Digital Design: Trends to Watch in 2023', desc: 'Get a sneak peek into the latest digital design trends that will shape the industry in the coming year.', img: './images/w-sharpz.png' },
+            { id: '6', date: 'May 12, 2023', title: 'Collaboration in Digital Design: Working Together for Success', desc: 'Explore the importance of collaboration in digital design, and learn how to foster productive partnerships that lead to exceptional results.', img: './images/w-rawstream.png' },
+        ];
+
+        const BlogPage = () => {
+            return (
+                <main className="bg-[#f3f3f3] min-h-screen">
+                    <div className="relative">
+                        <Header
+                            title="News"
+                            subtitle="Exploring Creativity and Innovation Daily"
+                        />
+                        <div className="absolute top-[50%] md:top-[60%] -translate-y-1/2 right-6 md:right-12 hidden lg:block z-10">
+                            <a href="#blog" className="flex items-center gap-2 font-bold hover:opacity-70 transition-opacity">
+                                <ArrowUpRight size={20} />
+                                Explore
+                            </a>
+                        </div>
+                    </div>
+
+                    <section className="w-full">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
+                            {blogPosts.map((post, i) => (
+                                <FadeUp key={post.id} delay={0.1 * (i % 3)} className={`w-full flex flex-col group cursor-pointer bg-[#f3f3f3] hover:bg-[#222222] transition-colors duration-300 border-b border-black/10 ${i % 3 !== 2 ? 'lg:border-r border-black/10' : ''}`} onClick={() => window.location.hash = `#blog/${post.id}`}>
+                                    <div className="w-full h-[250px] md:h-[350px] relative overflow-hidden bg-black/5 border-b border-black/10">
+                                        <img
+                                            src={post.img}
+                                            alt={post.title}
+                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+                                            onError={(e) => {
+                                                e.target.src = 'https://via.placeholder.com/800x600/cccccc/969696?text=Blog+Image';
+                                                e.target.onError = null;
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="p-8 md:p-10 flex flex-col flex-grow transition-colors duration-300">
+                                        <span className="text-sm font-medium mb-5 text-black group-hover:text-white/80 transition-colors inline-block">({post.date})</span>
+                                        <h3 className="text-2xl md:text-[1.7rem] leading-[1.2] font-bold tracking-tight mb-4 text-black group-hover:text-white transition-colors">{post.title}</h3>
+                                        <p className="text-black/70 group-hover:text-white/80 leading-relaxed text-[15px] transition-colors">{post.desc}</p>
+                                    </div>
+                                </FadeUp>
+                            ))}
+                        </div>
+                    </section>
+                </main>
+            );
+        };
+
+        const BlogPostPage = ({ id }) => {
+            const post = blogPosts.find(p => p.id === id) || blogPosts[0];
+            const nextPostId = (parseInt(post.id) % blogPosts.length) + 1;
+            const nextPost = blogPosts.find(p => p.id === nextPostId.toString()) || blogPosts[0];
+
+            return (
+                <main className="w-full flex flex-col lg:flex-row relative bg-[#f3f3f3]">
+                    <div className="w-full lg:w-1/2 lg:h-[calc(100vh-80px)] lg:sticky lg:top-[80px] relative group border-r border-black/10 z-30 bg-[#e5e5e5]">
+                        <div className="absolute inset-0 overflow-hidden">
+                            <img
+                                src={post.img}
+                                alt={post.title}
+                                className="w-full h-[60vh] lg:h-full object-cover transition-transform duration-1000 group-hover:scale-[1.03]"
+                                onError={(e) => { e.target.src = 'https://via.placeholder.com/1000x1500/cccccc/969696?text=Blog+Image'; e.target.onError = null; }}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="w-full lg:w-1/2 flex flex-col z-20 shadow-[-10px_0_30px_rgba(0,0,0,0.03)] min-h-[calc(100vh-80px)]">
+                        <div className="px-6 md:px-12 py-16 md:py-24 flex-grow">
+                            <FadeUp delay={0.1}>
+                                <div className="mb-8">
+                                    <span className="text-sm font-bold text-black/60">({post.date})</span>
+                                </div>
+                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-8 text-[#1a1a1a] leading-[1.1]">{post.title}</h1>
+
+                                <div className="space-y-8 text-[15px] font-medium text-black/70 leading-relaxed max-w-xl">
+                                    <p>In today's fast-paced digital landscape, it's more important than ever to capture your audience's attention quickly and effectively. {post.desc} In this post, we'll explore the basics, including its history and key principles, and how it can benefit your brand.</p>
+
+                                    <a href="#" className="inline-flex items-center gap-2 text-black font-bold hover:opacity-70 transition-opacity">
+                                        <ArrowUpRight size={18} />
+                                        Read More
+                                    </a>
+
+                                    <div className="pt-8">
+                                        <h3 className="text-2xl font-bold text-black mb-4 tracking-tight">Basics of Design</h3>
+                                        <p>Motion design is a powerful tool that can enhance your brand's visual identity and captivate your audience. But what exactly is motion design? In simple terms, it's the art of bringing graphics, animation, and video together to create engaging and dynamic visual content.</p>
+                                        <p className="mt-4">The history of motion design can be traced back to the early days of film and animation, but it wasn't until the rise of digital media that motion design truly began to flourish.</p>
+                                    </div>
+
+                                    <div className="pt-4">
+                                        <h3 className="text-2xl font-bold text-black mb-4 tracking-tight">Principles of Design</h3>
+                                        <p>Effective motion design requires a solid understanding of the principles of animation and design. These principles include timing, spacing, staging, and more.</p>
+                                        <p className="mt-4">One of the most important aspects of motion design is storytelling. Whether you're creating an explainer video or a social media ad, the motion design should support and enhance the story you're trying to tell.</p>
+                                    </div>
+
+                                    <div className="pt-4">
+                                        <h3 className="text-2xl font-bold text-black mb-4 tracking-tight">Benefits of Design for Your Brand</h3>
+                                        <p>Motion design can offer a wide range of benefits for your brand. For one, it can help your brand stand out from the competition by creating a unique and memorable visual identity.</p>
+                                        <p className="mt-4">Moreover, motion design can help to communicate complex ideas and concepts in a simple and accessible way. Whether you're explaining a product or highlighting your brand's mission, motion design connects you with your audience.</p>
+                                    </div>
+                                </div>
+                            </FadeUp>
+                        </div>
+
+                        <div className="mt-auto border-t border-black/10">
+                            <a href={`#blog/${nextPost.id}`} className="block px-6 md:px-12 py-16 md:py-24 hover:bg-[#e5e5e5] transition-colors group relative overflow-hidden">
+                                <span className="text-sm font-bold text-black/60 mb-6 block">(Next)</span>
+                                <h2 className="text-3xl md:text-5xl font-bold tracking-tighter text-[#1a1a1a] group-hover:text-black/70 transition-colors leading-[1.1] max-w-2xl">{nextPost.title}</h2>
+                            </a>
+                        </div>
+                    </div>
+                </main>
+            );
+        };
+
+        function App() {
+            const [currentRoute, setCurrentRoute] = useState(window.location.hash || '#home');
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const [isContactOpen, setIsContactOpen] = useState(false);
+            const [scrollY, setScrollY] = useState(0);
+
+            const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+            // Sync hash changes dynamically
+            useEffect(() => {
+                const handleHashChange = () => {
+                    const hash = window.location.hash || '#home';
+                    setCurrentRoute(hash);
+                    if (isMenuOpen) setIsMenuOpen(false);
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                };
+
+                window.addEventListener('hashchange', handleHashChange);
+                return () => window.removeEventListener('hashchange', handleHashChange);
+            }, [isMenuOpen]);
+
+            // Scroll listener for hero parallax
+            useEffect(() => {
+                const handleScroll = () => setScrollY(window.scrollY);
+                window.addEventListener('scroll', handleScroll, { passive: true });
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            // Prevent scrolling when menu or modal is open
+            useEffect(() => {
+                if (isMenuOpen || isContactOpen) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = 'unset';
+                }
+                return () => { document.body.style.overflow = 'unset'; };
+            }, [isMenuOpen, isContactOpen]);
+
+            return (
+                <div className="bg-[#f3f3f3] text-[#1a1a1a] min-h-screen font-sans selection:bg-[#1a1a1a] selection:text-white relative flex flex-col justify-between">
+
+                    {/* GLOBAL STICKY NAV */}
+                    <div className="sticky top-0 z-40 bg-[#f3f3f3]/60 backdrop-blur-2xl border-b border-black/[0.03] px-6 md:px-12 py-4 md:py-5 flex justify-between items-center transition-all duration-300 w-full">
+                        <div className="flex items-center gap-3 text-sm font-medium tracking-wide">
+                            <a href="#home" className="text-xl md:text-2xl font-extrabold tracking-tighter hover:opacity-70 transition-opacity mr-1">kb.</a>
+
+                            {currentRoute === '#work' ? (
+                                <>
+                                    <span className="text-black/30 hidden md:inline">/</span>
+                                    <span className="text-black hidden md:inline">Work</span>
+                                </>
+                            ) : currentRoute === '#about' ? (
+                                <>
+                                    <span className="text-black/30 hidden md:inline">/</span>
+                                    <span className="text-black hidden md:inline">About</span>
+                                </>
+                            ) : currentRoute === '#contact' ? (
+                                <>
+                                    <span className="text-black/30 hidden md:inline">/</span>
+                                    <span className="text-black hidden md:inline">Contact</span>
+                                </>
+                            ) : currentRoute === '#blog' ? (
+                                <>
+                                    <span className="text-black/30 hidden md:inline">/</span>
+                                    <span className="text-black hidden md:inline">Blog</span>
+                                </>
+                            ) : currentRoute.startsWith('#blog/') ? (
+                                <>
+                                    <span className="text-black/30 hidden md:inline">/</span>
+                                    <a href="#blog" className="text-black/60 hover:text-black transition-colors hidden md:inline">Blog</a>
+                                    <span className="text-black/30 hidden md:inline">/</span>
+                                    <span className="text-black hidden md:inline">Post</span>
+                                </>
+                            ) : null}
+                        </div>
+                        <div className="flex gap-3 md:gap-4">
+                            <a
+                                href="./Resume_Kapil%20Batra.pdf"
+                                download="Resume_Kapil_Batra.pdf"
+                                className="bg-[#1a1a1a] text-white hover:bg-black px-5 md:px-6 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-medium transition-colors hover:scale-105 active:scale-95 duration-200 shadow-sm hover:shadow-md flex items-center justify-center whitespace-nowrap"
+                            >
+                                Download <span className="hidden md:inline">&nbsp;Resume</span>
+                            </a>
+                            <button
+                                onClick={toggleMenu}
+                                className="bg-[#1a1a1a] text-white hover:bg-black px-5 md:px-6 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-medium transition-colors hover:scale-105 active:scale-95 duration-200 shadow-sm hover:shadow-md max-h-min"
+                            >
+                                Menu
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* --- INJECT CUSTOM CSS --- */}
+                    <style>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes scaleIn {
+          0% { transform: scale(0.95); opacity: 0; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes brickDrop {
+          0%   { transform: translateY(-130px) scaleY(0.85); opacity: 0; }
+          55%  { transform: translateY(7px)   scaleY(1.03); opacity: 1; }
+          72%  { transform: translateY(-4px)  scaleY(0.99); }
+          86%  { transform: translateY(2px)   scaleY(1.01); }
+          100% { transform: translateY(0)     scaleY(1);    opacity: 1; }
+        }
+        @keyframes slideInLeft {
+          0%   { transform: translateX(-90px); opacity: 0; }
+          100% { transform: translateX(0);     opacity: 1; }
+        }
+        @keyframes slideInRight {
+          0%   { transform: translateX(90px);  opacity: 0; }
+          100% { transform: translateX(0);     opacity: 1; }
+        }
+        .animate-marquee {
+          animation: marquee 20s linear infinite;
+        }
+        .animate-marquee:hover {
+          animation-play-state: paused;
+        }
+        .hero-zoom {
+          animation: scaleIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        body, html {
+          cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPgogICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjIiIHN0ZERldmlhdGlvbj0iMiIgZmxvb2QtY29sb3I9IiMwMDAwMDAiIGZsb29kLW9wYWNpdHk9IjAuMiIvPgogIDwvZmlsdGVyPgogIDxwYXRoIGQ9Ik00IDQgTDExIDIzIEwxNC41IDE2LjUgTDIyIDEzIFoiIGZpbGw9IiMzMzMzMzMiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiLz4KPC9zdmc+') 4 4, auto;
+        }
+        a, button, input, textarea, select, [role="button"], [class*="cursor-pointer"], .cursor-pointer {
+          cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPgogICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjIiIHN0ZERldmlhdGlvbj0iMiIgZmxvb2QtY29sb3I9IiMwMDAwMDAiIGZsb29kLW9wYWNpdHk9IjAuMiIvPgogIDwvZmlsdGVyPgogIDxwYXRoIGQ9Ik00IDQgTDExIDIzIEwxNC41IDE2LjUgTDIyIDEzIFoiIGZpbGw9IiMzMzMzMzMiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiLz4KPC9zdmc+') 4 4, pointer !important;
+        }
+      `}</style>
+
+                    {/* ROUTER COMPONENT SWITCH */}
+                    {currentRoute === '#work' ? (
+                        <WorkPage />
+                    ) : currentRoute === '#about' ? (
+                        <AboutPage />
+                    ) : currentRoute === '#contact' ? (
+                        <ContactPage />
+                    ) : currentRoute === '#blog' ? (
+                        <BlogPage />
+                    ) : currentRoute.startsWith('#blog/') ? (
+                        <BlogPostPage id={currentRoute.split('/')[1]} />
+                    ) : (
+                        <HomePage scrollY={scrollY} />
+                    )}
+
+                    <Footer hasTopMargin={currentRoute === '#home' || currentRoute === '' || currentRoute === '#work' || currentRoute === '#blog'} onOpenContact={() => setIsContactOpen(true)} />
+
+                    <MenuOverlay isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} onOpenContact={() => setIsContactOpen(true)} />
+
+                    <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+                </div>
+            );
+        }
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
