@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', sans-serif;
+  }
+}
+
+/* ── Hero section animations ── */
+@keyframes shimmerSweep {
+  0%   { transform: translateX(-100%) skewX(-12deg); }
+  100% { transform: translateX(250%) skewX(-12deg); }
+}
+
+@keyframes avatarGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,0,0,0.0); }
+  50%       { box-shadow: 0 0 0 8px rgba(0,0,0,0.06); }
+}
+
+@keyframes arrowSlide {
+  0%, 100% { transform: translateX(0); opacity: 0.6; }
+  50%       { transform: translateX(6px); opacity: 1; }
+}
+
+@keyframes underlineDraw {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Avatar */
+.hero-avatar {
+  animation: avatarGlow 3.5s ease-in-out infinite;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.hero-avatar:hover {
+  transform: scale(1.05);
+}
+
+/* Project thumbnail shimmer */
+.project-thumb {
+  position: relative;
+  overflow: hidden;
+}
+.project-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%) skewX(-12deg);
+  pointer-events: none;
+}
+.project-thumb:hover::after {
+  animation: shimmerSweep 0.6s ease forwards;
+}
+
+/* Arrow bounce on collab button */
+.collab-btn-arrow {
+  animation: arrowSlide 1.8s ease-in-out infinite;
+}
+
+/* Email underline draw */
+.hero-email-link {
+  position: relative;
+  display: inline-block;
+}
+.hero-email-link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  width: 0;
+  background: currentColor;
+  transition: width 0.35s ease;
+}
+.hero-email-link:hover::after {
+  width: 100%;
+}
