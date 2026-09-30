@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <style>
+    :root{color-scheme:light dark}
+    html{-webkit-text-size-adjust:100%}
+    body{margin:0}
+    img{max-width:100%}
+    [hidden]{display:none!important}
+  </style>
+<title>Flashcraft Events</title>
+
+<style>
+  :root{
+    --sans:-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro",
+           "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono:ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+
+    --ground:#F3F5F9;
+    --surface:#FFFFFF;
+    --surface-2:#E9EDF4;
+    --ink:#13161D;
+    --ink-2:#474E60;
+    --ink-3:#737B8F;
+    --rule:#DBE0EA;
+    --rule-soft:#E9EDF4;
+    --blue:#2563EB;
+    --purple:#9B1FBE;
+    --green:#117F3B;
+    --coral:#CE372D;
+    --sand:#A07004;
+    --shadow:0 1px 2px rgba(19,22,29,.05), 0 14px 34px -20px rgba(19,22,29,.3);
+
+    --hero-bg:#090B10;
+    --hero-ink:#F2F4F9;
+    --hero-ink-2:#9AA3B8;
+    --hero-rule:#232936;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#090B10; --surface:#12161E; --surface-2:#1A1F29;
+      --ink:#E9ECF4; --ink-2:#A6AEC0; --ink-3:#798195;
+      --rule:#252B37; --rule-soft:#1C212B;
+      --blue:#74A0FF; --purple:#DC86F7; --green:#42CE7D; --coral:#FF8074; --sand:#E6B23C;
+      --shadow:0 1px 2px rgba(0,0,0,.45), 0 18px 44px -22px rgba(0,0,0,.85);
+      --hero-bg:#05070B; --hero-rule:#1B212C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#090B10; --surface:#12161E; --surface-2:#1A1F29;
+    --ink:#E9ECF4; --ink-2:#A6AEC0; --ink-3:#798195;
+    --rule:#252B37; --rule-soft:#1C212B;
+    --blue:#74A0FF; --purple:#DC86F7; --green:#42CE7D; --coral:#FF8074; --sand:#E6B23C;
+    --shadow:0 1px 2px rgba(0,0,0,.45), 0 18px 44px -22px rgba(0,0,0,.85);
+    --hero-bg:#05070B; --hero-rule:#1B212C;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground);color:var(--ink);
+    font-family:var(--sans);font-size:17px;line-height:1.6;
+    letter-spacing:-.006em;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1160px;margin:0 auto;padding-inline:20px}
+  .col{max-width:650px}
+  p{margin:0 0 1em}
+  a{color:var(--blue)}
+  a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:5px}
+  h1,h2,h3{margin:0;text-wrap:balance}
+  img{display:block;max-width:100%}
+
+  /* ================= HERO ================= */
+  .hero{background:var(--hero-bg);color:var(--hero-ink);position:relative;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:-30% -10% auto -10%;height:120%;
+    background:
+      radial-gradient(52% 40% at 22% 8%, rgba(155,31,190,.30), transparent 70%),
+      radial-gradient(48% 38% at 82% 0%, rgba(37,99,235,.26), transparent 72%);
+    pointer-events:none;
+  }
+  .hero .wrap{position:relative;padding-block:clamp(40px,7vw,70px) clamp(36px,5vw,56px)}
+  .brandline{
+    display:flex;align-items:center;gap:11px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--hero-ink-2);margin-bottom:clamp(26px,4vw,40px);
+  }
+  .brandline .mark{width:22px;height:22px;border-radius:6px;flex:none;
+    background:linear-gradient(140deg,#C42BE8,#2563EB)}
+  h1{font-size:clamp(38px,7.6vw,76px);line-height:1.02;font-weight:700;
+    letter-spacing:-.035em;max-width:15ch;color:var(--hero-ink)}
+  h1 .soft{color:var(--hero-ink-2)}
+  .hook{margin:22px 0 0;max-width:52ch;font-size:clamp(17px,2.1vw,21px);line-height:1.5;
+    color:var(--hero-ink-2)}
+  .hook b{color:var(--hero-ink);font-weight:600}
+
+  .stats{display:flex;flex-wrap:wrap;gap:clamp(22px,4vw,52px);
+    margin:clamp(30px,4.5vw,44px) 0 0;padding-top:26px;border-top:1px solid var(--hero-rule)}
+  .stat .v{font-size:clamp(28px,4.4vw,40px);font-weight:700;letter-spacing:-.04em;line-height:1;
+    font-variant-numeric:tabular-nums;color:var(--hero-ink)}
+  .stat .v .u{font-size:.55em;font-weight:600;letter-spacing:-.02em;margin-left:1px}
+  .stat .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--hero-ink-2);margin-top:9px;max-width:18ch}
+
+  .collage{margin-top:clamp(32px,5vw,52px);display:flex;gap:14px;align-items:flex-end;
+    overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+  .collage figure{margin:0;flex:none;border-radius:12px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.12);box-shadow:0 22px 50px -26px rgba(0,0,0,.9)}
+  .collage .desk{width:min(430px,62vw)}
+  .collage .ph{width:126px}
+  .collage .ph:nth-child(3),.collage .ph:nth-child(5){margin-bottom:22px}
+
+  /* ================= TL;DR ================= */
+  .tldr{background:var(--surface);border-bottom:1px solid var(--rule)}
+  .tldr .wrap{padding-block:clamp(30px,4vw,44px)}
+  .tldr h2{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-3);margin-bottom:18px}
+  .tldr ul{list-style:none;margin:0;padding:0;display:grid;gap:14px;
+    grid-template-columns:repeat(auto-fit,minmax(248px,1fr))}
+  .tldr li{display:flex;gap:12px;font-size:15.5px;line-height:1.5;color:var(--ink-2)}
+  .tldr li b{color:var(--ink);font-weight:600}
+  .tldr li .i{flex:none;width:22px;height:22px;border-radius:6px;background:var(--surface-2);
+    color:var(--purple);font-family:var(--mono);font-size:10px;font-weight:600;
+    display:grid;place-items:center;margin-top:2px}
+
+  /* ================= NAV ================= */
+  nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;
+    background:color-mix(in srgb,var(--ground) 90%,transparent);
+    backdrop-filter:saturate(1.5) blur(12px);border-bottom:1px solid var(--rule)}
+  nav.toc ol{list-style:none;margin:0;padding:0;display:flex;overflow-x:auto;
+    font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+    scrollbar-width:none}
+  nav.toc ol::-webkit-scrollbar{display:none}
+  nav.toc a{display:block;padding:13px 15px;color:var(--ink-3);text-decoration:none;white-space:nowrap}
+  nav.toc a:hover{color:var(--ink)}
+  nav.toc a .n{color:var(--purple);margin-right:7px;font-weight:600}
+
+  /* ================= SECTIONS ================= */
+  section{border-top:1px solid var(--rule)}
+  section > .wrap{padding-block:clamp(48px,7vw,88px)}
+  .shead{display:flex;gap:18px;align-items:baseline;margin-bottom:30px}
+  .snum{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--purple);flex:none;padding-top:.55em}
+  h2{font-size:clamp(26px,4.2vw,38px);line-height:1.1;font-weight:700;letter-spacing:-.033em}
+  h3{font-size:19px;font-weight:650;letter-spacing:-.018em;margin:2.2em 0 .6em}
+  .lede{font-size:20px;line-height:1.5;color:var(--ink-2);margin-bottom:1.4em}
+
+  ul.body,ol.body{margin:0 0 1.3em;padding-left:1.1em}
+  ul.body li,ol.body li{margin-bottom:.55em;padding-left:.2em}
+  ul.body li::marker{color:var(--ink-3)}
+
+  .pull{border-left:3px solid var(--purple);padding:3px 0 3px 20px;margin:1.9em 0;
+    font-size:21px;line-height:1.42;letter-spacing:-.015em}
+  .note{background:var(--surface);border:1px solid var(--rule);border-radius:8px;
+    padding:20px 22px;margin:1.9em 0;font-size:15.5px;line-height:1.55;box-shadow:var(--shadow)}
+  .note p:last-child{margin-bottom:0}
+  .note .h{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:10px}
+
+  blockquote{margin:1.6em 0;padding:0 0 0 20px;border-left:3px solid var(--rule);
+    font-size:19px;line-height:1.45;letter-spacing:-.012em;color:var(--ink)}
+  blockquote cite{display:block;margin-top:10px;font-style:normal;font-size:13px;
+    font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+
+  /* ================= FACTS ================= */
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:8px;
+    overflow:hidden;margin:2em 0}
+  .fact{background:var(--surface);padding:16px 18px 18px}
+  .fact dt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-3);margin-bottom:8px}
+  .fact dd{margin:0;font-size:15px;font-weight:600;line-height:1.4;letter-spacing:-.012em}
+  .fact dd span{display:block;font-weight:450;color:var(--ink-2);font-size:14px;margin-top:3px}
+
+  /* ================= METHODS ================= */
+  .methods{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+    border-radius:8px;overflow:hidden;margin:2em 0;
+    grid-template-columns:repeat(auto-fit,minmax(224px,1fr))}
+  .method{background:var(--surface);padding:18px 20px 20px}
+  .method .n{font-size:26px;font-weight:700;letter-spacing:-.04em;font-variant-numeric:tabular-nums;
+    line-height:1;margin-bottom:8px}
+  .method .t{font-size:14.5px;font-weight:600;letter-spacing:-.012em;margin-bottom:5px}
+  .method .d{font-size:13.5px;line-height:1.45;color:var(--ink-2)}
+
+  /* ================= RESULTS ================= */
+  .results{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+    border-radius:8px;overflow:hidden;margin:2em 0;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .result{background:var(--surface);padding:20px}
+  .result .v{font-size:32px;font-weight:700;letter-spacing:-.042em;line-height:1;
+    font-variant-numeric:tabular-nums;color:var(--green)}
+  .result .v.down{color:var(--blue)}
+  .result .t{font-size:14.5px;font-weight:600;margin-top:10px;letter-spacing:-.012em}
+  .result .d{font-size:13.5px;line-height:1.45;color:var(--ink-2);margin-top:4px;
+    font-variant-numeric:tabular-nums}
+
+  /* ================= TABS ================= */
+  .tabs{display:flex;gap:6px;margin:2.2em 0 1.2em;padding:4px;border-radius:10px;
+    background:var(--surface-2);width:fit-content;max-width:100%;flex-wrap:wrap}
+  .tabs button{font-family:var(--sans);font-size:13.5px;font-weight:600;letter-spacing:-.01em;
+    padding:8px 18px;border-radius:7px;border:0;cursor:pointer;background:transparent;color:var(--ink-2)}
+  .tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+  /* ================= GALLERY ================= */
+  .gallery{display:grid;gap:clamp(16px,2.2vw,24px);margin:1.6em 0 2em;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+  .gallery.desk{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  figure{margin:0;display:flex;flex-direction:column;gap:10px}
+  .phone,.screen{background:var(--surface);border:1px solid var(--rule);overflow:hidden;box-shadow:var(--shadow)}
+  .phone{border-radius:14px}
+  .screen{border-radius:9px}
+  .scroller{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;background:#fff}
+  .phone .scroller{max-height:420px}
+  .screen .scroller{max-height:300px}
+  figcaption{font-size:13.5px;line-height:1.45;color:var(--ink-2)}
+  figcaption b{display:block;font-size:13.5px;font-weight:650;letter-spacing:-.01em;color:var(--ink);margin-bottom:2px}
+  .hint{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:3px}
+  .flat{border:1px solid var(--rule);border-radius:8px;overflow:hidden;box-shadow:var(--shadow);background:var(--surface)}
+
+  /* ================= TABLE ================= */
+  .tablewrap{overflow-x:auto;margin:2em 0;border:1px solid var(--rule);border-radius:8px;background:var(--surface)}
+  table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+  th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  thead th{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--rule);white-space:nowrap}
+  tbody tr:last-child td{border-bottom:0}
+  td.name{font-weight:600;letter-spacing:-.012em}
+  td.dim{color:var(--ink-2)}
+  .tick{color:var(--green);font-weight:700}
+  .dash{color:var(--ink-3)}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* ================= TYPE RAMP / RAMPS ================= */
+  .ramps{display:grid;gap:12px;margin:2em 0}
+  .ramp{display:grid;grid-template-columns:128px 1fr;gap:14px;align-items:center}
+  .ramp .nm{font-size:13px;font-weight:600;letter-spacing:-.012em}
+  .ramp .nm small{display:block;font-family:var(--mono);font-size:9.5px;font-weight:400;
+    letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase;margin-top:2px}
+  .bar{display:flex;height:28px;border-radius:5px;overflow:hidden;border:1px solid var(--rule)}
+  .bar span{flex:1}
+  @media (max-width:520px){ .ramp{grid-template-columns:1fr;gap:6px} }
+
+  .typeramp{border:1px solid var(--rule);border-radius:8px;background:var(--surface);
+    overflow:hidden;margin:2em 0;box-shadow:var(--shadow)}
+  .typeramp .row{display:flex;gap:18px;align-items:baseline;padding:14px 20px;
+    border-bottom:1px solid var(--rule-soft);flex-wrap:wrap}
+  .typeramp .row:last-child{border-bottom:0}
+  .typeramp .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--ink-3);width:112px;flex:none}
+  .typeramp .spec{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-3);
+    font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  /* ================= FINDINGS ================= */
+  .findings{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+    border-radius:8px;overflow:hidden;margin:2em 0}
+  .finding{background:var(--surface);padding:19px 22px}
+  .finding .t{font-size:16px;font-weight:650;letter-spacing:-.018em;margin:0 0 7px}
+  .finding p{margin:0;font-size:15px;line-height:1.55;color:var(--ink-2)}
+  .finding p + p{margin-top:.55em}
+
+  footer{border-top:1px solid var(--rule);background:var(--surface)}
+  footer .wrap{padding-block:36px 52px}
+  footer p{font-size:14px;color:var(--ink-3);max-width:66ch}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  }
+  html{scroll-behavior:smooth}
+</style>
+</head>
+<body>
+
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="wrap">
+    <p class="brandline"><span class="mark" aria-hidden="true"></span>Flashcraft Events · UX case study</p>
+
+    <h1>Seven kinds of ticket.<br><span class="soft">One checkout.</span></h1>
+
+    <p class="hook">A Kendrick Lamar seat at Coca-Cola Arena and an unlimited-rides theme-park pass have almost nothing
+      in common at the moment of purchase. <b>Flashcraft now sells both through the same six screens</b> — and buyers
+      get there in half the time they used to.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="v">+18<span class="u">%</span></div><div class="k">Checkout completion</div></div>
+      <div class="stat"><div class="v">−41<span class="u">%</span></div><div class="k">“Where are my tickets” contacts</div></div>
+      <div class="stat"><div class="v">2:38</div><div class="k">Median time to book</div></div>
+      <div class="stat"><div class="v">7</div><div class="k">Ticket types, one flow</div></div>
+    </div>
+
+    <div class="collage" role="group" aria-label="Screens from the product">
+      <figure class="desk"><img src="img/h-desktop.jpg" alt="Flashcraft Events desktop homepage with a header, date filters and a promotional banner." loading="eager"></figure>
+      <figure class="ph"><img src="img/h-home.jpg" alt="Mobile homepage with city selector and date filter chips." loading="eager"></figure>
+      <figure class="ph"><img src="img/h-details.jpg" alt="Mobile event details page with an urgency banner." loading="lazy"></figure>
+      <figure class="ph"><img src="img/h-seat.jpg" alt="Mobile seat map with price band pills." loading="lazy"></figure>
+      <figure class="ph"><img src="img/h-pay.jpg" alt="Mobile Confirm and Pay order summary." loading="lazy"></figure>
+      <figure class="ph"><img src="img/h-success.jpg" alt="Mobile booking confirmed screen." loading="lazy"></figure>
+    </div>
+  </div>
+</header>
+
+<!-- ================= TL;DR ================= -->
+<div class="tldr">
+  <div class="wrap">
+    <h2>The short version</h2>
+    <ul>
+      <li><span class="i">1</span><span><b>The problem.</b> Every kind of ticket asked buyers a different set of questions, so every new category meant a new flow — and a new way to get lost.</span></li>
+      <li><span class="i">2</span><span><b>The research.</b> 18 interviews, a 412-ticket support audit and two rounds of testing pointed at the same three failures: hidden price, hidden availability, hidden delivery.</span></li>
+      <li><span class="i">3</span><span><b>The move.</b> Seven ticket archetypes, modelled explicitly, all converging on one checkout.</span></li>
+      <li><span class="i">4</span><span><b>The result.</b> Checkout completion up 18%, booking time roughly halved, delivery-related support contacts down 41%.</span></li>
+    </ul>
+  </div>
+</div>
+
+<nav class="toc" aria-label="Sections">
+  <div class="wrap" style="padding-inline:8px">
+    <ol>
+      <li><a href="#overview"><span class="n">01</span>Overview</a></li>
+      <li><a href="#problem"><span class="n">02</span>The problem</a></li>
+      <li><a href="#research"><span class="n">03</span>Research</a></li>
+      <li><a href="#process"><span class="n">04</span>Process</a></li>
+      <li><a href="#design"><span class="n">05</span>Visual design</a></li>
+      <li><a href="#impact"><span class="n">06</span>Impact</a></li>
+    </ol>
+  </div>
+</nav>
+
+<!-- ================= 01 ================= -->
+<section id="overview">
+  <div class="wrap">
+    <div class="shead"><span class="snum">01</span><h2>Overview</h2></div>
+    <div class="col">
+      <p class="lede">Flashcraft Events is a UAE events-and-attractions ticketing platform. Its catalogue runs from
+        arena concerts and the Dubai World Cup to nightlife and theme-park day passes — inventory that behaves
+        completely differently at the point of sale, and that used to be sold in completely different ways.</p>
+
+      <p>I led the redesign end to end: research, information architecture, interaction design, the visual language,
+        and the design system that carries it across phone and desktop. The core of the work was structural —
+        identifying that the catalogue collapses into <strong>seven booking archetypes</strong>, then designing one
+        purchase flow flexible enough to serve all of them and disciplined enough to ask each buyer only the questions
+        their ticket actually requires.</p>
+    </div>
+
+    <dl class="facts">
+      <div class="fact"><dt>Role</dt><dd>Lead Product Designer<span>Research, IA, interaction, visual design, design system</span></dd></div>
+      <div class="fact"><dt>Team</dt><dd>1 designer, 1 PM<span>4 engineers, 1 researcher (shared)</span></dd></div>
+      <div class="fact"><dt>Timeline</dt><dd>5 months<span>Discovery to desktop handoff</span></dd></div>
+      <div class="fact"><dt>Platforms</dt><dd>Mobile &amp; desktop web<span>Nine UAE cities, AED</span></dd></div>
+    </dl>
+
+    <div class="col">
+      <div class="note">
+        <span class="h">Headline outcome</span>
+        <p>Three months after launch, mobile checkout completion was up <strong>18%</strong>, median time from opening
+          an event to paying fell from <strong>4:52 to 2:38</strong>, and support contacts asking where a ticket had
+          gone dropped <strong>41%</strong>. The architecture also paid off internally: launching a new inventory type
+          became a content exercise rather than a design-and-build project.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 ================= -->
+<section id="problem">
+  <div class="wrap">
+    <div class="shead"><span class="snum">02</span><h2>The problem</h2></div>
+    <div class="col">
+      <p class="lede">A ticket is not one thing. The word covers a reserved seat at a fixed time, an open-dated
+        theme-park pass, a timed entry slot and a multi-day wristband. Each asks the buyer a different set of
+        questions — and each was answering them somewhere else.</p>
+
+      <p>Concerts went through a seating flow. Attractions went through a quantity flow. Theme parks went through a
+        third path built around ticket tiers. A buyer who booked a concert on Friday and a water park on Saturday met
+        two unrelated interfaces, learned nothing transferable, and hit a different checkout at the end of each.</p>
+
+      <h3>What buyers were up against</h3>
+      <ul class="body">
+        <li><strong>Different questions, no shared shape.</strong> Nothing a buyer learned in one category helped them
+          in the next.</li>
+        <li><strong>Price and availability hidden until late.</strong> Whether Saturday cost more than Tuesday is
+          exactly what decided the purchase — and it only surfaced several taps in.</li>
+        <li><strong>Delivery expectations unset.</strong> Some tickets arrive instantly, some within 24 hours, some
+          only hours before the event. Nothing said which.</li>
+        <li><strong>Forced accounts.</strong> A tourist buying one attraction ticket on a three-day trip abandons
+          rather than registers.</li>
+      </ul>
+
+      <h3>What the business needed</h3>
+      <ul class="body">
+        <li>One checkout any inventory type could plug into, so new categories stopped costing a full build.</li>
+        <li>Room to merchandise the commercial tiers the business runs on — <em>Exclusive</em>,
+          <em>Earlybird Access</em>, <em>VIP Access</em>, and <em>Notify Me</em> capture on unreleased events.</li>
+        <li>Genuine parity between phone and desktop, in AED, across all nine emirate cities, with currency and
+          language switching built in rather than bolted on.</li>
+      </ul>
+
+      <p class="pull">The design problem wasn't “how do we sell a ticket.” It was: <em>what is the smallest set of
+        questions that can sell any ticket — and how do we ask only the ones this ticket needs?</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 ================= -->
+<section id="research">
+  <div class="wrap">
+    <div class="shead"><span class="snum">03</span><h2>Research</h2></div>
+    <div class="col">
+      <p class="lede">We started with a question the business could not answer internally: at what exact moment do
+        people give up on buying a ticket, and why? Four methods, run over six weeks, converged on the same answer
+        from different directions.</p>
+    </div>
+
+    <div class="methods">
+      <div class="method"><div class="n">18</div><div class="t">User interviews</div><div class="d">12 UAE residents, 6 short-stay visitors. 45 minutes each, including a booking task on the live product.</div></div>
+      <div class="method"><div class="n">412</div><div class="t">Support tickets</div><div class="d">Ninety days of contacts, coded into themes with the support lead.</div></div>
+      <div class="method"><div class="n">7</div><div class="t">Competitor teardowns</div><div class="d">Regional and global ticketing platforms, walked end to end and scored on the same rubric.</div></div>
+      <div class="method"><div class="n">2×9</div><div class="t">Usability rounds</div><div class="d">Two moderated rounds, nine participants each — one on prototypes, one pre-launch.</div></div>
+    </div>
+
+    <div class="col">
+      <h3>What we found</h3>
+
+      <p><strong>1. People shop by date, not by category.</strong> Eleven of eighteen participants described planning an
+        evening before they described planning an outing. They knew they were free on Thursday; they did not know
+        whether they wanted music or comedy. Every competitor we audited led with genre.</p>
+
+      <blockquote>
+        “I don't wake up wanting a concert. I know I've got Thursday free and I want to know what's on.”
+        <cite>P4 · Dubai resident</cite>
+      </blockquote>
+
+      <p><strong>2. Price comparison was manual and expensive.</strong> Watching participants attempt a flexible-date
+        booking was the most damaging session of the study. Fourteen of eighteen opened multiple tabs or repeatedly
+        navigated back to compare the same event across dates, because price only appeared after a date was committed.
+        Four gave up mid-task.</p>
+
+      <p><strong>3. The single largest support theme was delivery, not payment.</strong> Of 412 tickets,
+        <strong>63%</strong> were some version of “I paid, where is my ticket?” Almost none were payment failures. The
+        product was setting no expectation at all about when a ticket would arrive, and buyers filled the silence by
+        contacting support — usually within twenty minutes of paying.</p>
+
+      <p><strong>4. Forced registration was a hard stop for visitors.</strong> Seven of eighteen described abandoning a
+        competitor specifically over an account wall. Among the six short-stay visitors it was five of six.</p>
+
+      <blockquote>
+        “I'm here for four days. I'm not making an account for one ticket.”
+        <cite>P11 · Visitor, three-day stay</cite>
+      </blockquote>
+
+      <h3>Who we designed for</h3>
+      <p>The interviews resolved into four recurring profiles. Each one drove a specific decision rather than sitting
+        decoratively in a deck.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">Profile</th><th scope="col">What they need</th><th scope="col">What it changed</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">The resident planner</td>
+            <td class="dim">Something to do on a specific evening, nearby, at a known price.</td>
+            <td class="dim">Date filters — Today, Tomorrow, This weekend, Next week, custom range — sit above the fold
+              on both platforms, ahead of every category.</td>
+          </tr>
+          <tr>
+            <td class="name">The visiting tourist</td>
+            <td class="dim">Book an attraction for a fixed travel window without creating an account.</td>
+            <td class="dim">Guest checkout became the default path; login is an optional panel. Currency and language
+              switching moved into the account layer.</td>
+          </tr>
+          <tr>
+            <td class="name">The fan</td>
+            <td class="dim">Follow an artist, get in early, sit somewhere good.</td>
+            <td class="dim">Artist pages and rails, Earlybird and VIP tiers, Exclusive badging, and Notify Me capture
+              on events that haven't gone on sale.</td>
+          </tr>
+          <tr>
+            <td class="name">The family group</td>
+            <td class="dim">Price a day out for a variable number of people and find the saving.</td>
+            <td class="dim">Theme-park tickets use side-by-side comparison cards with the saving stated on the card —
+              no seat map, and a guest stepper instead.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col">
+      <div class="note">
+        <span class="h">The finding that reshaped the roadmap</span>
+        <p>Delivery timing had been treated as an operations detail, invisible to design. Once 63% of support volume
+          traced back to it, it became a first-class object in the interface: promised before payment, restated after,
+          and reflected in three distinct confirmation screens depending on how that ticket actually reaches the buyer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 ================= -->
+<section id="process">
+  <div class="wrap">
+    <div class="shead"><span class="snum">04</span><h2>Process &amp; exploration</h2></div>
+    <div class="col">
+      <p class="lede">The catalogue looked like dozens of special cases. The breakthrough was realising it isn't — it's
+        three variables, and every product the business sells is a combination of them.</p>
+
+      <h3>Mapping the matrix</h3>
+      <p>Working with operations, I catalogued every product type against three questions: <em>is the date fixed, open
+        or chosen?</em> <em>are there time slots?</em> <em>is there assigned seating, or a ticket tier?</em> The
+        catalogue collapsed into seven combinations — and seven is a number you can design for.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">Archetype</th><th scope="col">Date</th><th scope="col">Time slot</th><th scope="col">Seat map</th><th scope="col">Ticket tier</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Single day, single slot</td><td class="dim">Fixed</td><td class="dash">—</td><td class="tick">✓</td><td class="dash">—</td></tr>
+          <tr><td class="name">Single day, multiple slots</td><td class="dim">Fixed</td><td class="tick">✓</td><td class="tick">✓</td><td class="dash">—</td></tr>
+          <tr><td class="name">Multiple days, single slot</td><td class="tick">✓</td><td class="dash">—</td><td class="tick">✓</td><td class="dash">—</td></tr>
+          <tr><td class="name">Multiple days, multiple slots</td><td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td><td class="dash">—</td></tr>
+          <tr><td class="name">Any day, single time slot</td><td class="dim">Open</td><td class="tick">✓</td><td class="dash">—</td><td class="dash">—</td></tr>
+          <tr><td class="name">Theme parks</td><td class="dim">Open</td><td class="dash">—</td><td class="dash">—</td><td class="tick">✓</td></tr>
+          <tr><td class="name">Theme parks with time slots</td><td class="dim">Open</td><td class="tick">✓</td><td class="dash">—</td><td class="tick">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col">
+      <p>Every archetype ends on the same checkout and the same confirmation. That is the architectural bet of the whole
+        project: <strong>the questions differ, the transaction doesn't.</strong></p>
+
+      <h3>Designing the hardest case first</h3>
+      <p>I started with the reserved-seat concert — the path with the most decisions in it. Date, then time slot, then
+        seating area, then an individual seat, then guests, then pay. Solving the most demanding case first meant every
+        simpler archetype could be produced by <em>removing</em> steps rather than inventing new ones, which is what
+        kept seven flows from becoming seven interfaces.</p>
+
+      <h3>What testing changed</h3>
+      <p>Two rounds, nine participants each. Three changes came directly out of them.</p>
+      <ul class="body">
+        <li><strong>The seat map got visible controls.</strong> In round one, five of nine participants never
+          discovered they could zoom — they tried to tap 12-point seats and mis-selected. Adding explicit zoom-in,
+          zoom-out and reset-view controls took task success from <strong>4/9 to 9/9</strong> in round two.</li>
+        <li><strong>Selected seats became ticks, not colour.</strong> Two participants in round one could not tell which
+          seats they had chosen against the price-band colours. A green check mark reads at a glance and survives a
+          colour-vision difference.</li>
+        <li><strong>The running total moved into the footer.</strong> Participants consistently asked “so what is this
+          costing me?” mid-selection. Pinning the total and ticket count to a sticky footer removed the question.</li>
+      </ul>
+
+      <h3>Then the same system on desktop</h3>
+      <p>Desktop was not a stretched phone. The extra width had to earn its place: the order summary sits beside the
+        checkout form rather than above it, the seat map shows a whole venue without zooming, and theme-park tiers sit
+        side by side so the comparison is direct instead of a horizontal scroll. Everything else — the date-first
+        filters, the archetype logic, the status language — carried over unchanged, because it was structural rather
+        than cosmetic.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 05 ================= -->
+<section id="design">
+  <div class="wrap">
+    <div class="shead"><span class="snum">05</span><h2>Visual design</h2></div>
+    <div class="col">
+      <p class="lede">The visual language had one job: make price, availability and urgency readable at a glance, on a
+        phone, in daylight, without the interface shouting. Events photography is loud by nature — the system around it
+        had to be quiet, and the colour had to mean something.</p>
+
+      <h3>A palette that comes from the city</h3>
+      <p>Rather than a generic brand ramp, I built the colour system from the place the product sells. Each family is
+        named for something a buyer in Dubai can see out of the window, and each was chosen to carry a specific job in
+        the interface — so the palette is also the status language.</p>
+    </div>
+
+    <div class="ramps">
+      <div class="ramp"><div class="nm">Skyline Blue<small>primary action</small></div><div class="bar"><span style="background:#DFE8FE"></span><span style="background:#BDD0FC"></span><span style="background:#89ABF7"></span><span style="background:#5285F2"></span><span style="background:#2563EB"></span><span style="background:#1A4BC4"></span><span style="background:#123A9E"></span><span style="background:#0D2A73"></span><span style="background:#071A4A"></span></div></div>
+      <div class="ramp"><div class="nm">Desert Coral<small>error · sold out</small></div><div class="bar"><span style="background:#FDE7E5"></span><span style="background:#FAC6C1"></span><span style="background:#F49B93"></span><span style="background:#F0665B"></span><span style="background:#E23B2D"></span><span style="background:#C22C20"></span><span style="background:#9C2016"></span><span style="background:#6B140D"></span><span style="background:#3E0A06"></span></div></div>
+      <div class="ramp"><div class="nm">Golden Sands<small>caution · mid price band</small></div><div class="bar"><span style="background:#FEF6E0"></span><span style="background:#FCE9B3"></span><span style="background:#F8D97C"></span><span style="background:#F5C74A"></span><span style="background:#F5B301"></span><span style="background:#C89202"></span><span style="background:#9A7003"></span><span style="background:#6D4F03"></span><span style="background:#3F2E02"></span></div></div>
+      <div class="ramp"><div class="nm">Palm Green<small>available · confirmed</small></div><div class="bar"><span style="background:#DDFBEA"></span><span style="background:#ABF3CC"></span><span style="background:#72E8A8"></span><span style="background:#3DD67F"></span><span style="background:#18B85E"></span><span style="background:#119A4D"></span><span style="background:#0C7B3D"></span><span style="background:#08582B"></span><span style="background:#04351A"></span></div></div>
+      <div class="ramp"><div class="nm">Royal Purple<small>exclusivity · premium</small></div><div class="bar"><span style="background:#FAE6FE"></span><span style="background:#F0C0FB"></span><span style="background:#E290F5"></span><span style="background:#D05FEE"></span><span style="background:#B32BD8"></span><span style="background:#9B1FBE"></span><span style="background:#7C1698"></span><span style="background:#570F6B"></span><span style="background:#33083F"></span></div></div>
+      <div class="ramp"><div class="nm">Steel Grey<small>surface · text</small></div><div class="bar"><span style="background:#ECECEE"></span><span style="background:#D4D4D8"></span><span style="background:#B4B4BA"></span><span style="background:#96969E"></span><span style="background:#77777F"></span><span style="background:#5A5A61"></span><span style="background:#3E3E44"></span><span style="background:#2A2A2F"></span><span style="background:#161619"></span></div></div>
+    </div>
+
+    <div class="flat" style="margin:2em 0">
+      <img src="img/palette.jpg" alt="The colour palette board: six named families — Skyline Blue, Desert Coral, Golden Sands, Palm Green, Royal Purple and Steel Grey — each with a photographic reference, a written rationale and nine tonal steps, plus white and black." loading="lazy">
+    </div>
+    <p class="col" style="font-size:14px;color:var(--ink-2);margin-top:-1.2em">
+      Each family ships with a photographic reference and a written rationale, so the next designer inherits the
+      reasoning and not just the hex values.</p>
+
+    <div class="col">
+      <h3>Type that gets out of the way</h3>
+      <p>SF Pro throughout, in a deliberately short ramp. Headlines are set tight and heavy so a two-line event title
+        holds its own against a full-bleed photograph; body copy stays at a comfortable reading weight; prices and
+        dates use tabular figures so numbers line up down a list of time slots and never jitter as availability
+        updates.</p>
+    </div>
+
+    <div class="typeramp">
+      <div class="row"><span class="lbl">Display</span><span style="font-size:30px;font-weight:700;letter-spacing:-.035em">Select Date</span><span class="spec">32 / 36 · Bold</span></div>
+      <div class="row"><span class="lbl">Title</span><span style="font-size:21px;font-weight:650;letter-spacing:-.022em">Kendrick Lamar: The Poetic Justice Tour</span><span class="spec">22 / 28 · Semibold</span></div>
+      <div class="row"><span class="lbl">Body</span><span style="font-size:16px;font-weight:400">Seating based on availability for the option selected</span><span class="spec">16 / 24 · Regular</span></div>
+      <div class="row"><span class="lbl">Price</span><span style="font-size:17px;font-weight:650;font-variant-numeric:tabular-nums">AED 500</span><span class="spec">17 · Semibold · tabular</span></div>
+      <div class="row"><span class="lbl">Status</span><span style="font-size:13px;font-weight:600;color:var(--coral)">Filling fast</span><span class="spec">13 · Semibold</span></div>
+      <div class="row"><span class="lbl">Caption</span><span style="font-size:13px;color:var(--ink-2)">We will send you tickets here</span><span class="spec">13 / 18 · Regular</span></div>
+    </div>
+
+    <div class="col">
+      <h3>Photography as the loudest element, deliberately</h3>
+      <p>Event imagery carries the emotion, so everything else recedes: white surfaces, hairline rules, a single accent
+        for action, and no decorative colour anywhere. Cards use a consistent image ratio and a fixed information order
+        — category, title, date, price — so a buyer scanning a rail reads the same four things in the same place every
+        time, regardless of what the photograph is doing.</p>
+
+      <h3>Five decisions worth explaining</h3>
+
+      <p><strong>1. Price lives on the date, not at the end.</strong> Every day in the date rail carries its own price
+        chip, colour-coded by band, with sold-out days marked in coral. The same logic runs into the time-slot list and
+        the full calendar. This is the direct answer to the fourteen participants who were opening tabs to compare
+        dates — it turns three steps into one glance.</p>
+
+      <p><strong>2. The seat map behaves like a map.</strong> Real venue geometry — stage line, lettered rows, blocks
+        split by aisles — with explicit zoom and reset controls rather than undiscoverable pinch gestures. Price bands
+        sit as pills along the bottom; selected seats read as green ticks; the running total and ticket count stay
+        pinned in a sticky footer.</p>
+
+      <p><strong>3. The flow asks only what this ticket needs.</strong> A concert asks date → slot → area → seat. A
+        theme park asks date → slot → tier, where tier is a set of comparison cards with the saving stated on the card.
+        No greyed-out steps, no invisible skips — each path is short and each path is honest.</p>
+
+      <p><strong>4. Checkout removes the two classic abandonment triggers.</strong> Guest checkout is the default and
+        login is optional; the breakdown itemises the discount and states <em>Your card will be charged in AED</em>
+        before the buyer reaches the card field. Field microcopy does the rest: <em>Same as your ID</em> pre-empts the
+        venue's entry check, <em>We will send you tickets here</em> explains why email is mandatory.</p>
+
+      <p><strong>5. The post-purchase moment is designed, not assumed.</strong> Confirmation gives a copyable order
+        number, ticket download, the booking summary and a <em>Getting there</em> map — plus one of three variants
+        depending on how that ticket actually arrives. This is the screen that took 41% off support volume.</p>
+    </div>
+
+    <h3 class="col" style="margin-bottom:0">The system on both platforms</h3>
+    <div class="tabs" role="tablist" aria-label="Platform">
+      <button id="tab-mobile" role="tab" aria-selected="true" aria-controls="panel-mobile" type="button">Mobile</button>
+      <button id="tab-desktop" role="tab" aria-selected="false" aria-controls="panel-desktop" type="button">Desktop</button>
+    </div>
+
+    <div id="panel-mobile" role="tabpanel" aria-labelledby="tab-mobile" tabindex="0">
+      <div class="gallery">
+        <figure>
+          <div class="phone"><div class="scroller" tabindex="0" role="group" aria-label="Mobile homepage"><img src="img/home.jpg" alt="Flashcraft Events mobile homepage with wordmark, Dubai city selector, date filter chips, promotional banner, search and Top Categories grid." loading="lazy"></div></div>
+          <figcaption><b>Homepage</b> Date filters sit above every category, because people plan an evening before they pick a genre.<span class="hint">scroll inside ↕</span></figcaption>
+        </figure>
+        <figure>
+          <div class="phone"><div class="scroller" tabindex="0" role="group" aria-label="Select Date"><img src="img/date-concert.jpg" alt="Select Date screen with a horizontal rail of dates each carrying a coloured price chip, one marked Sold out, above a list of time slots with Filling fast labels and a greyed-out sold-out slot." loading="lazy"></div></div>
+          <figcaption><b>Select date</b> Price and scarcity on the axis the buyer is already scanning.</figcaption>
+        </figure>
+        <figure>
+          <div class="phone"><div class="scroller" tabindex="0" role="group" aria-label="Seat map"><img src="img/seat.jpg" alt="Select Seat screen with a zoomable arena seat map, zoom and reset controls, two seats ticked in green, price-band pills reading 500, 600 and 700, and a sticky footer with the running total and Continue." loading="lazy"></div></div>
+          <figcaption><b>Select seat</b> Visible zoom controls and green ticks — both came straight out of testing.</figcaption>
+        </figure>
+        <figure>
+          <div class="phone"><div class="scroller" tabindex="0" role="group" aria-label="Theme park booking"><img src="img/themepark.jpg" alt="Theme park booking screen with a date rail, time slots, and comparison cards showing a struck-through price, a Save up to 50 percent badge and listed inclusions." loading="lazy"></div></div>
+          <figcaption><b>Theme park</b> No seat map — comparison cards carry the decision instead.<span class="hint">scroll inside ↕</span></figcaption>
+        </figure>
+        <figure>
+          <div class="phone"><div class="scroller" tabindex="0" role="group" aria-label="Confirm and Pay"><img src="img/pay.jpg" alt="Confirm and Pay screen with an order summary card, a banner stating tickets arrive after 48 hours, a promo code link, a price breakdown with discount and total in AED, optional login, lead guest details and payment options." loading="lazy"></div></div>
+          <figcaption><b>Confirm &amp; pay</b> One checkout, shared by all seven archetypes — with the delivery promise stated before payment.<span class="hint">scroll inside ↕</span></figcaption>
+        </figure>
+        <figure>
+          <div class="phone"><div class="scroller" tabindex="0" role="group" aria-label="Booking confirmed"><img src="img/success.jpg" alt="Booking confirmed screen with a green check badge, a confirmation heading, a copyable order number and Get Tickets and Download Tickets buttons." loading="lazy"></div></div>
+          <figcaption><b>Confirmation</b> One of three variants, chosen by how this ticket actually reaches the buyer.</figcaption>
+        </figure>
+        <figure>
+          <div class="phone"><div class="scroller" tabindex="0" role="group" aria-label="My Bookings"><img src="img/bookings.jpg" alt="My Bookings screen with Upcoming and Past toggle, bookings showing venue, date and ticket type, Get Help and Tickets buttons, and a bottom tab bar." loading="lazy"></div></div>
+          <figcaption><b>My bookings</b> <em>Get Help</em> sits on the booking itself, where the problem actually is.</figcaption>
+        </figure>
+        <figure>
+          <div class="phone"><div class="scroller" tabindex="0" role="group" aria-label="Onboarding city picker"><img src="img/onboarding.jpg" alt="Onboarding screen headed Welcome, with the instruction Select a city to get started and circular photographs of nine UAE cities." loading="lazy"></div></div>
+          <figcaption><b>Onboarding</b> One question, asked once. Everything downstream is filtered by the answer.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div id="panel-desktop" role="tabpanel" aria-labelledby="tab-desktop" tabindex="0" hidden>
+      <div class="gallery desk">
+        <figure>
+          <div class="screen"><div class="scroller" tabindex="0" role="group" aria-label="Desktop homepage"><img src="img/d-home.jpg" alt="Desktop homepage with a top nav carrying the wordmark, city, search, Blog, Cart and account, a secondary row of categories and date filters, a promotional banner and stacked event rails." loading="lazy"></div></div>
+          <figcaption><b>Homepage</b> The date chips become a persistent second nav row, so date-first browsing survives the platform change.<span class="hint">scroll inside ↕</span></figcaption>
+        </figure>
+        <figure>
+          <div class="screen"><div class="scroller" tabindex="0" role="group" aria-label="Desktop category page"><img src="img/d-category.jpg" alt="Desktop category page with a wide hero, sub-genre filter chips and a multi-column grid of event cards." loading="lazy"></div></div>
+          <figcaption><b>Category</b> The two-up mobile grid opens into four columns; the filters stay exactly where they were.<span class="hint">scroll inside ↕</span></figcaption>
+        </figure>
+        <figure>
+          <div class="screen"><div class="scroller" tabindex="0" role="group" aria-label="Desktop event details"><img src="img/d-details.jpg" alt="Desktop event details page with a media gallery, event title and metadata on the left and a sticky booking panel on the right." loading="lazy"></div></div>
+          <figcaption><b>Event details</b> The mobile sticky price bar becomes a persistent right-hand booking panel.<span class="hint">scroll inside ↕</span></figcaption>
+        </figure>
+        <figure>
+          <div class="screen"><div class="scroller" tabindex="0" role="group" aria-label="Desktop seat map"><img src="img/d-seat.jpg" alt="Desktop seat selection with a large arena seat map and a seat categories panel." loading="lazy"></div></div>
+          <figcaption><b>Select seat</b> The screen the width genuinely earns — the whole venue is legible without zooming.</figcaption>
+        </figure>
+        <figure>
+          <div class="screen"><div class="scroller" tabindex="0" role="group" aria-label="Desktop theme park tiers"><img src="img/d-themepark.jpg" alt="Desktop theme park tier selection showing ticket option cards side by side with prices and inclusions." loading="lazy"></div></div>
+          <figcaption><b>Theme park tiers</b> Cards that scroll horizontally on phone sit side by side here, so the comparison is direct.</figcaption>
+        </figure>
+        <figure>
+          <div class="screen"><div class="scroller" tabindex="0" role="group" aria-label="Desktop Confirm and Pay"><img src="img/d-pay.jpg" alt="Desktop Confirm and Pay in two columns: guest details and payment options on the left, order summary and price breakdown pinned on the right." loading="lazy"></div></div>
+          <figcaption><b>Confirm &amp; pay</b> Two columns keep the order summary visible while the form is filled — something the phone can't do.<span class="hint">scroll inside ↕</span></figcaption>
+        </figure>
+        <figure>
+          <div class="screen"><div class="scroller" tabindex="0" role="group" aria-label="Desktop confirmation"><img src="img/d-success.jpg" alt="Desktop booking confirmed page with a green check badge, a confirmation heading, a Getting there map on the left and the booking summary with order number and ticket buttons on the right." loading="lazy"></div></div>
+          <figcaption><b>Confirmation</b> Same three delivery variants, re-laid for two columns.<span class="hint">scroll inside ↕</span></figcaption>
+        </figure>
+        <figure>
+          <div class="screen"><div class="scroller" tabindex="0" role="group" aria-label="Desktop My Bookings"><img src="img/d-bookings.jpg" alt="Desktop My Bookings page with Upcoming and Past tabs and booking rows showing venue, date, ticket type and actions." loading="lazy"></div></div>
+          <figcaption><b>My bookings</b> The same row model as mobile, widened rather than redesigned.<span class="hint">scroll inside ↕</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 ================= -->
+<section id="impact">
+  <div class="wrap">
+    <div class="shead"><span class="snum">06</span><h2>Impact &amp; learnings</h2></div>
+    <div class="col">
+      <p class="lede">Measured three months after launch, against the same ninety-day window the original research
+        covered.</p>
+    </div>
+
+    <div class="results">
+      <div class="result"><div class="v">+18%</div><div class="t">Checkout completion</div><div class="d">Mobile, sessions reaching payment</div></div>
+      <div class="result"><div class="v down">2:38</div><div class="t">Median time to book</div><div class="d">Down from 4:52</div></div>
+      <div class="result"><div class="v down">−41%</div><div class="t">Delivery support contacts</div><div class="d">Was 63% of all tickets</div></div>
+      <div class="result"><div class="v down">19%</div><div class="t">Seat-selection drop-off</div><div class="d">Down from 34%</div></div>
+      <div class="result"><div class="v">+12%</div><div class="t">Desktop conversion</div><div class="d">First full quarter</div></div>
+      <div class="result"><div class="v">9/9</div><div class="t">Seat-map task success</div><div class="d">Up from 4/9 in round one</div></div>
+    </div>
+
+    <div class="col">
+      <p>The result the business cared most about wasn't on that list. Because every archetype resolves to the same
+        checkout, adding a new inventory type stopped being a design project. The first category launched after
+        handover shipped without a single new screen.</p>
+
+      <h3>What worked</h3>
+      <ul class="body">
+        <li><strong>Mapping the matrix before drawing anything.</strong> Seven archetypes is a design problem. Forty
+          special cases is not — and that is what it looked like before we found the three variables underneath.</li>
+        <li><strong>Letting a support statistic drive a design decision.</strong> The 63% delivery finding turned an
+          operations footnote into three confirmation screens and a pre-payment promise. It produced the single largest
+          measurable improvement in the project.</li>
+        <li><strong>Naming colour after the city.</strong> <em>Skyline Blue</em> and <em>Golden Sands</em> survive a
+          handover in a way <em>blue-500</em> does not, because the name carries the reason.</li>
+        <li><strong>Designing the unhappy paths.</strong> Empty carts, failed searches, invalid promo codes, declined
+          cards. The states are the product once real traffic arrives.</li>
+      </ul>
+
+      <h3>What was hard</h3>
+      <ul class="body">
+        <li><strong>Homepage density.</strong> Nine merchandising rails, each with an internal sponsor. Ordering them
+          was a negotiation, not a layout decision, and I would push harder next time for the sequence to be decided by
+          measurement rather than seniority.</li>
+        <li><strong>One seat pattern for very different venues.</strong> An arena, a nightclub and a stadium share no
+          geometry. Splitting selection into area-then-seat is what lets a single pattern stretch across all of them.</li>
+        <li><strong>Holding two platforms honest.</strong> Every state change has two homes. Parity is worth it, but it
+          doubles the maintenance surface and needs a genuine owner.</li>
+      </ul>
+
+      <h3>Where the design still needs work</h3>
+    </div>
+
+    <div class="findings">
+      <div class="finding">
+        <p class="t">Error states need to say more than “this is wrong”</p>
+        <p>Invalid fields at checkout currently tint red without explaining what failed or how to fix it. A buyer whose
+          valid-looking email was rejected has no route forward. Each field needs a specific message, a summary at the
+          top of the form, and focus moved to the first invalid input.</p>
+      </div>
+      <div class="finding">
+        <p class="t">Some states still lean on colour alone</p>
+        <p>Price bands on the date rail and the seat legend are distinguishable by hue before anything else. The chips
+          already carry the number; the legend needs a label or pattern so nothing depends on colour vision or on
+          screen brightness outdoors.</p>
+      </div>
+      <div class="finding">
+        <p class="t">No Arabic or right-to-left layout yet</p>
+        <p>Language switching exists, but RTL does not — and in the UAE that is not optional. It also isn't a
+          translation task: the back arrow, the date rail direction, the seat-map orientation and the price-column
+          alignment all mirror. This is the top item on the roadmap.</p>
+      </div>
+      <div class="finding">
+        <p class="t">The tablet range is unclaimed</p>
+        <p>Phone and desktop are both resolved; everything between them currently falls back to a stretched mobile
+          layout. Most of the components needed to close that gap already exist as desktop side panels.</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <p style="margin-top:2em">The lesson I took into the next project: when a catalogue looks like endless special
+        cases, the special cases are usually a symptom. Find the variables underneath and the interface gets smaller,
+        not bigger.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Flashcraft Events · Lead Product Designer — research, information architecture, interaction and visual design,
+      and the cross-platform design system.</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var tabs = [document.getElementById('tab-mobile'), document.getElementById('tab-desktop')];
+    var panels = [document.getElementById('panel-mobile'), document.getElementById('panel-desktop')];
+    function select(i) {
+      tabs.forEach(function (t, n) { t.setAttribute('aria-selected', n === i ? 'true' : 'false'); });
+      panels.forEach(function (p, n) { p.hidden = n !== i; });
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(i); });
+      t.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        var next = (i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
+        select(next); tabs[next].focus();
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

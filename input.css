@@ -8,6 +8,14 @@
   }
 }
 
+/* Subtle site-wide dot grid */
+.site-dot-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
 /* ── Hero section animations ── */
 @keyframes shimmerSweep {
   0%   { transform: translateX(-100%) skewX(-12deg); }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kapil Batra - UX Designer & Product Designer</title>
+    <title>Kapil Batra - AI User Experience Designer & Product Designer</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,7 @@
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
-    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="output.css?v=dot-grid-8">
 
     <!-- React & ReactDOM via UMD -->
     <script crossorigin="anonymous" src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
@@ -179,7 +179,7 @@
                     </button>
 
                     <nav className="flex flex-wrap justify-center gap-6 md:gap-12 text-sm font-medium text-white/80">
-                        {['Home', 'About', 'Contact', 'Work'/*, 'Blog'*/].map(link => (
+                        {['Home', 'Work', 'About', 'Extra-curricular', 'Contact'/*, 'Blog'*/].map(link => (
                             <a
                                 key={link}
                                 href={`#${link.toLowerCase()}`}
@@ -209,7 +209,7 @@
 
                 {/* Menu Links */}
                 <nav className="flex flex-col items-center gap-3 md:gap-5 text-center w-full px-4">
-                    {['Home', 'Work'/*, 'Blog'*/, 'About', 'Contact'].map((item, index) => (
+                    {['Home', 'Work', 'About', 'Extra-curricular', 'Contact'/*, 'Blog'*/].map((item, index) => (
                         <div
                             key={item}
                             className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isMenuOpen ? 'opacity-100 translate-y-0 blur-none' : 'opacity-0 translate-y-12 blur-sm'
@@ -242,7 +242,7 @@
             { id: '1', name: 'motorpedia', label: '(End to End Digital Product Design)', title: 'MotorPedia Platform', subtitle: 'Designing a Unified Dealer Platform for 10k Automotive Professionals', bg: 'bg-white', img: './images/w-motorpedia.png' },
             { id: '2', name: 'studentcircus', label: '(UX Design)', title: 'Student Circus UX', subtitle: 'Boosting student engagement through better UX and visual clarity.', bg: 'bg-[#3C5BFF]', img: './images/w-studentcircus.svg', link: './Student%20Circus%20Case%20study/case_study.html' },
             { id: '3', name: 'mentorclan', label: '(End to End Digital Product Design)', title: 'Mentor Clan', subtitle: 'Creating meaningful connections through thoughtful community design.', bg: 'bg-[#e5e5e5]', img: './images/w-mentorclan.png', link: 'https://www.behance.net/gallery/175789307/Mentorship-Platform-Design-UX-Case-Study' },
-            { id: '4', name: 'flashcraft', label: '(UI Design)', title: 'FlashCraft Entertainment', subtitle: 'Bringing event magic online with a bold, mobile-friendly experience.', bg: 'bg-[#893895]', img: './images/w-flashcraft.png' },
+            { id: '4', name: 'flashcraft', label: '(UI Design)', title: 'FlashCraft Entertainment', subtitle: 'Bringing event magic online with a bold, mobile-friendly experience.', bg: 'bg-[#893895]', img: './images/w-flashcraft.png', link: './flashcraft-events-case-study/index.html' },
             { id: '5', name: 'sharpz', label: '(Visual Design)', title: 'Sharpz Landing Page', subtitle: 'Clean, bold, and conversion-focused design for a modern product.', bg: 'bg-[#2a2d2a]', img: './images/w-sharpz.png', link: 'https://www.behance.net/gallery/154341755/Sharpz-Figma-Webflow-Landing-Page' },
             { id: '6', name: 'rawstream', label: '(Branding & Design)', title: 'Rawstream Identity', subtitle: 'Crafting a sharp visual identity and a scroll-worthy digital home.', bg: 'bg-[#0a1843]', img: './images/w-rawstream.png', link: 'https://www.figma.com/proto/deWzbWtpyFg8DHX0VVJiyZ/Case-studies?node-id=440-27&viewport=114%2C356%2C1.12&t=kOK5ulmJdabdoqDg-1&scaling=min-zoom&content-scaling=fixed&page-id=440%3A7' },
         ];
@@ -314,7 +314,7 @@
                 if (p.password) {
                     const entered = window.prompt("This case study is password protected. Please enter the password:");
                     if (entered === p.password) window.open(p.link || 'https://www.behance.net/kapilbatra1', '_blank');
-                    else if (entered !== null) alert("Incorrect password.");
+                    else if (entered !== null) alert("That password didn't match. Please try again.");
                 } else {
                     window.open(p.link || 'https://www.behance.net/kapilbatra1', '_blank');
                 }
@@ -323,7 +323,7 @@
             const stageH = getSize(0).h + 60;
 
             return (
-                <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden border-y border-black/10 bg-[#f4f4f4] my-16 md:my-24 py-12 md:py-16 select-none">
+                <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden border-y border-black/10 bg-transparent my-16 md:my-24 py-12 md:py-16 select-none">
                     <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center mb-10">
                         <div className="flex items-center gap-3">
                             <span className="w-2.5 h-2.5 rounded-full bg-black animate-pulse inline-block" />
@@ -409,6 +409,306 @@
             );
         };
 
+        // -------------------------------------------------------------
+        // INSTAGRAM REELS DATA & SLIDER
+        // -------------------------------------------------------------
+        // Note: Update the reel items below with your actual Instagram links & details
+        const INSTAGRAM_REELS = [
+            {
+                id: 'reel-1',
+                title: 'Design Workflow & AI Tools',
+                caption: 'How I use NotebookLM & Claude in my daily UX design process.',
+                views: '42.5K',
+                likes: '3.8K',
+                tag: 'UX Process',
+                img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80',
+                link: 'https://www.instagram.com/kyayaarbatra/'
+            },
+            {
+                id: 'reel-2',
+                title: 'Micro-Interactions & Motion',
+                caption: 'Exploring subtle micro-animations that elevate user delight.',
+                views: '68.2K',
+                likes: '5.4K',
+                tag: 'Motion Design',
+                img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80',
+                link: 'https://www.instagram.com/kyayaarbatra/'
+            },
+            {
+                id: 'reel-3',
+                title: 'App UX Breakdown',
+                caption: 'Deconstructing what makes modern mobile UI clean and accessible.',
+                views: '54.9K',
+                likes: '4.1K',
+                tag: 'UX Audit',
+                img: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=600&q=80',
+                link: 'https://www.instagram.com/kyayaarbatra/'
+            },
+            {
+                id: 'reel-4',
+                title: 'Behind the Scenes: Video Editing',
+                caption: 'Pacing, color grading, and timing visual stories.',
+                views: '39.7K',
+                likes: '2.9K',
+                tag: 'Video Editing',
+                img: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80',
+                link: 'https://www.instagram.com/kyayaarbatra/'
+            },
+            {
+                id: 'reel-5',
+                title: 'Life Outside Design',
+                caption: 'Capturing moments, travel, and everyday design inspirations.',
+                views: '31.4K',
+                likes: '2.5K',
+                tag: 'Vlog & Life',
+                img: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80',
+                link: 'https://www.instagram.com/kyayaarbatra/'
+            }
+        ];
+
+        const ReelsImageSlider = () => {
+            const [activeIndex, setActiveIndex] = useState(0);
+            const [winW, setWinW] = useState(typeof window !== 'undefined' ? window.innerWidth : 1440);
+            const dragStartX = useRef(null);
+            const isDragging = useRef(false);
+            const touchStartX = useRef(null);
+            const GAP = 28; // gap between portrait reel cards
+
+            // Auto-slide every 4s
+            useEffect(() => {
+                const timer = setInterval(() => setActiveIndex((p) => (p + 1) % INSTAGRAM_REELS.length), 4000);
+                return () => clearInterval(timer);
+            }, []);
+
+            useEffect(() => {
+                const onResize = () => setWinW(window.innerWidth);
+                window.addEventListener('resize', onResize);
+                return () => window.removeEventListener('resize', onResize);
+            }, []);
+
+            // Portrait (9:16 aspect ratio) reel card dimensions
+            const getSize = (absDiff) => {
+                const isLg = winW >= 1024, isMd = winW >= 768;
+                if (absDiff === 0) return isLg ? { w: 300, h: 533 } : isMd ? { w: 250, h: 444 } : { w: 210, h: 373 };
+                if (absDiff === 1) return isLg ? { w: 230, h: 408 } : isMd ? { w: 190, h: 337 } : { w: 160, h: 284 };
+                return isLg ? { w: 180, h: 320 } : isMd ? { w: 150, h: 266 } : { w: 125, h: 222 };
+            };
+
+            const getTranslateX = (diff) => {
+                if (diff === 0) return 0;
+                const sign = diff > 0 ? 1 : -1;
+                const a = Math.abs(diff);
+                const c = getSize(0), adj = getSize(1), far = getSize(2);
+                let x = c.w / 2 + GAP + adj.w / 2;
+                if (a >= 2) x += adj.w / 2 + GAP + far.w / 2;
+                if (a >= 3) x += far.w / 2 + GAP + far.w / 2;
+                return sign * x;
+            };
+
+            const onMouseDown = (e) => { dragStartX.current = e.clientX; isDragging.current = false; };
+            const onMouseMove = (e) => { if (dragStartX.current !== null && Math.abs(e.clientX - dragStartX.current) > 5) isDragging.current = true; };
+            const onMouseUp = (e) => {
+                if (dragStartX.current !== null) {
+                    const d = e.clientX - dragStartX.current;
+                    if (Math.abs(d) > 50) setActiveIndex((p) => d < 0 ? (p + 1) % INSTAGRAM_REELS.length : (p - 1 + INSTAGRAM_REELS.length) % INSTAGRAM_REELS.length);
+                    dragStartX.current = null;
+                }
+            };
+
+            const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+            const onTouchEnd = (e) => {
+                if (touchStartX.current !== null) {
+                    const d = e.changedTouches[0].clientX - touchStartX.current;
+                    if (Math.abs(d) > 50) setActiveIndex((p) => d < 0 ? (p + 1) % INSTAGRAM_REELS.length : (p - 1 + INSTAGRAM_REELS.length) % INSTAGRAM_REELS.length);
+                    touchStartX.current = null;
+                }
+            };
+
+            const handleReelClick = (reel) => {
+                if (isDragging.current) return;
+                window.open(reel.link || 'https://www.instagram.com/kyayaarbatra/', '_blank');
+            };
+
+            const stageH = getSize(0).h + 60;
+
+            return (
+                <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden border-y border-black/10 bg-[#111111] text-white my-16 md:my-24 py-12 md:py-16 select-none">
+                    <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between mb-10">
+                        <div className="flex items-center gap-3">
+                            <span className="w-2.5 h-2.5 rounded-full bg-pink-500 animate-pulse inline-block" />
+                            <span className="text-xs md:text-sm font-bold text-white/70 tracking-widest uppercase font-syne flex items-center gap-2">
+                                // Instagram Reels Showcase
+                            </span>
+                        </div>
+                        <span className="text-xs text-white/50 hidden md:inline-block font-mono">
+                            Swipe or drag to explore reels
+                        </span>
+                    </div>
+
+                    <div
+                        style={{ height: stageH + 'px' }}
+                        className="relative w-full flex justify-center items-center overflow-hidden cursor-grab active:cursor-grabbing"
+                        onMouseDown={onMouseDown}
+                        onMouseMove={onMouseMove}
+                        onMouseUp={onMouseUp}
+                        onMouseLeave={onMouseUp}
+                        onTouchStart={onTouchStart}
+                        onTouchEnd={onTouchEnd}
+                    >
+                        {INSTAGRAM_REELS.map((reel, i) => {
+                            let diff = i - activeIndex;
+                            const len = INSTAGRAM_REELS.length;
+                            if (diff > len / 2) diff -= len;
+                            if (diff < -len / 2) diff += len;
+
+                            const absDiff = Math.abs(diff);
+                            const isCenter = diff === 0;
+                            const { w, h } = getSize(absDiff);
+                            const txPx = getTranslateX(diff);
+
+                            let opacity = 0, zIndex = 5;
+                            if (absDiff === 0) { opacity = 1; zIndex = 30; }
+                            else if (absDiff === 1) { opacity = 0.75; zIndex = 20; }
+                            else if (absDiff === 2) { opacity = 0.45; zIndex = 15; }
+                            else if (absDiff === 3) { opacity = 0.2; zIndex = 10; }
+
+                            return (
+                                <div
+                                    key={reel.id}
+                                    onClick={() => { if (isCenter) handleReelClick(reel); else setActiveIndex(i); }}
+                                    style={{
+                                        position: 'absolute',
+                                        width: w + 'px',
+                                        height: h + 'px',
+                                        transform: `translateX(${txPx}px)`,
+                                        opacity: absDiff <= 3 ? opacity : 0,
+                                        zIndex,
+                                        pointerEvents: absDiff <= 2 ? 'auto' : 'none',
+                                        transition: 'transform 1.1s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.1s ease, width 1.1s ease, height 1.1s ease',
+                                        borderRadius: '16px',
+                                        overflow: 'hidden',
+                                        cursor: 'pointer',
+                                        backgroundColor: '#1a1a1a',
+                                        border: isCenter ? '2px solid rgba(255, 255, 255, 0.3)' : '1px solid rgba(255, 255, 255, 0.1)',
+                                    }}
+                                    className="group shadow-2xl relative"
+                                >
+                                    <img
+                                        src={reel.img}
+                                        alt={reel.title}
+                                        draggable={false}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.7s ease-out' }}
+                                        className="group-hover:scale-105"
+                                        onError={(e) => { e.target.src = 'https://via.placeholder.com/400x711/222/fff?text=Reel+' + (i + 1); e.target.onError = null; }}
+                                    />
+
+                                    {/* Top IG Badge */}
+                                    <div className="absolute top-3 left-3 right-3 flex justify-between items-center z-10">
+                                        <span className="bg-black/60 backdrop-blur-md text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full text-white/90 border border-white/10 flex items-center gap-1.5 font-syne">
+                                            <Instagram size={12} className="text-pink-400" />
+                                            {reel.tag || 'Reel'}
+                                        </span>
+                                        {reel.views && (
+                                            <span className="bg-black/60 backdrop-blur-md text-[10px] font-mono px-2 py-0.5 rounded-full text-white/70 border border-white/10">
+                                                {reel.views} views
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {/* Play Overlay */}
+                                    <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isCenter ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}`}>
+                                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/25 backdrop-blur-md text-white flex items-center justify-center border border-white/40 shadow-xl group-hover:scale-110 transition-transform duration-300">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    {/* Bottom Content Gradient & Text */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent flex flex-col justify-end p-4 sm:p-5 text-white">
+                                        <div className="flex items-center gap-2 mb-1.5">
+                                            <span className="text-[11px] font-bold text-pink-400 font-syne">@kyayaarbatra</span>
+                                        </div>
+                                        <h4 className="text-sm sm:text-base md:text-lg font-bold line-clamp-2 leading-tight font-syne text-white">{reel.title}</h4>
+                                        <p className="text-[11px] sm:text-xs text-white/80 line-clamp-2 mt-1 font-medium hidden sm:block">{reel.caption}</p>
+                                        
+                                        <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-semibold text-white/90">
+                                            <span className="inline-flex items-center gap-1 group-hover:text-pink-400 transition-colors">
+                                                Watch Reel <ArrowUpRight size={14} />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </section>
+            );
+        };
+
+        const ExtracurricularPage = () => {
+            const highlights = [
+                { title: 'Video Editing & Visual FX', desc: 'Crafting engaging cuts, smooth motion graphics, color grading, and visual storytelling.' },
+                { title: 'Instagram Reels & Content Creation', desc: 'Creating bite-sized design breakdowns, UX audits, productivity insights, and tech reviews.' },
+                { title: 'AI & Creative Workflows', desc: 'Leveraging cutting-edge generative tools to brainstorm, rapidly prototype, and streamline workflows.' },
+                { title: 'Community & Beyond', desc: 'Sharing design learnings, inspiring upcoming creators, and capturing everyday life & travel snippets.' }
+            ];
+
+            return (
+                <main className="bg-transparent min-h-screen">
+                    {/* Section 1: Header & Narrative Description */}
+                    <div className="px-6 md:px-12 pt-8 pb-12">
+                        <Header
+                            title="Extra-Curricular"
+                            subtitle="Exploring storytelling, content creation, visual arts, and life beyond the screen."
+                        />
+
+                        <section className="max-w-7xl mx-auto mt-8 border-t border-black/10 pt-12 md:pt-16">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                                {/* Left Narrative */}
+                                <FadeUp delay={0.1} className="lg:col-span-7 flex flex-col gap-6">
+                                    <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#1a1a1a] font-syne">
+                                        Creative Pursuits & Visual Experiments
+                                    </h2>
+                                    <p className="text-black/80 leading-relaxed text-base md:text-lg">
+                                        Beyond digital product and UX design, I spend time creating visual content, editing videos, and breaking down user experiences through Instagram Reels and short-form storytelling.
+                                    </p>
+                                    <p className="text-black/80 leading-relaxed text-base md:text-lg">
+                                        Whether it's dissecting micro-interactions, showcasing design workflows with AI tools like Claude & NotebookLM, or documenting everyday creative inspirations, I love communicating ideas through dynamic motion and engaging visuals.
+                                    </p>
+
+                                    {/* Category Tags */}
+                                    <div className="flex flex-wrap gap-2.5 pt-4">
+                                        {['Instagram Reels', 'Video Editing', 'UX Breakdowns', 'AI Workflows', 'Content Creation', 'Visual Storytelling'].map((tag) => (
+                                            <span key={tag} className="px-4 py-2 bg-black/5 hover:bg-black hover:text-white transition-colors duration-200 border border-black/10 rounded-full text-xs font-semibold tracking-wide text-black/80 font-syne">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </FadeUp>
+
+                                {/* Right Highlights Grid */}
+                                <FadeUp delay={0.2} className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+                                    {highlights.map((h, i) => (
+                                        <div key={i} className="p-6 bg-white border border-black/10 shadow-sm flex flex-col justify-between hover:border-black/30 transition-colors">
+                                            <span className="text-xs font-bold text-black/40 font-syne uppercase tracking-wider mb-2">0{i + 1} //</span>
+                                            <h3 className="text-lg font-bold text-[#1a1a1a] font-syne mb-2">{h.title}</h3>
+                                            <p className="text-sm text-black/70 leading-relaxed">{h.desc}</p>
+                                        </div>
+                                    ))}
+                                </FadeUp>
+                            </div>
+                        </section>
+                    </div>
+
+                    {/* Section 2: Instagram Reels Carousel Slider */}
+                    <FadeUp delay={0.2}>
+                        <ReelsImageSlider />
+                    </FadeUp>
+                </main>
+            );
+        };
+
         const HomePage = ({ scrollY, onOpenContact }) => {
             return (
                 <main>
@@ -419,7 +719,7 @@
                                 Kapil Batra
                             </h1>
                             <h2 className="text-[4.35vw] md:text-[4.35vw] lg:text-[3.55rem] font-bold tracking-tight text-center mt-4 leading-[1] font-syne select-none text-[#1a1a1a]">
-                                User Experience Designer
+                                AI User Experience Designer
                             </h2>
                         </FadeUp>
                     </header>
@@ -453,7 +753,7 @@
                                             </span>
                                         </div>
                                         <h3 className="text-xl md:text-2xl font-bold tracking-tight font-syne">Kapil Batra</h3>
-                                        <p className="text-xs md:text-sm text-black/60 font-medium">UX & Product Designer</p>
+                                        <p className="text-xs md:text-sm text-black/60 font-medium">AI UX & Product Designer</p>
                                     </div>
                                 </div>
 
@@ -548,7 +848,7 @@
                         <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-12 md:gap-24 items-start border-black/10 pt-4">
                             <FadeUp delay={0.1}>
                                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight leading-tight max-w-3xl border-l-[3px] border-transparent hover:border-black pl-0 hover:pl-4 transition-all duration-300">
-                                    As a Designer, I focus on producing top-notch and impactful digital experiences.
+                                    As an AI User Experience Designer, I focus on producing top-notch and impactful digital experiences.
                                 </h2>
                             </FadeUp>
 
@@ -598,7 +898,7 @@
                                 <FadeUp delay={0.2} className="p-0 pb-12 md:p-12 md:pt-0 border-b border-black/10 md:border-r">
                                     <h3 className="text-2xl font-semibold mb-4 tracking-tight group-hover:text-black/70">UX Design</h3>
                                     <p className="text-black/70 leading-relaxed text-sm md:text-base">
-                                        I craft intuitive experiences by blending user needs with business goals; shaping wireframes, prototypes, and design systems that guide users seamlessly through digital journeys for better user experiences.
+                                        I blend user needs with business goals to craft intuitive experiences — wireframes, prototypes, and design systems that guide people seamlessly through digital products.
                                     </p>
                                 </FadeUp>
                                 {/* Item 2 */}
@@ -612,14 +912,14 @@
                                 <FadeUp delay={0.4} className="p-0 py-12 md:p-12 md:pb-0 border-b md:border-b-0 border-black/10 md:border-r">
                                     <h3 className="text-2xl font-semibold mb-4 tracking-tight">Brand & Graphic Design</h3>
                                     <p className="text-black/70 leading-relaxed text-sm md:text-base">
-                                        From logos to social media creatives, I translate ideas into powerful visuals that stay consistent across platforms building emotional connections and recognition for brands users remember.
+                                        From logos to social media creatives, I translate ideas into visuals that stay consistent across platforms, building the recognition and emotional connection brands need to be remembered.
                                     </p>
                                 </FadeUp>
                                 {/* Item 4 */}
                                 <FadeUp delay={0.5} className="p-0 pt-12 md:p-12 md:pb-0">
                                     <h3 className="text-2xl font-semibold mb-4 tracking-tight">Photography & Video Editing</h3>
                                     <p className="text-black/70 leading-relaxed text-sm md:text-base">
-                                        I bring stories to life through visuals whether its product shots, team culture, or motion-based storytelling. My content elevates design presentations, brand messaging, and product demonstrations.
+                                        I bring stories to life through visuals — whether it's product shots, team culture, or motion-based storytelling — to elevate design presentations, brand messaging, and product demos.
                                     </p>
                                 </FadeUp>
                             </div>
@@ -711,7 +1011,7 @@
                     if (entered === p.password) {
                         window.open(p.link || 'https://www.behance.net/kapilbatra1', '_blank');
                     } else if (entered !== null) {
-                        alert("Incorrect password.");
+                        alert("That password didn't match. Please try again.");
                     }
                 } else {
                     window.open(p.link || 'https://www.behance.net/kapilbatra1', '_blank');
@@ -724,7 +1024,7 @@
                 <main>
                     <Header
                         title="Work"
-                        subtitle="Turning confusions into clicks, with flair."
+                        subtitle="Turning confusion into clicks, with flair."
                     />
 
                     <section className="w-full bg-white">
@@ -759,7 +1059,7 @@
         const AboutPage = () => {
             const experience = [
                 {
-                    title: 'UX Designer (promoted once)',
+                    title: 'AI UX Designer (promoted once)',
                     company: 'Metacube Softwares, Jaipur',
                     date: 'Mar 2022 - Present',
                     skills: ['UX Research', 'Salesforce LDS', 'Collaboration', 'User Interaction', 'Usability testing', 'Accessibility'],
@@ -819,11 +1119,11 @@
                     </div>
 
                     {/* Right Scrolling Content */}
-                    <div className="w-full lg:w-1/2 flex flex-col bg-[#f3f3f3] z-20 shadow-[-10px_0_30px_rgba(0,0,0,0.03)]">
+                    <div className="w-full lg:w-1/2 flex flex-col bg-transparent z-20 shadow-[-10px_0_30px_rgba(0,0,0,0.03)]">
                         <div className="pt-8">
                             <Header
                                 title="Kapil Batra"
-                                subtitle="As a Designer, I focus on producing top-notch and impactful digital experiences."
+                                subtitle="As an AI User Experience Designer, I focus on producing top-notch and impactful digital experiences."
                             />
                         </div>
 
@@ -831,7 +1131,7 @@
                             {/* Profile Intro */}
                             <FadeUp delay={0.1}>
                                 <p className="text-black/80 leading-loose text-base md:text-lg mb-8">
-                                    I am a UX Designer based in Jaipur with 5+ years of experience crafting intuitive, impactful digital products. I blend user research, systems thinking, and visual design to create experiences that are both beautiful and functional.
+                                    I am an AI User Experience Designer based in Jaipur with 5+ years of experience crafting intuitive, impactful digital products. I blend user research, AI tools, systems thinking, and visual design to create experiences that are both beautiful and functional.
                                 </p>
                                 <p className="text-black/80 leading-loose text-base md:text-lg mb-16">
                                     From mobile apps to enterprise platforms, I have worked across diverse industries - shaping wireframes, prototypes, and design systems that guide users seamlessly and help businesses grow.
@@ -943,7 +1243,7 @@
                         </div>
                     </div>
 
-                    <div className="w-full lg:w-1/2 flex flex-col bg-[#f3f3f3] z-20 shadow-[-10px_0_30px_rgba(0,0,0,0.03)] min-h-[calc(100vh-80px)] justify-center">
+                    <div className="w-full lg:w-1/2 flex flex-col bg-transparent z-20 shadow-[-10px_0_30px_rgba(0,0,0,0.03)] min-h-[calc(100vh-80px)] justify-center">
                         <div className="px-6 md:px-12 py-24 md:py-32 flex-grow flex flex-col justify-center">
                             <FadeUp delay={0.1}>
                                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-4 text-[#1a1a1a]">Get in touch</h2>
@@ -953,7 +1253,7 @@
                                     <div className="bg-white border border-green-200 text-green-800 p-8 rounded-2xl text-center shadow-sm">
                                         <span className="text-4xl mb-4 block">👋</span>
                                         <p className="font-bold text-lg">Message sent successfully!</p>
-                                        <p className="text-sm mt-2 opacity-80">Thank you for reaching out.</p>
+                                        <p className="text-sm mt-2 opacity-80">I'll get back to you within a day or two.</p>
                                     </div>
                                 ) : (
                                     <form onSubmit={handleSubmit} className="space-y-6 max-w-lg">
@@ -996,7 +1296,7 @@
                                             {status === 'loading' ? 'Sending...' : 'Send Message'}
                                         </button>
                                         {status === 'error' && (
-                                            <p className="text-red-500 text-sm font-medium text-center">Something went wrong. Please try again.</p>
+                                            <p className="text-red-500 text-sm font-medium text-center">Message couldn't be sent. Please try again or email me directly at kapilbatrayt@gmail.com.</p>
                                         )}
                                     </form>
                                 )}
@@ -1058,7 +1358,7 @@
                             <div className="bg-white border border-green-200 text-green-800 p-8 rounded-2xl text-center shadow-sm">
                                 <span className="text-4xl mb-4 block">👋</span>
                                 <p className="font-bold text-lg">Message sent successfully!</p>
-                                <p className="text-sm mt-2 opacity-80">Thank you for reaching out.</p>
+                                <p className="text-sm mt-2 opacity-80">I'll get back to you within a day or two.</p>
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-6">
@@ -1101,7 +1401,7 @@
                                     {status === 'loading' ? 'Sending...' : 'Send Message'}
                                 </button>
                                 {status === 'error' && (
-                                    <p className="text-red-500 text-sm font-medium text-center">Something went wrong. Please try again.</p>
+                                    <p className="text-red-500 text-sm font-medium text-center">Message couldn't be sent. Please try again or email me directly at kapilbatrayt@gmail.com.</p>
                                 )}
                             </form>
                         )}
@@ -1234,6 +1534,8 @@
             const [isMenuOpen, setIsMenuOpen] = useState(false);
             const [isContactOpen, setIsContactOpen] = useState(false);
             const [scrollY, setScrollY] = useState(0);
+            const siteRef = useRef(null);
+            const gridCanvasRef = useRef(null);
 
             const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -1267,8 +1569,80 @@
                 return () => { document.body.style.overflow = 'unset'; };
             }, [isMenuOpen, isContactOpen]);
 
+            // Draw a lightweight dot field that reacts to pointer movement.
+            useEffect(() => {
+                const canvas = gridCanvasRef.current;
+                const site = siteRef.current;
+                if (!canvas || !site) return;
+
+                const context = canvas.getContext('2d');
+                const pointer = { x: -1000, y: -1000, energy: 0 };
+                const spacing = 24;
+                const radius = 150;
+                let width = 0;
+                let height = 0;
+                let pixelRatio = 1;
+                let frameId;
+
+                const resize = () => {
+                    width = Math.ceil(site.clientWidth);
+                    height = Math.max(Math.ceil(site.scrollHeight), window.innerHeight);
+                    pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+                    canvas.width = width * pixelRatio;
+                    canvas.height = height * pixelRatio;
+                    canvas.style.width = `${width}px`;
+                    canvas.style.height = `${height}px`;
+                    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+                };
+
+                const movePointer = (event) => {
+                    pointer.x = event.clientX;
+                    pointer.y = event.clientY + window.scrollY;
+                    pointer.energy = 1;
+                };
+
+                const draw = () => {
+                    frameId = requestAnimationFrame(draw);
+                    pointer.energy *= 0.92;
+                    context.clearRect(0, 0, width, height);
+                    context.fillStyle = 'rgba(26, 26, 26, 0.35)';
+
+                    const startY = Math.floor(window.scrollY / spacing) * spacing;
+                    const endY = Math.min(height, window.scrollY + window.innerHeight + spacing);
+
+                    for (let y = startY; y <= endY; y += spacing) {
+                        for (let x = 0; x <= width; x += spacing) {
+                            const dx = x - pointer.x;
+                            const dy = y - pointer.y;
+                            const distance = Math.hypot(dx, dy);
+                            const falloff = Math.max(0, 1 - distance / radius) ** 2 * pointer.energy;
+                            const shift = distance ? falloff * 15 : 0;
+                            const offsetX = distance ? (dx / distance) * shift : 0;
+                            const offsetY = distance ? (dy / distance) * shift : 0;
+                            context.fillRect(x + offsetX - 0.9, y + offsetY - 0.9, 1.8, 1.8);
+                        }
+                    }
+                };
+
+                const observer = new ResizeObserver(resize);
+                observer.observe(site);
+                resize();
+                draw();
+                window.addEventListener('pointermove', movePointer, { passive: true });
+                window.addEventListener('resize', resize);
+
+                return () => {
+                    cancelAnimationFrame(frameId);
+                    observer.disconnect();
+                    window.removeEventListener('pointermove', movePointer);
+                    window.removeEventListener('resize', resize);
+                };
+            }, []);
+
             return (
-                <div className="bg-[#f3f3f3] text-[#1a1a1a] min-h-screen font-sans selection:bg-[#1a1a1a] selection:text-white relative flex flex-col justify-between">
+                <div ref={siteRef} className="bg-[#f3f3f3] text-[#1a1a1a] min-h-screen font-sans selection:bg-[#1a1a1a] selection:text-white relative flex flex-col justify-between">
+                    <canvas ref={gridCanvasRef} className="site-dot-grid" aria-hidden="true"></canvas>
+                    <div className="relative z-10 flex min-h-screen flex-col">
 
                     {/* GLOBAL STICKY NAV */}
                     <div className="sticky top-0 z-40 bg-[#f3f3f3]/60 backdrop-blur-2xl border-b border-black/[0.03] px-6 md:px-12 py-4 md:py-5 flex justify-between items-center transition-all duration-300 w-full">
@@ -1284,6 +1658,11 @@
                                 <>
                                     <span className="text-black/30 hidden md:inline">/</span>
                                     <span className="text-black hidden md:inline">About</span>
+                                </>
+                            ) : (currentRoute === '#extracurricular' || currentRoute === '#extra-curricular') ? (
+                                <>
+                                    <span className="text-black/30 hidden md:inline">/</span>
+                                    <span className="text-black hidden md:inline">Extra-curricular</span>
                                 </>
                             ) : currentRoute === '#contact' ? (
                                 <>
@@ -1344,10 +1723,10 @@
           animation: scaleIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         body, html {
-          cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPgogICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjIiIHN0ZERldmlhdGlvbj0iMiIgZmxvb2QtY29sb3I9IiMwMDAwMDAiIGZsb29kLW9wYWNpdHk9IjAuMiIvPgogIDwvZmlsdGVyPgogIDxwYXRoIGQ9Ik00IDQgTDExIDIzIEwxNC41IDE2LjUgTDIyIDEzIFoiIGZpbGw9IiMzMzMzMzMiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiLz4KPC9zdmc+') 4 4, auto;
+          cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPgogICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjIiIHN0ZERldmlhdGlvbj0iMiIgZmxvb2QtY29sb3I9IiMwMDAwMDAiIGZsb29kLW9wYWNpdHk9IjAuMiIvPgogIDwvZmlsdGVyPgogIDxwYXRoIGQ9Ik00IDQgTDExIDIzIEwxNC41 IDE2LjUgTDIyIDEzIFoiIGZpbGw9IiMzMzMzMzMiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiLz4KPC9zdmc+') 4 4, auto;
         }
         a, button, input, textarea, select, [role="button"], [class*="cursor-pointer"], .cursor-pointer {
-          cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPgogICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjIiIHN0ZERldmlhdGlvbj0iMiIgZmxvb2QtY29sb3I9IiMwMDAwMDAiIGZsb29kLW9wYWNpdHk9IjAuMiIvPgogIDwvZmlsdGVyPgogIDxwYXRoIGQ9Ik00IDQgTDExIDIzIEwxNC41IDE2LjUgTDIyIDEzIFoiIGZpbGw9IiMzMzMzMzMiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiLz4KPC9zdmc+') 4 4, pointer !important;
+          cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPgogICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjIiIHN0ZERldmlhdGlvbj0iMiIgZmxvb2QtY29sb3I9IiMwMDAwMDAiIGZsb29kLW9wYWNpdHk9IjAuMiIvPgogIDwvZmlsdGVyPgogIDxwYXRoIGQ9Ik00IDQgTDExIDIzIEwxNC41 IDE2LjUgTDIyIDEzIFoiIGZpbGw9IiMzMzMzMzMiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiLz4KPC9zdmc+') 4 4, pointer !important;
         }
       `}</style>
 
@@ -1356,6 +1735,8 @@
                         <WorkPage />
                     ) : currentRoute === '#about' ? (
                         <AboutPage />
+                    ) : (currentRoute === '#extracurricular' || currentRoute === '#extra-curricular') ? (
+                        <ExtracurricularPage />
                     ) : currentRoute === '#contact' ? (
                         <ContactPage />
                         /* Temporarily hidden blog pages
@@ -1368,11 +1749,12 @@
                         <HomePage scrollY={scrollY} onOpenContact={() => setIsContactOpen(true)} />
                     )}
 
-                    <Footer hasTopMargin={currentRoute === '#home' || currentRoute === '' || currentRoute === '#work' /*|| currentRoute === '#blog'*/} onOpenContact={() => setIsContactOpen(true)} />
+                    <Footer hasTopMargin={currentRoute === '#home' || currentRoute === '' || currentRoute === '#work' || currentRoute === '#extracurricular' || currentRoute === '#extra-curricular'} onOpenContact={() => setIsContactOpen(true)} />
 
                     <MenuOverlay isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} onOpenContact={() => setIsContactOpen(true)} />
 
                     <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+                    </div>
                 </div>
             );
         }

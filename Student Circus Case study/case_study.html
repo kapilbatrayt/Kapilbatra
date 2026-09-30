@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Circus — Case Study</title>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #F7F8FF;
+    --dark: #1C233A;
+    --blue: #3E55F9;
+    --gray: #545B73;
+    --light-gray: #ADB1D7;
+    --border: #DADBE0;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--dark);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6, .nav-logo {
+    font-family: 'Syne', sans-serif;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(247, 248, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -0.3px;
+  }
+
+  .nav-logo span {
+    color: var(--blue);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .nav-links a:hover {
+    background: rgba(62, 85, 249, 0.08);
+    color: var(--blue);
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    height: 2px;
+    background: var(--blue);
+    z-index: 99;
+    transition: width 0.1s linear;
+    width: 0%;
+  }
+
+  /* Main content */
+  main {
+    margin-top: 60px;
+  }
+
+  /* Each SVG section */
+  .svg-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: var(--bg);
+  }
+
+  .svg-section img,
+  .svg-section object {
+    width: 100%;
+    max-width: 1280px;
+    height: auto;
+    display: block;
+  }
+
+  /* Section labels (sidebar) */
+  .section-indicator {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 50;
+  }
+
+  .section-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+  }
+
+  .section-dot.active {
+    background: var(--blue);
+    transform: scale(1.4);
+  }
+
+  .section-dot:hover::after {
+    content: attr(data-label);
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--dark);
+    color: white;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--dark);
+    color: var(--light-gray);
+    text-align: center;
+    padding: 32px 40px;
+    font-size: 13px;
+  }
+
+  footer strong {
+    color: white;
+  }
+
+  footer .footer-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  footer .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+    display: inline-block;
+  }
+
+  @media (max-width: 768px) {
+    nav {
+      padding: 0 16px;
+    }
+    .nav-links {
+      display: none;
+    }
+    .section-indicator {
+      display: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-logo">Student <span>Circus</span> — Case Study</div>
+  <ul class="nav-links">
+    <li><a href="#section-1">Overview</a></li>
+    <li><a href="#section-2">Research</a></li>
+    <li><a href="#section-3">Design</a></li>
+    <li><a href="#section-4">Outcomes</a></li>
+  </ul>
+</nav>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Section indicator dots -->
+<div class="section-indicator" id="sectionIndicator">
+  <div class="section-dot active" data-section="1" data-label="Overview" onclick="scrollToSection(1)"></div>
+  <div class="section-dot" data-section="2" data-label="Research" onclick="scrollToSection(2)"></div>
+  <div class="section-dot" data-section="3" data-label="Design" onclick="scrollToSection(3)"></div>
+  <div class="section-dot" data-section="4" data-label="Outcomes" onclick="scrollToSection(4)"></div>
+</div>
+
+<!-- Main Content: SVGs in sequence -->
+<main>
+  <div class="svg-section" id="section-1">
+    <img src="1.svg" alt="Student Circus Case Study — Overview" loading="eager" />
+  </div>
+
+  <div class="svg-section" id="section-2">
+    <img src="2.svg" alt="Student Circus Case Study — Research" loading="lazy" />
+  </div>
+
+  <div class="svg-section" id="section-3">
+    <img src="3.svg" alt="Student Circus Case Study — Design" loading="lazy" />
+  </div>
+
+  <div class="svg-section" id="section-4">
+    <img src="4.svg" alt="Student Circus Case Study — Outcomes" loading="lazy" />
+  </div>
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-top">
+    <span class="dot"></span>
+    <strong>Student Circus</strong>
+    <span class="dot"></span>
+  </div>
+  <p>Portfolio Case Study &nbsp;·&nbsp; UX / Product Design</p>
+</footer>
+
+<script>
+  // Progress bar
+  const progressBar = document.getElementById('progressBar');
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    progressBar.style.width = progress + '%';
+    updateActiveDot();
+  });
+
+  // Section dot navigation
+  const sections = [
+    document.getElementById('section-1'),
+    document.getElementById('section-2'),
+    document.getElementById('section-3'),
+    document.getElementById('section-4'),
+  ];
+
+  const dots = document.querySelectorAll('.section-dot');
+
+  function updateActiveDot() {
+    const scrollMid = window.scrollY + window.innerHeight / 2;
+    let activeIdx = 0;
+    sections.forEach((sec, i) => {
+      if (sec && sec.offsetTop <= scrollMid) {
+        activeIdx = i;
+      }
+    });
+    dots.forEach((d, i) => {
+      d.classList.toggle('active', i === activeIdx);
+    });
+  }
+
+  function scrollToSection(num) {
+    const sec = document.getElementById('section-' + num);
+    if (sec) {
+      sec.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Update nav link highlighting
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    const scrollMid = window.scrollY + window.innerHeight / 2;
+    let activeIdx = 0;
+    sections.forEach((sec, i) => {
+      if (sec && sec.offsetTop <= scrollMid) {
+        activeIdx = i;
+      }
+    });
+    navLinks.forEach((link, i) => {
+      link.style.color = i === activeIdx ? 'var(--blue)' : 'var(--gray)';
+      link.style.background = i === activeIdx ? 'rgba(62, 85, 249, 0.08)' : '';
+    });
+  });
+</script>
+
+</body>
+</html>
