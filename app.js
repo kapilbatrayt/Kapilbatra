@@ -472,21 +472,83 @@ const WorkImageSlider = () => React.createElement("section", {
     className: "text-xs sm:text-sm text-white/80 line-clamp-2 mt-1.5 font-medium hidden sm:block"
   }, project.subtitle))))
 }));
+const HERO_FAN = [{
+  img: './images/Certinia.webp',
+  ty: 22,
+  s: 0.8
+}, {
+  img: './images/claude-logo.webp',
+  ty: 10,
+  s: 0.88
+}, {
+  img: './images/w-motorpedia.webp',
+  ty: 0,
+  s: 0.95
+}, {
+  img: './images/about.webp',
+  ty: -8,
+  s: 1.05
+}, {
+  img: './images/w-flashcraft.webp',
+  ty: 0,
+  s: 0.95
+}, {
+  img: './images/wayo.webp',
+  ty: 10,
+  s: 0.88
+}, {
+  img: './images/w-mentorclan.webp',
+  ty: 22,
+  s: 0.8
+}];
+const HeroFan = () => React.createElement("ul", {
+  className: "hero-fan",
+  "aria-hidden": "true"
+}, HERO_FAN.map(({
+  img,
+  ty,
+  s
+}, i) => React.createElement("li", {
+  key: img,
+  className: "hero-fan-item",
+  style: {
+    '--z': i < 4 ? i : 7 - i,
+    animation: `fadeSlideIn 0.8s ease ${0.1 + i * 0.08}s both`
+  }
+}, React.createElement("div", {
+  className: "hero-fan-card",
+  style: {
+    '--ty': `${ty}px`,
+    '--s': s
+  }
+}, React.createElement("img", {
+  src: img,
+  alt: "",
+  width: "300",
+  height: "400",
+  decoding: "async",
+  draggable: false,
+  className: "w-full h-full object-cover block"
+})))));
 const HomePage = ({
   onOpenContact
 }) => {
   const heroRef = useParallax(0.05);
   return React.createElement("main", null, React.createElement("header", {
     ref: heroRef,
-    className: "px-6 md:px-12 pt-12 pb-16"
-  }, React.createElement(FadeUp, {
-    delay: 0.1,
-    className: "w-full flex flex-col items-center justify-center"
+    className: "px-6 md:px-12 pt-10 md:pt-16 pb-12 md:pb-16"
+  }, React.createElement(HeroFan, null), React.createElement(FadeUp, {
+    delay: 0.3,
+    className: "w-full flex flex-col items-center text-center mt-14 md:mt-20"
   }, React.createElement("h1", {
-    className: "text-[9.5vw] md:text-[9.5vw] lg:text-[7.7rem] font-black uppercase tracking-tighter text-center leading-[0.85] font-syne select-none"
-  }, "Kapil Batra"), React.createElement("h2", {
-    className: "text-[4.35vw] md:text-[4.35vw] lg:text-[3.55rem] font-bold tracking-tight text-center mt-4 leading-[1] font-syne select-none text-[#1a1a1a]"
-  }, "AI User Experience Designer"))), React.createElement("section", {
+    className: "text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter leading-[1.05] font-syne"
+  }, "Hi, I'm Kapil"), React.createElement("p", {
+    className: "mt-5 md:mt-6 max-w-2xl text-lg md:text-2xl font-medium tracking-tight leading-snug text-black/50"
+  }, "I'm an ", React.createElement("span", {
+    className: "text-[#1a1a1a]"
+  }, "AI User Experience Designer"), " & ", React.createElement("span", {
+    className: "text-[#1a1a1a]"
+  }, "Product Designer"), " with 5+ years of experience in UX, design systems and digital products."))), React.createElement("section", {
     className: "px-6 md:px-12 max-w-7xl mx-auto w-full mb-24 relative z-10"
   }, React.createElement("div", {
     className: "grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start pt-16 border-t border-black/10"

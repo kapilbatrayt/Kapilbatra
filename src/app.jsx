@@ -374,19 +374,56 @@ const WorkImageSlider = () => (
     </section>
 );
 
+// Skewed, overlapping fan of work thumbnails that opens the homepage.
+// `ty` lifts the card, `s` scales it so the middle of the fan reads as the focal point.
+const HERO_FAN = [
+    { img: './images/Certinia.webp', ty: 22, s: 0.8 },
+    { img: './images/claude-logo.webp', ty: 10, s: 0.88 },
+    { img: './images/w-motorpedia.webp', ty: 0, s: 0.95 },
+    { img: './images/about.webp', ty: -8, s: 1.05 },
+    { img: './images/w-flashcraft.webp', ty: 0, s: 0.95 },
+    { img: './images/wayo.webp', ty: 10, s: 0.88 },
+    { img: './images/w-mentorclan.webp', ty: 22, s: 0.8 },
+];
+
+const HeroFan = () => (
+    <ul className="hero-fan" aria-hidden="true">
+        {HERO_FAN.map(({ img, ty, s }, i) => (
+            <li
+                key={img}
+                className="hero-fan-item"
+                style={{ '--z': i < 4 ? i : 7 - i, animation: `fadeSlideIn 0.8s ease ${0.1 + i * 0.08}s both` }}
+            >
+                <div className="hero-fan-card" style={{ '--ty': `${ty}px`, '--s': s }}>
+                    <img
+                        src={img}
+                        alt=""
+                        width="300"
+                        height="400"
+                        decoding="async"
+                        draggable={false}
+                        className="w-full h-full object-cover block"
+                    />
+                </div>
+            </li>
+        ))}
+    </ul>
+);
+
 const HomePage = ({ onOpenContact }) => {
     const heroRef = useParallax(0.05);
     return (
         <main>
-            {/* Hero Heading with FadeUp */}
-            <header ref={heroRef} className="px-6 md:px-12 pt-12 pb-16">
-                <FadeUp delay={0.1} className="w-full flex flex-col items-center justify-center">
-                    <h1 className="text-[9.5vw] md:text-[9.5vw] lg:text-[7.7rem] font-black uppercase tracking-tighter text-center leading-[0.85] font-syne select-none">
-                        Kapil Batra
+            {/* Hero: photo fan + intro */}
+            <header ref={heroRef} className="px-6 md:px-12 pt-10 md:pt-16 pb-12 md:pb-16">
+                <HeroFan />
+                <FadeUp delay={0.3} className="w-full flex flex-col items-center text-center mt-14 md:mt-20">
+                    <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter leading-[1.05] font-syne">
+                        Hi, I'm Kapil
                     </h1>
-                    <h2 className="text-[4.35vw] md:text-[4.35vw] lg:text-[3.55rem] font-bold tracking-tight text-center mt-4 leading-[1] font-syne select-none text-[#1a1a1a]">
-                        AI User Experience Designer
-                    </h2>
+                    <p className="mt-5 md:mt-6 max-w-2xl text-lg md:text-2xl font-medium tracking-tight leading-snug text-black/50">
+                        I'm an <span className="text-[#1a1a1a]">AI User Experience Designer</span> &amp; <span className="text-[#1a1a1a]">Product Designer</span> with 5+ years of experience in UX, design systems and digital products.
+                    </p>
                 </FadeUp>
             </header>
 
