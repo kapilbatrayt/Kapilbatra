@@ -45,6 +45,47 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Hero photo fan: overlapping, skewed cards (outer <li> animates in, inner card holds the 3D transform) */
+.hero-fan {
+  --w: clamp(56px, 14vw, 168px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.hero-fan-item {
+  position: relative;
+  z-index: var(--z);
+  flex-shrink: 0;
+  width: var(--w);
+  aspect-ratio: 3 / 4;
+  margin-left: calc(var(--w) * -0.2);
+}
+.hero-fan-item:first-child { margin-left: 0; }
+.hero-fan-item:hover { z-index: 20; }
+.hero-fan-card {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #e5e5e5;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.35);
+  transform: perspective(1000px) translateY(var(--ty)) scale(var(--s)) rotateY(-22deg) skewY(-6deg);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+.hero-fan-item:hover .hero-fan-card {
+  transform: perspective(1000px) translateY(calc(var(--ty) - 14px)) scale(calc(var(--s) * 1.04)) rotateY(0deg) skewY(0deg);
+  box-shadow: 0 28px 50px -18px rgba(0, 0, 0, 0.45);
+}
+@media (max-width: 639px) {
+  .hero-fan { --w: 22vw; }
+  .hero-fan-item:first-child,
+  .hero-fan-item:last-child { display: none; }
+  .hero-fan-item:nth-child(2) { margin-left: 0; }
+}
+
 /* Avatar */
 .hero-avatar {
   animation: avatarGlow 3.5s ease-in-out infinite;
