@@ -219,7 +219,7 @@ const CASE_STUDIES = [{
   subtitle: 'Boosting student engagement through better UX and visual clarity.',
   bg: 'bg-[#3C5BFF]',
   img: './images/w-studentcircus.svg',
-  link: './Student%20Circus%20Case%20study/case_study.html'
+  link: 'https://www.behance.net/gallery/234413029/Student-Circus-A-UX-case-study'
 }, {
   id: '3',
   name: 'mentorclan',
