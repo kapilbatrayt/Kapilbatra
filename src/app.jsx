@@ -90,7 +90,6 @@ const NAV_LINKS = [
     { label: 'Home', href: '#home' },
     { label: 'Work', href: '#work' },
     { label: 'About', href: '#about' },
-    { label: 'Extra-curricular', href: '#extra-curricular' },
     { label: 'Contact', href: '#contact' },
 ];
 
@@ -374,200 +373,6 @@ const WorkImageSlider = () => (
         />
     </section>
 );
-
-// -------------------------------------------------------------
-// INSTAGRAM REELS DATA & SLIDER
-// -------------------------------------------------------------
-// Note: Update the reel items below with your actual Instagram links & details
-const INSTAGRAM_REELS = [
-    {
-        id: 'reel-1',
-        title: 'Design Workflow & AI Tools',
-        caption: 'How I use NotebookLM & Claude in my daily UX design process.',
-        views: '42.5K',
-        likes: '3.8K',
-        tag: 'UX Process',
-        img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80',
-        link: 'https://www.instagram.com/kyayaarbatra/'
-    },
-    {
-        id: 'reel-2',
-        title: 'Micro-Interactions & Motion',
-        caption: 'Exploring subtle micro-animations that elevate user delight.',
-        views: '68.2K',
-        likes: '5.4K',
-        tag: 'Motion Design',
-        img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80',
-        link: 'https://www.instagram.com/kyayaarbatra/'
-    },
-    {
-        id: 'reel-3',
-        title: 'App UX Breakdown',
-        caption: 'Deconstructing what makes modern mobile UI clean and accessible.',
-        views: '54.9K',
-        likes: '4.1K',
-        tag: 'UX Audit',
-        img: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=600&q=80',
-        link: 'https://www.instagram.com/kyayaarbatra/'
-    },
-    {
-        id: 'reel-4',
-        title: 'Behind the Scenes: Video Editing',
-        caption: 'Pacing, color grading, and timing visual stories.',
-        views: '39.7K',
-        likes: '2.9K',
-        tag: 'Video Editing',
-        img: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80',
-        link: 'https://www.instagram.com/kyayaarbatra/'
-    },
-    {
-        id: 'reel-5',
-        title: 'Life Outside Design',
-        caption: 'Capturing moments, travel, and everyday design inspirations.',
-        views: '31.4K',
-        likes: '2.5K',
-        tag: 'Vlog & Life',
-        img: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80',
-        link: 'https://www.instagram.com/kyayaarbatra/'
-    }
-];
-
-const ReelsImageSlider = () => (
-    <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden border-y border-black/10 bg-[#111111] text-white my-16 md:my-24 py-12 md:py-16 select-none">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between mb-10">
-            <div className="flex items-center gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-pink-500 animate-pulse inline-block" aria-hidden="true" />
-                <h2 className="text-xs md:text-sm font-bold text-white/70 tracking-widest uppercase font-syne">
-                    // Instagram Reels Showcase
-                </h2>
-            </div>
-            <span className="text-xs text-white/50 hidden md:inline-block font-mono">
-                Swipe or drag to explore reels
-            </span>
-        </div>
-        <Carousel
-            label="Instagram reels"
-            items={INSTAGRAM_REELS}
-            gap={28}
-            stageClass="shadow-2xl"
-            sizes={{
-                lg: [{ w: 300, h: 533 }, { w: 230, h: 408 }, { w: 180, h: 320 }],
-                md: [{ w: 250, h: 444 }, { w: 190, h: 337 }, { w: 150, h: 266 }],
-                sm: [{ w: 210, h: 373 }, { w: 160, h: 284 }, { w: 125, h: 222 }],
-            }}
-            opacities={[[1, 30], [0.75, 20], [0.45, 15], [0.2, 10]]}
-            cardStyle={(isCenter) => ({
-                borderRadius: '16px',
-                backgroundColor: '#1a1a1a',
-                border: isCenter ? '2px solid rgba(255, 255, 255, 0.3)' : '1px solid rgba(255, 255, 255, 0.1)',
-            })}
-            onOpen={(reel) => window.open(reel.link, '_blank', 'noopener,noreferrer')}
-            renderCard={(reel, i, isCenter) => (
-                <>
-                    <img
-                        src={reel.img}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        draggable={false}
-                        className="w-full h-full object-cover block transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
-                    <div className="absolute top-3 left-3 right-3 flex justify-between items-center z-10">
-                        <span className="bg-black/60 backdrop-blur-md text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full text-white/90 border border-white/10 flex items-center gap-1.5 font-syne">
-                            <Instagram size={12} className="text-pink-400" />
-                            {reel.tag}
-                        </span>
-                        {reel.views && (
-                            <span className="bg-black/60 backdrop-blur-md text-[10px] font-mono px-2 py-0.5 rounded-full text-white/70 border border-white/10">
-                                {reel.views} views
-                            </span>
-                        )}
-                    </div>
-                    <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isCenter ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}`}>
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/25 backdrop-blur-md text-white flex items-center justify-center border border-white/40 shadow-xl group-hover:scale-110 transition-transform duration-300">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                <polygon points="5 3 19 12 5 21 5 3" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent flex flex-col justify-end p-4 sm:p-5 text-white">
-                        <span className="text-[11px] font-bold text-pink-400 font-syne mb-1.5">@kyayaarbatra</span>
-                        <h3 className="text-sm sm:text-base md:text-lg font-bold line-clamp-2 leading-tight font-syne text-white">{reel.title}</h3>
-                        <p className="text-[11px] sm:text-xs text-white/80 line-clamp-2 mt-1 font-medium hidden sm:block">{reel.caption}</p>
-                        <div className="mt-3 pt-2 border-t border-white/10 text-[11px] font-semibold text-white/90">
-                            <span className="inline-flex items-center gap-1 group-hover:text-pink-400 transition-colors">
-                                Watch Reel <ArrowUpRight size={14} />
-                            </span>
-                        </div>
-                    </div>
-                </>
-            )}
-        />
-    </section>
-);
-
-const ExtracurricularPage = () => {
-    const highlights = [
-        { title: 'Video Editing & Visual FX', desc: 'Crafting engaging cuts, smooth motion graphics, color grading, and visual storytelling.' },
-        { title: 'Instagram Reels & Content Creation', desc: 'Creating bite-sized design breakdowns, UX audits, productivity insights, and tech reviews.' },
-        { title: 'AI & Creative Workflows', desc: 'Leveraging cutting-edge generative tools to brainstorm, rapidly prototype, and streamline workflows.' },
-        { title: 'Community & Beyond', desc: 'Sharing design learnings, inspiring upcoming creators, and capturing everyday life & travel snippets.' }
-    ];
-
-    return (
-        <main className="bg-transparent min-h-screen">
-            {/* Section 1: Header & Narrative Description */}
-            <div className="px-6 md:px-12 pt-8 pb-12">
-                <Header
-                    title="Extra-Curricular"
-                    subtitle="Exploring storytelling, content creation, visual arts, and life beyond the screen."
-                />
-
-                <section className="max-w-7xl mx-auto mt-8 border-t border-black/10 pt-12 md:pt-16">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                        {/* Left Narrative */}
-                        <FadeUp delay={0.1} className="lg:col-span-7 flex flex-col gap-6">
-                            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#1a1a1a] font-syne">
-                                Creative Pursuits & Visual Experiments
-                            </h2>
-                            <p className="text-black/80 leading-relaxed text-base md:text-lg">
-                                Beyond digital product and UX design, I spend time creating visual content, editing videos, and breaking down user experiences through Instagram Reels and short-form storytelling.
-                            </p>
-                            <p className="text-black/80 leading-relaxed text-base md:text-lg">
-                                Whether it's dissecting micro-interactions, showcasing design workflows with AI tools like Claude & NotebookLM, or documenting everyday creative inspirations, I love communicating ideas through dynamic motion and engaging visuals.
-                            </p>
-
-                            {/* Category Tags */}
-                            <div className="flex flex-wrap gap-2.5 pt-4">
-                                {['Instagram Reels', 'Video Editing', 'UX Breakdowns', 'AI Workflows', 'Content Creation', 'Visual Storytelling'].map((tag) => (
-                                    <span key={tag} className="px-4 py-2 bg-black/5 hover:bg-black hover:text-white transition-colors duration-200 border border-black/10 rounded-full text-xs font-semibold tracking-wide text-black/80 font-syne">
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                        </FadeUp>
-
-                        {/* Right Highlights Grid */}
-                        <FadeUp delay={0.2} className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-                            {highlights.map((h, i) => (
-                                <div key={i} className="p-6 bg-white border border-black/10 shadow-sm flex flex-col justify-between hover:border-black/30 transition-colors">
-                                    <span className="text-xs font-bold text-black/40 font-syne uppercase tracking-wider mb-2">0{i + 1} //</span>
-                                    <h3 className="text-lg font-bold text-[#1a1a1a] font-syne mb-2">{h.title}</h3>
-                                    <p className="text-sm text-black/70 leading-relaxed">{h.desc}</p>
-                                </div>
-                            ))}
-                        </FadeUp>
-                    </div>
-                </section>
-            </div>
-
-            {/* Section 2: Instagram Reels Carousel Slider */}
-            <FadeUp delay={0.2}>
-                <ReelsImageSlider />
-            </FadeUp>
-        </main>
-    );
-};
 
 const HomePage = ({ onOpenContact }) => {
     const heroRef = useParallax(0.05);
@@ -1188,12 +993,11 @@ const ROUTES = {
     '#home': 'Kapil Batra - AI User Experience Designer & Product Designer',
     '#work': 'Work | Kapil Batra',
     '#about': 'About | Kapil Batra',
-    '#extra-curricular': 'Extra-curricular | Kapil Batra',
     '#contact': 'Contact | Kapil Batra',
 };
 
 const normalizeRoute = (hash) => {
-    const route = hash === '#extracurricular' ? '#extra-curricular' : hash || '#home';
+    const route = hash || '#home';
     return route in ROUTES ? route : '#home';
 };
 
@@ -1306,7 +1110,7 @@ function App() {
         };
     }, []);
 
-    const breadcrumb = { '#work': 'Work', '#about': 'About', '#extra-curricular': 'Extra-curricular', '#contact': 'Contact' }[currentRoute];
+    const breadcrumb = { '#work': 'Work', '#about': 'About', '#contact': 'Contact' }[currentRoute];
 
     return (
         <div ref={siteRef} className="bg-[#f3f3f3] text-[#1a1a1a] min-h-screen font-sans selection:bg-[#1a1a1a] selection:text-white relative flex flex-col justify-between">
@@ -1348,15 +1152,13 @@ function App() {
                     <WorkPage />
                 ) : currentRoute === '#about' ? (
                     <AboutPage />
-                ) : currentRoute === '#extra-curricular' ? (
-                    <ExtracurricularPage />
                 ) : currentRoute === '#contact' ? (
                     <ContactPage />
                 ) : (
                     <HomePage onOpenContact={openContact} />
                 )}
 
-                <Footer hasTopMargin={['#home', '#work', '#extra-curricular'].includes(currentRoute)} onOpenContact={openContact} />
+                <Footer hasTopMargin={['#home', '#work'].includes(currentRoute)} onOpenContact={openContact} />
 
                 <MenuOverlay isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
 
