@@ -1,46 +1,1050 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kapil Batra - AI User Experience Designer & Product Designer</title>
-    <meta name="description" content="Kapil Batra is an AI User Experience Designer and Product Designer based in Jaipur, with 5+ years of experience in UX, design systems and digital product design.">
-    <meta name="author" content="Kapil Batra">
-    <meta name="theme-color" content="#f3f3f3">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kapil Batra — AI UX & Product Designer</title>
+<meta name="description" content="Kapil Batra is an AI User Experience Designer and Product Designer based in Jaipur.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Newsreader:opsz,wght@6..72,300;6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0b0b0b;
+    --muted: #8a8a8a;
+    --tab: rgba(237, 237, 237, .5);
+    --grotesk: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+    --serif: "Newsreader", "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #fff; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  body { font-family: var(--serif); overflow-x: hidden; }
+  body.lock { overflow: hidden; }
+  a { color: inherit; text-decoration: none; }
+  .g { font-family: var(--grotesk); font-weight: 500; letter-spacing: -.01em; }
+  .s { font-family: var(--serif); font-weight: 400; }
+  .ov { overflow: hidden; display: block; }
+  .ov > * { display: block; }
 
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Kapil Batra - AI User Experience Designer & Product Designer">
-    <meta property="og:description" content="Case studies, experience and creative work from Kapil Batra, AI UX & Product Designer.">
-    <meta property="og:image" content="./images/about.webp">
-    <meta name="twitter:card" content="summary_large_image">
+  /* ---------- NAV (tab pills) ---------- */
+  #nav { position: fixed; top: 8px; left: 0; width: 100%; z-index: 9999; display: flex; justify-content: center; pointer-events: none; font-size: 12px; transform: translateY(-250%); }
+  #nav .row { display: flex; align-items: center; gap: 14px; }
+  #nav .logo { font-family: var(--grotesk); font-weight: 600; font-size: 14px; letter-spacing: -.02em; cursor: default; pointer-events: auto; }
+  #nav .tabs { display: flex; gap: 4px; }
+  .tab { position: relative; display: flex; align-items: flex-end; align-self: stretch; padding: 6px 7px; border-radius: 4px; overflow: hidden; background: var(--tab); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); pointer-events: auto; cursor: pointer; user-select: none; }
+  .tab .spacer { height: 9px; width: 0; }
+  .tab .label { position: absolute; top: 6px; white-space: nowrap; font-family: var(--serif); font-size: 15px; line-height: 110%; }
+  .tab sup { font-family: var(--grotesk); font-size: 11px; line-height: 140%; vertical-align: baseline; position: relative; top: -.5em; transform: translateY(2px); }
+  #sound { position: fixed; top: 8px; right: 10px; z-index: 9999; width: 26px; height: 26px; border-radius: 4px; background: var(--tab); backdrop-filter: blur(40px); border: 0; cursor: pointer; display: grid; place-items: center; }
+  #sound i { width: 6px; height: 6px; border-radius: 50%; background: var(--ink); transition: transform .45s cubic-bezier(.65,0,.35,1); }
+  #sound.on i { transform: scale(1.6); }
+  #sound.on i::after { content: ""; position: absolute; inset: 0; }
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231a1a1a'/%3E%3Ctext x='32' y='43' font-family='Arial' font-size='30' font-weight='800' text-anchor='middle' fill='white'%3Ekb.%3C/text%3E%3C/svg%3E">
+  /* ---------- PAGES ---------- */
+  .page { display: none; }
+  .page.active { display: block; }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  /* ---------- CREATIVE SPACE ---------- */
+  #home { position: fixed; inset: 0; height: 100dvh; overflow: hidden; background: #fff; }
+  #stage { position: absolute; inset: 0; touch-action: none; }
+  #stage canvas { display: block; width: 100%; height: 100%; }
+  #center-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-family: var(--grotesk); font-weight: 600; font-size: 15px; letter-spacing: -.02em; display: flex; gap: .28em; pointer-events: none; }
+  #center-logo span { display: inline-block; }
+  #side-words { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 9%; pointer-events: none; z-index: 5; }
+  #side-words > span { display: flex; gap: .3em; font-size: 14px; line-height: 1.4; }
+  #side-words .w { display: inline-block; overflow: hidden; }
+  #side-words .w > span { display: inline-block; opacity: 0; }
+  #caption { position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); width: 100%; z-index: 6; }
+  .cap { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; width: 100%; }
+  .cap .para-wrap { height: 0; overflow: hidden; max-width: 470px; width: calc(100% - 32px); }
+  .cap .para { margin-bottom: 40px; font-family: var(--serif); font-size: 14px; line-height: 1.3; text-align: center; }
+  .cap .para .ov > span { display: block; }
+  .cap .row { display: flex; gap: 8px; align-items: flex-end; white-space: nowrap; }
+  .cap h3 { font-family: var(--grotesk); font-weight: 500; font-size: 12px; line-height: 140%; }
+  .cap p.sub { font-family: var(--serif); font-size: 13px; line-height: 1.4; }
+  #counter { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); overflow: hidden; pointer-events: none; z-index: 50; }
+  #counter p { font-family: var(--serif); font-size: 16px; line-height: 1; visibility: hidden; }
+  #cursor { position: fixed; top: 32px; left: 32px; z-index: 2150; pointer-events: none; font-family: var(--grotesk); font-weight: 500; font-size: 13px; line-height: 1.2; color: #fff; mix-blend-mode: difference; opacity: 0; white-space: nowrap; will-change: transform; }
 
-    <link rel="stylesheet" href="output.css">
+  /* ---------- PROJECTS ---------- */
+  #projects { padding: 0 8px 120px; }
+  .p-head { height: 52vh; min-height: 340px; display: flex; align-items: center; align-content: center; justify-content: center; text-align: center; font-size: 15px; gap: .3em; flex-wrap: wrap; padding: 0 16px; }
+  .p-head .w { display: inline-block; overflow: hidden; vertical-align: bottom; }
+  .p-head .w > span { display: inline-block; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 8px; row-gap: 56px; }
+  .card { display: block; cursor: pointer; }
+  .card .media { position: relative; aspect-ratio: 4 / 4.85; overflow: hidden; background: #f3f3f3; transform-origin: 50% 0; will-change: transform; }
+  .card .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s cubic-bezier(.16,1,.3,1); }
+  .card:hover .media img { transform: scale(1.045); }
+  .chip { position: absolute; top: 8px; left: 8px; z-index: 2; font-family: var(--grotesk); font-weight: 500; font-size: 11px; padding: 4px 6px; border-radius: 3px; background: rgba(255,255,255,.75); backdrop-filter: blur(20px); }
+  .card .meta { padding-top: 10px; }
+  .card h2 { font-family: var(--grotesk); font-weight: 500; font-size: 12px; line-height: 1.4; }
+  .card p { font-family: var(--serif); font-size: 13px; line-height: 1.4; }
+
+  /* ---------- ABOUT ---------- */
+  #about { position: relative; padding-bottom: 30vh; }
+  .a-hero { height: 100vh; min-height: 560px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 46px; padding: 0 16px; }
+  .a-name { display: flex; align-items: center; justify-content: center; gap: clamp(18px, 3vw, 48px); }
+  .a-name .nm { font-family: var(--serif); font-weight: 300; font-size: clamp(54px, 10vw, 168px); line-height: 1; letter-spacing: -.03em; }
+  .a-photo { width: clamp(170px, 19vw, 300px); aspect-ratio: 3 / 4; overflow: hidden; border-radius: 3px; background: #eee; }
+  .a-photo img { width: 100%; height: 100%; object-fit: cover; display: block; will-change: transform; }
+  .a-sub { max-width: 470px; font-family: var(--serif); font-size: 17px; line-height: 1.35; }
+  .a-sub > span { display: block; }
+  .a-hero .now { font-size: 13px; }
+  .zz { position: relative; width: 100%; margin: 0 auto; padding-top: 18vh; }
+  .blk { position: relative; width: max-content; max-width: 90vw; margin-bottom: 18vh; }
+  .blk.l { margin-left: 33%; }
+  .blk.r { margin-left: 51%; }
+  .blk.rt { margin-left: 22%; text-align: right; }
+  .blk.c { margin-left: auto; margin-right: auto; text-align: center; font-size: 17px; }
+  .blk.c ul { font-size: 18px; line-height: 1.6; }
+  .blk h4 { font-family: var(--grotesk); font-weight: 500; font-size: 12px; margin-bottom: 40px; }
+  .blk ul { list-style: none; font-family: var(--serif); font-size: 15px; line-height: 1.45; }
+  .blk li a:hover { opacity: .5; }
+  .blk .dim { color: var(--muted); }
+  .chap { display: flex; align-items: center; justify-content: center; gap: 70px; padding: 22vh 0 16vh; }
+  .chap .g { font-size: 13px; width: 90px; }
+  .chap .g:first-child { text-align: right; }
+  .chap .num { font-family: var(--serif); font-weight: 300; font-size: 64px; line-height: 1; }
+  .paras { display: grid; grid-template-columns: 1fr 1fr; column-gap: 26px; width: min(820px, 92vw); margin: 0 auto; font-family: var(--serif); font-size: 16px; line-height: 1.32; }
+  .paras .pa { text-align: right; justify-self: end; width: 300px; }
+  .paras .pb { margin-top: 70px; width: 330px; }
+  .paras .pa .g, .paras .pb .g { font-size: 12px; }
+  .ln { display: block; overflow: hidden; }
+  .ln > span { display: block; }
+  .a-hero .now { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+  .a-foot { text-align: center; padding-top: 26vh; font-size: 13px; }
+  .svc { display: grid; grid-template-columns: 1fr 1fr; column-gap: 26px; row-gap: 12vh; width: min(820px, 92vw); margin: 0 auto; }
+  .svc .it { width: 330px; }
+  .svc .it:nth-child(odd) { justify-self: end; text-align: right; }
+  .svc .it:nth-child(even) { margin-top: 12vh; }
+  .svc h4, .quote h4, .role h4 { font-family: var(--grotesk); font-weight: 500; font-size: 12px; margin-bottom: 18px; }
+  .svc p, .quote p { font-family: var(--serif); font-size: 16px; line-height: 1.32; }
+  .role { display: grid; grid-template-columns: 1fr 1fr; column-gap: 26px; width: min(900px, 92vw); margin: 0 auto 16vh; }
+  .role .meta { justify-self: end; text-align: right; width: 300px; }
+  .role .meta .t { font-family: var(--serif); font-size: 22px; line-height: 1.15; margin-bottom: 8px; }
+  .role .meta .c { font-size: 12px; line-height: 1.5; }
+  .role .meta .d { font-size: 12px; color: var(--muted); margin-bottom: 26px; }
+  .role .meta ul { list-style: none; font-family: var(--serif); font-size: 14px; line-height: 1.45; color: var(--muted); }
+  .role .pts { width: 360px; font-family: var(--serif); font-size: 15px; line-height: 1.32; }
+  .role .pts .pt { margin-bottom: 16px; }
+  .role .pts .pt::before { content: ""; }
+  .quotes { display: grid; grid-template-columns: 1fr 1fr; column-gap: 26px; row-gap: 10vh; width: min(820px, 92vw); margin: 0 auto; }
+  .quote { width: 340px; }
+  .quote:nth-child(odd) { justify-self: end; }
+  .quote:nth-child(even) { margin-top: 14vh; }
+  .quote p { margin-bottom: 18px; }
+  .quote .who { display: flex; align-items: center; gap: 10px; }
+  .quote .who img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; filter: grayscale(1); }
+  .quote .who b { display: block; font-family: var(--grotesk); font-weight: 500; font-size: 12px; }
+  .quote .who span { display: block; font-family: var(--serif); font-size: 13px; color: var(--muted); }
+  .btn-pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--grotesk); font-weight: 500; font-size: 12px; padding: 7px 10px; border-radius: 4px; background: var(--tab); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); cursor: pointer; transition: background .3s; }
+  .btn-pill:hover { background: rgba(220,220,220,.8); }
+  #resume { position: fixed; top: 8px; right: 42px; z-index: 9999; height: 26px; padding: 0 10px; background: var(--ink); color: #fff; }
+  #resume:hover { background: #333; }
+  #resume svg { width: 10px; height: 10px; }
+
+  /* ---------- CONTACT ---------- */
+  #contact.active { display: flex; }
+  #contact { min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 120px 16px 80px; text-align: center; }
+  #contact h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(40px, 6.4vw, 96px); line-height: 1.02; letter-spacing: -.02em; margin-bottom: 26px; }
+  #contact .lede { font-size: 13px; margin-bottom: 64px; }
+  .cform { width: min(470px, 100%); text-align: left; display: grid; gap: 26px; }
+  .cform label { display: block; font-family: var(--grotesk); font-weight: 500; font-size: 12px; margin-bottom: 6px; }
+  .cform input, .cform textarea { width: 100%; border: 0; border-bottom: 1px solid #d9d9d9; background: transparent; padding: 8px 0 10px; font-family: var(--serif); font-size: 18px; color: var(--ink); outline: none; border-radius: 0; resize: none; transition: border-color .3s; }
+  .cform input:focus, .cform textarea:focus { border-color: var(--ink); }
+  .cform input::placeholder, .cform textarea::placeholder { color: #b5b5b5; }
+  .cform .send { justify-self: center; margin-top: 10px; border: 0; padding: 10px 16px; font-size: 13px; }
+  .cform .send:disabled { opacity: .6; cursor: default; }
+  .cform .msg { text-align: center; font-family: var(--serif); font-size: 15px; min-height: 20px; }
+  .c-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 26px; margin-top: 80px; font-family: var(--serif); font-size: 15px; }
+  .c-links a:hover { opacity: .5; }
+  .c-resume { margin-top: 36px; }
+
+  @media (max-width: 1024px) {
+    #side-words { display: none; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    #projects { padding: 0 6px 100px; }
+    .grid { grid-template-columns: 1fr; row-gap: 40px; }
+    .blk.l, .blk.r, .blk.rt { margin-left: 16px; text-align: left; }
+    .chap { gap: 26px; }
+    .paras { grid-template-columns: 1fr; }
+    .paras .pa, .paras .pb { justify-self: start; text-align: left; width: auto; margin-top: 0; }
+    .paras .pb { margin-top: 24px; }
+    .paras .ln > span { padding-left: 0 !important; }
+    .a-name { flex-direction: column; gap: 14px; }
+    .a-photo { width: 58vw; }
+    .svc, .quotes, .role { grid-template-columns: 1fr; row-gap: 48px; }
+    .svc .it, .quote, .role .meta, .role .pts { width: auto; justify-self: start !important; text-align: left !important; margin-top: 0 !important; }
+    .role .meta { margin-bottom: 24px; }
+    .svc .ln > span, .role .ln > span { padding-left: 0 !important; padding-right: 0 !important; }
+  }
+  @media (max-width: 460px) { #resume .t { display: none; } #resume { padding: 0; width: 26px; justify-content: center; } }
+  @media (prefers-reduced-motion: reduce) {
+    .card .media img { transition: none; }
+  }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
+<body class="lock">
 
-<body>
-    <div id="root">
-        <div class="flex min-h-screen flex-col items-center justify-center gap-6 bg-[#f3f3f3] text-[#1a1a1a]">
-            <div class="text-5xl font-extrabold tracking-tighter" style="animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite">kb.</div>
-            <div class="relative h-[3px] w-40 overflow-hidden rounded bg-black/5">
-                <div class="absolute left-0 top-0 h-full w-2/5 rounded bg-[#1a1a1a]" style="animation: load 1s ease-in-out infinite"></div>
-            </div>
-            <noscript>This portfolio needs JavaScript. You can reach me at Kapilbatrayt@gmail.com.</noscript>
-        </div>
+<nav id="nav" aria-label="Main">
+  <div class="row">
+    <span class="logo">KB .D</span>
+    <div class="tabs">
+      <a class="tab" href="#/" data-route="/"><div class="spacer"></div><div class="label">Creative Space</div><sup>1</sup></a>
+      <a class="tab" href="#/projects" data-route="/projects"><div class="spacer"></div><div class="label">Projects</div><sup>2</sup></a>
+      <a class="tab" href="#/about" data-route="/about"><div class="spacer"></div><div class="label">About</div><sup>3</sup></a>
+      <a class="tab" href="#/contact" data-route="/contact"><div class="spacer"></div><div class="label">Contact</div><sup>4</sup></a>
     </div>
+  </div>
+</nav>
+<button id="sound" aria-label="Toggle sound"><i></i></button>
+<a id="resume" class="btn-pill" href="./Resume_Kapil%20Batra.pdf" download="Resume_Kapil_Batra.pdf" aria-label="Download resume"><span class="t">Download Resume</span><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 1v7M2 5.5 5 8.5 8 5.5"/></svg></a>
+<div id="cursor">Close</div>
+<div id="counter"><p>001</p></div>
 
-    <!-- React & Lucide icons (UMD). The app itself is precompiled to app.js by `npm run build`. -->
-    <script crossorigin="anonymous" src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
-    <script crossorigin="anonymous" src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-    <script>window.react = window.React; /* lucide-react's UMD build looks for window.react */</script>
-    <script crossorigin="anonymous" src="https://unpkg.com/lucide-react@0.292.0/dist/umd/lucide-react.js"></script>
-    <script src="app.js"></script>
+<!-- 1 · CREATIVE SPACE -->
+<section id="home" class="page" aria-label="Creative Space">
+  <div id="center-logo"><span>KB</span><span>.D</span></div>
+  <div id="stage"></div>
+  <div id="side-words">
+    <span class="g"><span class="w"><span>Kapil</span></span><span class="w"><span>Batra</span></span></span>
+    <span class="s"><span class="w"><span>AI&nbsp;User</span></span><span class="w"><span>Experience</span></span><span class="w"><span>Designer</span></span></span>
+  </div>
+  <div id="caption"></div>
+</section>
+
+<!-- 2 · PROJECTS -->
+<section id="projects" class="page" aria-label="Projects">
+  <h1 class="p-head">
+    <span class="g"><span class="w"><span>Recent</span></span> <span class="w"><span>projects</span></span> <span class="w"><span>focused</span></span> <span class="w"><span>on</span></span></span>
+    <span class="s"><span class="w"><span>clarity</span></span> <span class="w"><span>and</span></span> <span class="w"><span>usability.</span></span></span>
+  </h1>
+  <div class="grid" id="grid"></div>
+</section>
+
+<!-- 3 · ABOUT -->
+<section id="about" class="page" aria-label="About">
+  <div class="a-hero">
+    <div class="a-name">
+      <h1 class="nm ln"><span>Kapil</span></h1>
+      <figure class="a-photo" id="a-photo"><img src="./images/about.webp" alt="Kapil Batra" decoding="async"></figure>
+      <h1 class="nm ln"><span>Batra</span></h1>
+    </div>
+    <p class="a-sub ov"><span>As an AI User Experience Designer, I focus on producing top-notch and impactful digital experiences.</span></p>
+  </div>
+  <div class="zz" id="zz"></div>
+</section>
+
+<!-- 4 · CONTACT -->
+<section id="contact" class="page" aria-label="Contact">
+  <h1><span class="ln"><span>Let’s Start a</span></span><span class="ln"><span>Collaboration</span></span></h1>
+  <p class="lede g ov"><span>Drop me a message and I’ll get back to you soon.</span></p>
+  <form class="cform" id="cform">
+    <input type="hidden" name="_captcha" value="false">
+    <div class="f"><label for="c-name">Name</label><input id="c-name" name="name" type="text" autocomplete="name" required placeholder="John Doe"></div>
+    <div class="f"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required placeholder="john@example.com"></div>
+    <div class="f"><label for="c-msg">Message</label><textarea id="c-msg" name="message" rows="4" required placeholder="How can I help you?"></textarea></div>
+    <button class="btn-pill send" type="submit">Send Message</button>
+    <p class="msg" role="status" aria-live="polite"></p>
+  </form>
+  <div class="c-links">
+    <a href="mailto:Kapilbatrayt@gmail.com">Kapilbatrayt@gmail.com</a>
+    <a href="https://www.linkedin.com/in/kapil-batra" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://www.behance.net/kapilbatra1" target="_blank" rel="noopener">Behance</a>
+    <a href="https://www.instagram.com/kyayaarbatra/" target="_blank" rel="noopener">Instagram</a>
+  </div>
+  <a class="btn-pill c-resume" href="./Resume_Kapil%20Batra.pdf" download="Resume_Kapil_Batra.pdf">Download Resume <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 1v7M2 5.5 5 8.5 8 5.5"/></svg></a>
+</section>
+
+<script type="module">
+import * as THREE from 'three';
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+const IMG = './images/';
+const FC = './flashcraft-events-case-study/img/';
+
+const PROJECTS = [
+  { title: 'Certinia Work Planner', subtitle: 'UX Design', chip: 'Metacube', img: IMG + 'Certinia.webp', case: true,
+    link: 'https://www.figma.com/proto/JfGi78eKPW9wKChWmFG26p/Certinia-Case-Study?node-id=1-261&viewport=139%2C193%2C0.59&t=4W7j4V5OaKkKwtb3-1&scaling=scale-down-width&content-scaling=fixed&page-id=0%3A1',
+    paragraph: 'How I solved the problem of managing resources in work planner efficiently by implementing multi select.' },
+  { title: 'AI UX Process', subtitle: 'Process & AI', chip: 'Coming Soon', img: IMG + 'claude-logo.webp', case: false,
+    paragraph: 'How I use notebook llm and claude in my day to day ux process' },
+  { title: 'Wayo UX Audit', subtitle: 'UX Audit', img: IMG + 'wayo.webp', case: true,
+    link: 'https://www.figma.com/design/eiWofvVh2SpqKyYjXeVCXK/Wayo-UX-Audit?node-id=1-2&t=7uhmnzNLg5SCZtO8-1',
+    paragraph: 'Evaluating and improving the Wayo app experience.' },
+  { title: 'MotorPedia Platform', subtitle: 'End to End Digital Product Design', chip: 'Coming Soon', img: IMG + 'w-motorpedia.webp', case: false,
+    paragraph: 'Designing a Unified Dealer Platform for 10k Automotive Professionals' },
+  { title: 'Student Circus UX', subtitle: 'UX Design', img: IMG + 'w-studentcircus.svg', case: true,
+    link: 'https://www.behance.net/gallery/234413029/Student-Circus-A-UX-case-study',
+    paragraph: 'Boosting student engagement through better UX and visual clarity.' },
+  { title: 'Mentor Clan', subtitle: 'End to End Digital Product Design', img: IMG + 'w-mentorclan.webp', case: true,
+    link: 'https://www.behance.net/gallery/175789307/Mentorship-Platform-Design-UX-Case-Study',
+    paragraph: 'Creating meaningful connections through thoughtful community design.' },
+  { title: 'FlashCraft Entertainment', subtitle: 'UI Design', img: IMG + 'w-flashcraft.webp', case: true,
+    link: './flashcraft-events-case-study/index.html',
+    paragraph: 'Bringing event magic online with a bold, mobile-friendly experience.' },
+  { title: 'Sharpz Landing Page', subtitle: 'Visual Design', img: IMG + 'w-sharpz.webp', case: true,
+    link: 'https://www.behance.net/gallery/154341755/Sharpz-Figma-Webflow-Landing-Page',
+    paragraph: 'Clean, bold, and conversion-focused design for a modern product.' },
+  { title: 'Rawstream Identity', subtitle: 'Branding & Design', img: IMG + 'w-rawstream.webp', case: true,
+    link: 'https://www.figma.com/proto/deWzbWtpyFg8DHX0VVJiyZ/Case-studies?node-id=440-27&viewport=114%2C356%2C1.12&t=kOK5ulmJdabdoqDg-1&scaling=min-zoom&content-scaling=fixed&page-id=440%3A7',
+    paragraph: 'Crafting a sharp visual identity and a scroll-worthy digital home.' },
+];
+
+// the Creative Space sphere uses only the case-study covers
+const ITEMS = PROJECTS;
+
+/* =========================================================
+   SOUND (tiny WebAudio clicks, off by default)
+   ========================================================= */
+let actx = null, soundOn = false;
+const blip = (f = 900, d = .05, v = .05) => {
+  if (!soundOn) return;
+  actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = 'sine'; o.frequency.value = f;
+  g.gain.setValueAtTime(v, actx.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001, actx.currentTime + d);
+  o.connect(g).connect(actx.destination); o.start(); o.stop(actx.currentTime + d);
+};
+const sfx = { softClick: () => blip(700, .08, .06), softClick2: () => blip(520, .08, .05), hover: () => blip(1400, .03, .025), tick: () => blip(2200, .015, .02) };
+document.getElementById('sound').addEventListener('click', e => {
+  soundOn = !soundOn; e.currentTarget.classList.toggle('on', soundOn); sfx.softClick();
+});
+
+/* =========================================================
+   SHARED UI
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const counterP = $('#counter p');
+gsap.set(counterP, { yPercent: 100, visibility: 'visible' });
+const cursorEl = $('#cursor');
+gsap.set(cursorEl, { xPercent: -50, yPercent: -50, scale: .6 });
+const curX = gsap.quickTo(cursorEl, 'x', { duration: .5, ease: 'power3.out' });
+const curY = gsap.quickTo(cursorEl, 'y', { duration: .5, ease: 'power3.out' });
+window.addEventListener('pointermove', e => { if (e.pointerType !== 'touch') { curX(e.clientX); curY(e.clientY); } });
+const isDesk = () => innerWidth > 1024;
+const showCursor = (on, text) => {
+  if (text != null) cursorEl.textContent = text;
+  gsap.to(cursorEl, { opacity: on && isDesk() ? 1 : 0, scale: on ? 1 : .6, duration: .45, ease: 'power3.out', overwrite: 'auto' });
+};
+
+let navShown = false;
+const dropNav = () => {
+  if (navShown) return; navShown = true;
+  gsap.to('#nav', { yPercent: 0, y: 0, duration: 1.2, ease: 'power4.out' });
+};
+gsap.set('#nav', { yPercent: -250 });
+
+// counter preloader (001 → 100)
+const counter = { n: 1 };
+const paint = () => counterP.textContent = String(Math.max(1, Math.min(100, Math.round(counter.n)))).padStart(3, '0');
+const counterIn = () => gsap.fromTo(counterP, { yPercent: 100 }, { yPercent: 0, duration: .75, delay: .5, ease: 'power4.out' });
+const counterTo = (v, dur = .5) => gsap.to(counter, { n: v, duration: dur, ease: 'power1.out', onUpdate: paint, overwrite: true });
+const counterOut = () => gsap.to(counterP, { yPercent: -100, duration: .7, ease: 'power4.out', overwrite: true });
+
+/* ---- nav tab pills: active one opens to show its label ---- */
+const TABS = [...document.querySelectorAll('.tab')];
+const tabParts = TABS.map(t => ({ root: t, spacer: t.querySelector('.spacer'), text: t.querySelector('.label'), sup: t.querySelector('sup') }));
+const measureTabs = () => tabParts.forEach(p => p.width = Math.ceil(p.text.getBoundingClientRect().width) + 1);
+const setTabs = (idx, animate = true) => {
+  tabParts.forEach((p, i) => {
+    const on = i === idx;
+    const pad = on ? 12 : Math.max(0, (20 - p.sup.getBoundingClientRect().width) / 2);
+    const c = { duration: animate ? .6 : 0, ease: 'power4.out', overwrite: true };
+    gsap.to(p.spacer, { width: on ? p.width : 0, marginRight: on ? 3 : 0, ...c });
+    gsap.to(p.text, { left: on ? 12 : -(12 + p.width), ...c });
+    gsap.to(p.root, { paddingLeft: pad, paddingRight: pad, ...c });
+  });
+};
+
+/* =========================================================
+   1 · CREATIVE SPACE  (port of the original three.js choreography)
+   ========================================================= */
+const Home = (() => {
+  const wrap = $('#stage');
+  const coarse = matchMedia('(pointer: coarse)').matches;
+  const renderer = new THREE.WebGLRenderer({ antialias: !coarse, alpha: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  wrap.appendChild(renderer.domElement);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, 1, .1, 1000);
+  camera.position.z = 12;
+  let W = innerWidth, H = innerHeight;
+
+  const C = {
+    radius: 250, planeSize: 82, dragSpeed: .001, wheelSpeed: 2e-4, friction: .94, smoothing: .11,
+    autoSpeed: .001, spinTilt: 23, expandHeightVh: 70, expandPush: 1.8, expandFade: 0, expandDuration: .8, expandEase: 'power4.out',
+    logoOrbitRadius: 240, mobileCircleScale: .75, logoSize: 70, logoStartAngle: -90, logoStagger: .1, logoFadeDuration: 1,
+    revealDelay: 2, maxGateWait: 30, circleSpin: .5, fastSpinDelay: 1.3, fastSpinMult: 7.3, fastSpinRampDur: 1,
+    collapseDelay: .8, collapseDuration: 1.25, collapseStagger: .05, stackGap: 1.5, centerScale: 120,
+    explodeDelay: .2, explodeDuration: 1, explodeOvershoot: .1,
+  };
+  const visH = () => 2 * camera.position.z * Math.tan(camera.fov * Math.PI / 360);
+  const px = v => v * visH() / H;              // screen px -> world units at z=0
+  const sizeK = () => (W >= 1025 && W <= 1440 ? .8 : 1);
+  const circleK = () => (W <= 640 ? C.mobileCircleScale : 1);
+
+  const group = new THREE.Group(); scene.add(group);
+  const geo = new THREE.PlaneGeometry(1, 1);
+  const loader = new THREE.TextureLoader();
+  const N = ITEMS.length;
+  const fib = (i, n) => {
+    const r = 2 / n, y = i * r - 1 + r / 2, s = Math.sqrt(1 - y * y), phi = Math.PI * (3 - Math.sqrt(5)) * i;
+    return new THREE.Vector3(Math.cos(phi) * s, y, Math.sin(phi) * s);
+  };
+  // crop every texture to 3:4 like the original (tall screens keep their top)
+  const cover = (tex, w, h) => {
+    const r = w / h;
+    tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+    if (r > .75) { const t = .75 / r; tex.repeat.set(t, 1); tex.offset.set((1 - t) / 2, 0); }
+    else { const t = r / .75; tex.repeat.set(1, t); tex.offset.set(0, r < .5 ? 1 - t : (1 - t) / 2); }
+  };
+
+  const planes = [];
+  for (let i = 0; i < N; i++) {
+    const item = ITEMS[i % ITEMS.length];
+    const mat = new THREE.MeshBasicMaterial({ transparent: true, side: THREE.DoubleSide, depthWrite: false, opacity: 0, color: 0xffffff });
+    const mesh = new THREE.Mesh(geo, mat);
+    const p = { mesh, item, index: i, aspect: .75, orderly: fib(i, N), basePos: new THREE.Vector3(), baseScale: new THREE.Vector3(1, 1, 1),
+      expand: 0, collapse: 0, explode: 0, inCircle: false, loaded: false, s0x: .01, s0y: .01 };
+    loader.load(item.img, tex => {
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      const im = tex.image; cover(tex, im.naturalWidth || im.width, im.naturalHeight || im.height);
+      mat.map = tex; mat.needsUpdate = true; p.loaded = true;
+    }, undefined, () => { mat.color.set(0xeeeeee); p.loaded = true; });
+    planes.push(p); group.add(mesh);
+  }
+  const meshes = planes.map(p => p.mesh);
+
+  const setBaseScale = p => { const t = px(C.planeSize); p.baseScale.set(t * p.aspect, t, 1); };
+  const layout = () => {
+    C.planeSize = (W <= 640 ? 72 : 108) * sizeK();   // fewer images, so each one is a bit larger
+    C.centerScale = C.planeSize * 120 / 82;
+    const mobile = W <= 640;
+    const rm = mobile ? Math.max(0, ((W - 48) / 2) * (visH() * camera.aspect / W) - px(C.planeSize) / 2) : 0;
+    planes.forEach(p => {
+      const r = mobile ? rm : px(C.radius * sizeK());
+      p.basePos.copy(p.orderly).normalize().multiplyScalar(r);
+      setBaseScale(p);
+    });
+  };
+  const resize = () => {
+    W = innerWidth; H = innerHeight;
+    camera.aspect = W / H; camera.updateProjectionMatrix();
+    renderer.setSize(W, H, false);
+    layout();
+  };
+  resize();
+  addEventListener('resize', resize);
+
+  /* ---------- intro state ---------- */
+  let intro = true, collapsing = false, exploding = false, introDone = false;
+  let orbitAngle = 0;
+  const fast = { ramp: 0 };
+  let circle = [];
+  const circleCount = Math.min(10, N);
+  const tmp = new THREE.Vector3();
+  const orbitPos = (i, out) => {
+    const r = px(C.logoOrbitRadius) * circleK();
+    const a = (C.logoStartAngle + (360 / Math.max(1, circleCount)) * i) * Math.PI / 180 + orbitAngle;
+    out.set(Math.cos(a) * r, Math.sin(a) * r, 0);
+  };
+  const centerScale = p => { const t = px(C.centerScale); return { x: t * p.aspect, y: t }; };
+
+  const resetIntro = () => {
+    planes.forEach(p => {
+      p.inCircle = false; p.collapse = 0; p.explode = 0; p.expStartPos = null;
+      p.mesh.visible = true; p.mesh.material.opacity = 0; p.mesh.scale.set(.01, .01, 1); p.mesh.position.set(0, 0, 0); p.mesh.renderOrder = 0;
+    });
+    circle = planes.slice(0, circleCount);
+    circle.forEach((p, i) => { p.inCircle = true; orbitPos(i, p.mesh.position); });
+  };
+
+  const sideWords = () => [...document.querySelectorAll('#side-words .w > span')];
+  const sideIn = (delay = .5) => gsap.fromTo(sideWords(), { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .9, ease: 'power4.out', stagger: .07, delay, overwrite: true });
+  const sideOut = () => gsap.to(sideWords(), { yPercent: -100, opacity: 0, duration: .75, ease: 'power4.out', stagger: .07, overwrite: true });
+  const logoParts = () => [...document.querySelectorAll('#center-logo span')];
+
+  const timers = [];
+  const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+
+  const circleReady = () => circle.every(p => p.loaded);
+  const progress = () => Math.round(circle.filter(p => p.loaded).length / circle.length * 100);
+
+  const playIntro = () => {
+    resetIntro();
+    document.body.classList.add('lock');
+    gsap.set('#center-logo', { opacity: 1, color: '#0b0b0b' });
+    gsap.fromTo(logoParts(), { yPercent: 60, opacity: 0, filter: 'blur(6px)' }, { yPercent: 0, opacity: 1, filter: 'blur(0px)', duration: 1.1, ease: 'power3.out', stagger: .12 });
+    counter.n = 1; paint();
+    counterIn().eventCallback('onComplete', () => {
+      const iv = setInterval(() => { if (introDone || collapsing) return clearInterval(iv); counterTo(Math.min(99, Math.max(counter.n, progress()))); }, 100);
+    });
+    sideIn(.5);
+    later(() => {
+      if (circleReady()) return reveal();
+      const t0 = Date.now();
+      const iv = setInterval(() => { if (circleReady() || Date.now() - t0 > C.maxGateWait * 1000) { clearInterval(iv); reveal(); } }, 100);
+    }, C.revealDelay * 1000);
+  };
+
+  const reveal = () => {
+    counterTo(100).eventCallback('onComplete', () => gsap.to(counterP, { yPercent: -200, duration: .7, ease: 'power4.out' }));
+    circle.forEach((p, i) => {
+      orbitPos(i, p.mesh.position);
+      const s = px(C.logoSize) * circleK();
+      gsap.fromTo(p.mesh.material, { opacity: 0 }, { opacity: 1, duration: C.logoFadeDuration, ease: 'power3.out', delay: i * C.logoStagger });
+      gsap.fromTo(p.mesh.scale, { x: .01, y: .01 }, { x: s * p.aspect, y: s, duration: C.logoFadeDuration, ease: 'back.out(1.7)', delay: i * C.logoStagger, onStart: () => sfx.tick() });
+    });
+    const t = C.fastSpinDelay * 1000, r = t + C.collapseDelay * 1000;
+    const n = r + ((circleCount - 1) * C.collapseStagger + C.collapseDuration) * 1000 + C.explodeDelay * 1000;
+    later(() => gsap.to(fast, { ramp: 1, duration: C.fastSpinRampDur, ease: 'power2.in' }), t);
+    later(collapse, r);
+    later(explode, n);
+  };
+
+  const collapse = () => {
+    collapsing = true;
+    gsap.to('#center-logo', { opacity: 0, duration: .6 * C.collapseDuration, ease: 'power2.inOut' });
+    sideOut();
+    const gap = px(C.stackGap);
+    circle.forEach((p, i) => { p.stackZ = i * gap; p.mesh.renderOrder = 20 + i; });
+    circle.forEach((p, i) => gsap.to(p, { collapse: 1, duration: C.collapseDuration, ease: 'power2.inOut', delay: i * C.collapseStagger }));
+  };
+
+  const explode = () => {
+    exploding = true;
+    dropNav();
+    sfx.softClick2();
+    planes.forEach(p => {
+      setBaseScale(p);
+      p.expStartPos = p.mesh.position.clone();
+      p.expStartScale = { x: p.mesh.scale.x, y: p.mesh.scale.y };
+      if (!p.inCircle) {
+        p.expStartScale = centerScale(p);
+        p.expStartPos = new THREE.Vector3(0, 0, 0);
+        p.mesh.material.opacity = 1;
+      }
+      p.explode = 0; p.mesh.visible = true; p.mesh.renderOrder = 0;
+    });
+    let done = 0;
+    planes.forEach(p => gsap.to(p, { explode: 1, duration: C.explodeDuration, ease: 'power3.out',
+      onComplete: () => { if (++done === planes.length) finish(); } }));
+  };
+
+  const finish = () => {
+    intro = false; collapsing = false; exploding = false; introDone = true; fast.ramp = 0;
+    planes.forEach(p => { p.inCircle = false; p.mesh.material.opacity = 1; p.mesh.renderOrder = 0; p.mesh.position.copy(p.basePos); });
+    gsap.to('#center-logo', { opacity: 1, color: '#9a9a9a', duration: 1, ease: 'power2.out' });
+    gsap.set(logoParts(), { yPercent: 0, opacity: 1, filter: 'blur(0px)' });
+    document.body.classList.remove('lock');
+  };
+
+  // arriving from another tab: skip the circle, just burst out of one stacked image
+  const quickBurst = () => {
+    timers.forEach(clearTimeout); timers.length = 0;
+    resetIntro(); circle = []; planes.forEach(p => p.inCircle = false);
+    intro = true; collapsing = false;
+    gsap.set('#center-logo', { opacity: 0 });
+    explode();
+  };
+
+  /* ---------- interaction ---------- */
+  let e6 = 0, e7 = 0, e9 = 0, e8 = 0, te = 0, tt = 0, ta = 0, tl = 0, interacted = false;
+  const q = new THREE.Quaternion(), qInv = new THREE.Quaternion(), qTmp = new THREE.Quaternion();
+  const AX_Y = new THREE.Vector3(0, 1, 0), AX_X = new THREE.Vector3(1, 0, 0);
+  const tilt = new THREE.Vector3(Math.sin(C.spinTilt * Math.PI / 180), Math.cos(C.spinTilt * Math.PI / 180), 0).normalize();
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  const tN = new THREE.Vector3();
+  const ov = { reservedPx: 0, factor: 0 };
+
+  let expanded = null, hovered = null, overExpanded = false, overview = false;
+  let hoverTimer = null, hideTimer = null;
+
+  const pick = (x, y) => {
+    const r = renderer.domElement.getBoundingClientRect();
+    ndc.set(((x - r.left) / r.width) * 2 - 1, -((y - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    return ray;
+  };
+
+  /* caption (title + subtitle, optional overview paragraph) */
+  const capRoot = $('#caption');
+  let cap = null;
+  const showCaption = p => {
+    if (cap && cap.p === p) return;
+    hideCaption();
+    const el = document.createElement('div');
+    el.className = 'cap';
+    const words = p.item.paragraph.split(' ');
+    // split the paragraph into ~52-char lines so each line can rise on its own
+    const lines = []; let cur = '';
+    words.forEach(w => { if ((cur + ' ' + w).trim().length > 54) { lines.push(cur.trim()); cur = w; } else cur += ' ' + w; });
+    if (cur.trim()) lines.push(cur.trim());
+    el.innerHTML = `<div class="para-wrap"><div class="para">${lines.map(l => `<span class="ov"><span>${l}</span></span>`).join('')}</div></div>
+      <div class="row"><span class="ov"><h3>${p.item.title}</h3></span><span class="ov"><p class="sub">${p.item.subtitle}</p></span></div>`;
+    capRoot.appendChild(el);
+    cap = { el, p };
+    gsap.set(el.querySelectorAll('.para .ov > span'), { yPercent: 100, opacity: 0 });
+    gsap.fromTo(el.querySelectorAll('.row h3, .row .sub'), { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .9, ease: 'power4.out', stagger: .07 });
+  };
+  const hideCaption = () => {
+    if (!cap) return;
+    const { el } = cap; cap = null;
+    gsap.to(el.querySelectorAll('.row h3, .row .sub, .para .ov > span'), { yPercent: -100, opacity: 0, duration: .75, ease: 'power4.out', stagger: .07, onComplete: () => el.remove() });
+  };
+  const setOverview = on => {
+    overview = on;
+    if (!cap) return;
+    const wrapEl = cap.el.querySelector('.para-wrap'), lines = cap.el.querySelectorAll('.para .ov > span');
+    if (on) {
+      const from = wrapEl.offsetHeight; gsap.set(wrapEl, { height: 'auto' }); const to = wrapEl.offsetHeight;
+      ov.reservedPx = to + 40;
+      gsap.fromTo(wrapEl, { height: from }, { height: to, duration: .6, ease: 'power4.out' });
+      gsap.fromTo(lines, { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .9, ease: 'power4.out', stagger: .1, overwrite: true });
+      gsap.to(ov, { factor: 1, duration: .7, ease: 'power4.out' });
+    } else {
+      gsap.to(lines, { yPercent: 100, opacity: 0, duration: .4, ease: 'power4.out', stagger: .06, overwrite: true });
+      gsap.to(wrapEl, { height: 0, duration: .5, ease: 'power3.inOut' });
+      gsap.to(ov, { factor: 0, duration: .6, ease: 'power3.inOut' });
+    }
+    updateCursor();
+  };
+  const updateCursor = () => {
+    if (!expanded) return showCursor(false);
+    const text = overExpanded ? (expanded.item.case ? 'View Case' : (overview ? 'Close Overview' : 'Overview')) : 'Close';
+    showCursor(true, text);
+  };
+
+  const setHovered = p => {
+    if (expanded) return;
+    if (p === null) {
+      clearTimeout(hoverTimer);
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(hideCaption, 200);
+      return;
+    }
+    clearTimeout(hideTimer);
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(() => showCaption(p), 90);
+  };
+
+  const expandPlane = p => {
+    const t = { duration: C.expandDuration, ease: C.expandEase, overwrite: true };
+    if (expanded && expanded !== p) gsap.to(expanded, { expand: 0, ...t });
+    gsap.to(p, { expand: 1, ...t });
+    expanded = p; overExpanded = true;
+    clearTimeout(hoverTimer); clearTimeout(hideTimer);
+    showCaption(p);
+    sideIn(.15);
+    sfx.softClick();
+    updateCursor();
+  };
+  const closeExpanded = () => {
+    if (!expanded) return;
+    if (overview) setOverview(false);
+    gsap.to(expanded, { expand: 0, duration: C.expandDuration, ease: C.expandEase, overwrite: true });
+    expanded = null; overExpanded = false;
+    hideCaption(); sideOut(); sfx.softClick2();
+    showCursor(false);
+  };
+  const openCase = item => {
+    if (item.link) window.open(item.link, item.link.startsWith('http') ? '_blank' : '_self', 'noopener');
+  };
+
+  const el = renderer.domElement;
+  let dragging = false, lastX = 0, lastY = 0, downX = 0, downY = 0, dist = 0;
+  const pointers = new Map(); let pinch = 0;
+  el.addEventListener('pointerdown', e => {
+    if (intro) return;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2) { dragging = false; const [a, b] = [...pointers.values()]; pinch = Math.hypot(a.x - b.x, a.y - b.y); return; }
+    dragging = true; interacted = true;
+    lastX = downX = e.clientX; lastY = downY = e.clientY; dist = 0;
+    el.style.cursor = 'grabbing';
+  });
+  let hoverReq = false, hx = 0, hy = 0;
+  addEventListener('pointermove', e => {
+    if (!active || intro) return;
+    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size >= 2) {
+      const [a, b] = [...pointers.values()]; const d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (!expanded) te += (pinch - d) * C.wheelSpeed; pinch = d; return;
+    }
+    if (dragging) {
+      const dx = e.clientX - lastX, dy = e.clientY - lastY;
+      lastX = e.clientX; lastY = e.clientY; dist += Math.hypot(dx, dy);
+      if (!expanded) { te += dx * C.dragSpeed; tt += dy * C.dragSpeed; }
+      return;
+    }
+    if (e.pointerType !== 'touch') { hx = e.clientX; hy = e.clientY; hoverReq = true; }
+  });
+  const hoverCheck = () => {
+    const r = pick(hx, hy);
+    if (expanded) {
+      const over = r.intersectObject(expanded.mesh, false).length > 0;
+      if (over !== overExpanded) { overExpanded = over; updateCursor(); }
+      el.style.cursor = 'pointer';
+      return;
+    }
+    const hit = r.intersectObjects(meshes, false)[0];
+    const p = hit ? planes.find(pl => pl.mesh === hit.object) : null;
+    if (p !== hovered) { hovered = p; if (p) sfx.hover(); setHovered(p); }
+    if (p) { el.style.cursor = 'pointer'; return; }
+    const rr = Math.max(C.radius, C.radius);
+    el.style.cursor = Math.hypot(hx - W / 2, hy - H / 2) <= rr ? 'grab' : 'default';
+  };
+  addEventListener('pointerup', e => {
+    if (!active || intro) return;
+    pointers.delete(e.pointerId);
+    if (pointers.size === 1) { const v = [...pointers.values()][0]; lastX = v.x; lastY = v.y; }
+    const was = dragging; dragging = false;
+    if (was && Math.hypot(e.clientX - downX, e.clientY - downY) < 6 && dist < 10) {
+      const hit = pick(e.clientX, e.clientY).intersectObjects(meshes, false)[0];
+      const p = hit ? planes.find(pl => pl.mesh === hit.object) : null;
+      if (expanded) {
+        if (p === expanded) { expanded.item.case ? openCase(expanded.item) : setOverview(!overview); }
+        else closeExpanded();
+      } else if (p) expandPlane(p);
+    }
+    if (e.pointerType === 'touch') el.style.cursor = 'default'; else { hx = e.clientX; hy = e.clientY; hoverReq = true; }
+  });
+  el.addEventListener('wheel', e => {
+    e.preventDefault();
+    if (intro || expanded) return;
+    interacted = true; te += e.deltaY * C.wheelSpeed;
+  }, { passive: false });
+  addEventListener('keydown', e => { if (active && e.key === 'Escape') closeExpanded(); });
+
+  /* ---------- render loop ---------- */
+  let active = false, raf = 0;
+  const tick = () => {
+    raf = requestAnimationFrame(tick);
+    if (hoverReq) { hoverReq = false; hoverCheck(); }
+
+    if (!intro) { e6 += te; e7 += tt; }
+    te *= C.friction; tt *= C.friction;
+    e9 += (e6 - e9) * C.smoothing; e8 += (e7 - e8) * C.smoothing;
+    const dx = e9 - ta, dy = e8 - tl; ta = e9; tl = e8;
+    qTmp.setFromAxisAngle(AX_Y, dx); q.premultiply(qTmp);
+    qTmp.setFromAxisAngle(AX_X, dy); q.premultiply(qTmp);
+    if (!intro && !interacted) { qTmp.setFromAxisAngle(tilt, C.autoSpeed); q.premultiply(qTmp); }
+    q.normalize(); group.quaternion.copy(q); qInv.copy(q).invert();
+
+    let n = 0; for (const p of planes) n = Math.max(n, p.expand);
+    const a = expanded ? expanded.expand : n;
+    const vh = visH(), unit = vh / H;
+    const s = ov.reservedPx * unit * a * ov.factor;
+    const h = (C.expandHeightVh / 100) * Math.max(0, vh - s);
+    const m = W <= 640 ? (W - 16) * (vh * camera.aspect / W) : Infinity;
+
+    // intro: spinning circle → collapse into one stacked image
+    if (intro && !exploding && circle.length) {
+      orbitAngle += (C.circleSpin * (1 + (C.fastSpinMult - 1) * fast.ramp) * Math.PI) / 180;
+      circle.forEach((p, i) => {
+        if (collapsing) {
+          orbitPos(i, tmp);
+          const k = p.collapse, cs = centerScale(p);
+          p.mesh.position.set(tmp.x * (1 - k), tmp.y * (1 - k), (p.stackZ || 0) * k);
+          p.mesh.scale.set(p.s0x + (cs.x - p.s0x) * k, p.s0y + (cs.y - p.s0y) * k, 1);
+        } else {
+          orbitPos(i, p.mesh.position);
+          p.s0x = p.mesh.scale.x; p.s0y = p.mesh.scale.y;
+        }
+      });
+    }
+
+    tN.set(0, s / 2, 0).applyQuaternion(qInv);
+    const push = 1 + (C.expandPush - 1) * n;
+    for (const p of planes) {
+      p.mesh.quaternion.copy(qInv);           // billboard: always face the camera
+      if (intro && exploding && p.expStartPos) {
+        const t = p.explode, k = 1 + C.explodeOvershoot * Math.sin(Math.PI * t);
+        p.mesh.position.set(
+          (p.expStartPos.x + (p.basePos.x - p.expStartPos.x) * t) * k,
+          (p.expStartPos.y + (p.basePos.y - p.expStartPos.y) * t) * k,
+          (p.expStartPos.z + (p.basePos.z - p.expStartPos.z) * t) * k);
+        p.mesh.scale.set(p.expStartScale.x + (p.baseScale.x - p.expStartScale.x) * t, p.expStartScale.y + (p.baseScale.y - p.expStartScale.y) * t, 1);
+        p.mesh.material.opacity = 1;
+        continue;
+      }
+      if (intro) continue;
+      const t = p.expand;
+      let r = h; if (h * p.aspect > m) r = m / p.aspect;
+      p.mesh.scale.set(p.baseScale.x + (r * p.aspect - p.baseScale.x) * t, p.baseScale.y + (r - p.baseScale.y) * t, 1);
+      const o = t > 1e-4 ? 1 : push;
+      const bx = p.basePos.x * o, by = p.basePos.y * o, bz = p.basePos.z * o;
+      p.mesh.position.set(bx + (tN.x - bx) * t, by + (tN.y - by) * t, bz + (tN.z - bz) * t);
+      p.mesh.material.opacity = t > 1e-4 ? 1 : 1 + (C.expandFade - 1) * n;   // others fade out while one is open
+      p.mesh.renderOrder = t > 1e-4 ? 2 : 0;
+    }
+    renderer.render(scene, camera);
+  };
+
+  return {
+    enter() {
+      active = true; cancelAnimationFrame(raf); raf = requestAnimationFrame(tick);
+      if (!introDone && !intro) return;
+      if (!introDone && !playedOnce) { playedOnce = true; playIntro(); }
+    },
+    enterFromNav() {
+      active = true; cancelAnimationFrame(raf); raf = requestAnimationFrame(tick);
+      if (!introDone) { playedOnce = true; quickBurst(); }
+    },
+    leave() {
+      active = false; cancelAnimationFrame(raf);
+      closeExpanded(); hideCaption(); showCursor(false);
+    },
+  };
+})();
+let playedOnce = false;
+
+/* =========================================================
+   2 · PROJECTS
+   ========================================================= */
+const grid = $('#grid');
+grid.innerHTML = PROJECTS.map((p, i) => `
+  <a class="card" ${p.link ? `href="${p.link}" ${p.link.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}` : ''} data-case="${p.link ? 1 : 0}">
+    <div class="media">${p.chip ? `<span class="chip">${p.chip}</span>` : ''}<img src="${p.img}" alt="${p.title}" ${i > 2 ? 'loading="lazy"' : ''} decoding="async"></div>
+    <div class="meta"><span class="ov"><h2>${p.title}</h2></span><span class="ov"><p>${p.subtitle}</p></span></div>
+  </a>`).join('');
+grid.querySelectorAll('.card').forEach(c => {
+  c.addEventListener('mouseenter', () => { showCursor(true, c.dataset.case === '1' ? 'View' : 'Soon'); sfx.hover(); });
+  c.addEventListener('mouseleave', () => showCursor(false));
+});
+const Projects = (() => {
+  let raf = 0, last = scrollY, skew = 0;
+  const medias = () => grid.querySelectorAll('.media');
+  // scroll-velocity stretch, stands in for the original's WebGL distortion
+  const loop = () => {
+    raf = requestAnimationFrame(loop);
+    const v = scrollY - last; last = scrollY;
+    skew += (Math.max(-5, Math.min(5, v * .12)) - skew) * .12;
+    const k = Math.abs(skew) < .01 ? 0 : skew;
+    medias().forEach(m => m.style.transform = k ? `skewY(${k * .35}deg) scaleY(${1 + Math.abs(k) * .012})` : '');
+  };
+  return {
+    reveal() {
+      gsap.fromTo('#projects .p-head .w > span', { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .9, ease: 'power4.out', stagger: .05, delay: .1 });
+      gsap.fromTo('#grid .card', { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: 'power4.out', stagger: .08, delay: .25 });
+      gsap.fromTo('#grid .meta .ov > *', { yPercent: 100 }, { yPercent: 0, duration: .9, ease: 'power4.out', stagger: .04, delay: .6 });
+    },
+    enter() { last = scrollY; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); },
+    leave() { cancelAnimationFrame(raf); showCursor(false); },
+  };
+})();
+
+/* =========================================================
+   3 · ABOUT
+   ========================================================= */
+const ABOUT = {
+  intro: [
+    'I am an AI User Experience Designer based in Jaipur with 5+ years of experience crafting intuitive, impactful digital products. I blend user research, AI tools, systems thinking, and visual design to create experiences that are both beautiful and functional.',
+    'From mobile apps to enterprise platforms, I have worked across diverse industries - shaping wireframes, prototypes, and design systems that guide users seamlessly and help businesses grow.',
+  ],
+  experience: [
+    { title: 'AI UX Designer (promoted once)', company: 'Metacube Softwares, Jaipur', date: 'Mar 2022 - Present',
+      skills: ['UX Research', 'Salesforce LDS', 'Collaboration', 'User Interaction', 'Usability testing', 'Accessibility'],
+      bullets: ['Led usability testing, tracked issues, iterated on designs, and collaborated with product managers, developers, and visual designers to ensure alignment with business goals and user needs.', 'Improving the UI & UX of Certinia’s Resource & Project management tools while working/Improving the Salesforce Lightning Design System', 'Collaborating with UK/Spain/US UX team to create custom design system & designs to solve user problems', 'Conducted user and stakeholder research, analysed task models, defined workflows, and created wireframes and prototypes to inform design solutions and improve user experience.', 'Applied AI to analyze large sets of customer interviews and usage data, identifying hidden patterns and unmet needs; used these insights to redesign workflows in Salesforce apps, reduce user friction, and boost engagement.'] },
+    { title: 'UI Designer/Product designer', company: 'FirstPrinciples holding company, Bengaluru', date: 'Aug 2021 - Mar 2022',
+      skills: ['Mobile & Web UI Design', 'Branding', 'Collaboration', 'Social Media Posts', 'Graphic Design'],
+      bullets: ['Created visually appealing and intuitive user interfaces for mass-market consumer apps such Omni Outreach, Syndication Pro, Rawstream etc. ensuring consistency in branding, typography, color schemes, and layout', 'Designed compelling infographics and visually engaging social media posts to convey information, promote the startup’s brand, and drive user engagement on various platforms'] },
+    { title: 'Freelance product designer & Video Editor', company: 'Freelance', date: 'Oct 2019 - Present',
+      skills: ['End to End Design', 'UX Research', 'Design Systems', 'AI', 'User Interviews', 'UX Audits'],
+      bullets: ['Designed and delivered end-to-end digital experiences across diverse industries including Automobile (Motorpedia), Education (Mentor Clan, Student Circus), Resource Management (Culture Hint), Event Management (Rayna Events, Flashcraft Entertainment) etc.', 'Improved user engagement and retention by conducting user research, usability testing, and translating insights into intuitive design solutions tailored for each domain.', 'Collaborated directly with clients and stakeholders, aligning business objectives with user needs through workshops, wireframes, and interactive prototypes.', 'Delivered measurable impact such as increasing Student Circus’ average session duration by 73% through dashboard redesign, gamification, and community features.'] },
+    { title: 'Process Executive-Data', company: 'Cognizant , Gurugram', date: 'Jun 2018 - Sept 2019',
+      skills: ['Copywriting', 'Keyword Extraction', 'Data Analysis', 'SEO'],
+      bullets: ['Optimised search engine results and designing SMPs that appeared on google’s search results page'] },
+  ],
+  testimonials: [
+    { h: 'MotorPedia', p: 'Kapil helped us design our mobile app from scratch. He understood our complex inventory and service flows very quickly and made them super easy to use. The designs looked premium too. Great experience working with him!', name: 'Vibhore Kumar', role: 'Founder, MotorPedia', img: IMG + 'Vibhore.png' },
+    { h: 'Student Circus', p: 'Kapil has a sharp eye for what students really need. He made our platform more user-friendly and visually appealing. He’s also very cooperative and always open to feedback. Highly recommended!', name: 'Dhruv Krishnaraj', role: 'Founder, Student Circus', img: IMG + 'Dhruv.png' },
+    { h: 'FlashCraft Events', p: 'We had no idea how to show our event services online in a clean way. Kapil turned our ideas into a modern website & app. His designs brought a lot of compliments from our clients!', name: 'Nishant', role: 'Founder, FlashCraft Events', img: IMG + 'Nishant.png' },
+    { h: 'Metacube Softwares', p: 'Kapil has been a huge asset to our team. He’s not just a designer. He thinks about the product, the user, and the business. Always proactive and dependable. A true all-rounder!', name: 'Himank Jha', role: 'UX Manager, Certinia Project', img: IMG + 'Himank.png' },
+  ],
+  awards: ['Team of the Year (2024)', 'Hero in the rank (2025)', '9 client appreciations in 2 years (2023 - 2025)'],
+};
+
+// split text into lines that fit `width` px in the serif face, so each line can rise on its own
+const measureCtx = document.createElement('canvas').getContext('2d');
+const splitLines = (text, width, font = '400 16px Newsreader') => {
+  measureCtx.font = font;
+  const out = []; let cur = '';
+  text.split(/\s+/).forEach(w => {
+    const t = cur ? cur + ' ' + w : w;
+    if (measureCtx.measureText(t).width > width && cur) { out.push(cur); cur = w; } else cur = t;
+  });
+  if (cur) out.push(cur);
+  return out;
+};
+const lines = (text, width, { font, cascade = 0, side = 'left' } = {}) =>
+  splitLines(text, width - cascade * 4, font).map((l, i) =>
+    `<span class="ln"><span style="padding-${side}:${cascade ? Math.max(0, i - 2) * cascade : 0}px">${l}</span></span>`).join('');
+const chap = (n, roman, t) => `<div class="chap" data-reveal><span class="g ov"><span>Ch. ${n}</span></span><span class="num ov"><span>${roman}</span></span><span class="g ov"><span>${t}</span></span></div>`;
+const listBlk = (cls, h, items, indent = []) => `<div class="blk ${cls}" data-reveal><h4 class="ov"><span>${h}</span></h4><ul>${items.map((it, i) =>
+  `<li class="ln"><span style="padding-${cls === 'rt' ? 'right' : 'left'}:${indent[i] || 0}px">${it}</span></li>`).join('')}</ul></div>`;
+
+const renderAbout = () => {
+  const narrow = innerWidth <= 640, W1 = narrow ? innerWidth - 32 : 300, W2 = narrow ? innerWidth - 32 : 330;
+  $('#zz').innerHTML =
+    chap('One', 'I', 'About') +
+    `<div class="paras" data-reveal><p class="pa">${lines(ABOUT.intro[0], W1)}</p><p class="pb">${lines(ABOUT.intro[1], W2, { cascade: 22 })}</p></div>` +
+    chap('Two', 'II', 'Experience') +
+    ABOUT.experience.map(r => `<div class="role" data-reveal>
+      <div class="meta"><div class="t ln"><span>${r.title}</span></div><div class="c g ln"><span>${r.company}</span></div><div class="d g ln"><span>${r.date}</span></div>
+        <ul>${r.skills.map(sk => `<li class="ln"><span>${sk}</span></li>`).join('')}</ul></div>
+      <div class="pts">${r.bullets.map(b => `<p class="pt">${lines(b, narrow ? innerWidth - 32 : 360, { font: '400 15px Newsreader' })}</p>`).join('')}</div>
+    </div>`).join('') +
+    chap('Three', 'III', 'Testimonials') +
+    `<div class="quotes">${ABOUT.testimonials.map(q => `<div class="quote" data-reveal><h4 class="ov"><span>${q.h}</span></h4><p>${lines(q.p, narrow ? innerWidth - 32 : 340)}</p>
+      <div class="who ov"><span style="display:flex;gap:10px;align-items:center"><img src="${q.img}" alt="${q.name}"><span><b>${q.name}</b><span>${q.role}</span></span></span></div></div>`).join('')}</div>` +
+    chap('Four', 'IV', 'Awards') +
+    `<div class="blk c" data-reveal><ul>${ABOUT.awards.map(a => `<li class="ln"><span>${a}</span></li>`).join('')}</ul></div>`;
+};
+renderAbout();
+
+const revealPhoto = () => {
+  const fig = $('#a-photo'), img = fig.querySelector('img');
+  gsap.fromTo(fig, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.4, ease: 'expo.out', delay: .15 });
+  gsap.fromTo(img, { scale: 1.35 }, { scale: 1.06, duration: 1.8, ease: 'expo.out', delay: .15 });
+};
+{
+  const img = $('#a-photo img');
+  const px = gsap.quickTo(img, 'xPercent', { duration: .8, ease: 'power3.out' });
+  const py = gsap.quickTo(img, 'yPercent', { duration: .8, ease: 'power3.out' });
+  addEventListener('pointermove', e => { if (current === '/about' && e.pointerType !== 'touch') { px((e.clientX / innerWidth - .5) * -4); py((e.clientY / innerHeight - .5) * -4); } });
+}
+const revealEl = elm => gsap.fromTo(elm.querySelectorAll('.ov > span, .ln > span'), { yPercent: 100, opacity: 0 },
+  { yPercent: 0, opacity: 1, duration: .9, ease: 'power4.out', stagger: .06 });
+const io = new IntersectionObserver(entries => entries.forEach(en => {
+  if (en.isIntersecting) { revealEl(en.target); io.unobserve(en.target); }
+}), { rootMargin: '0px 0px -12% 0px' });
+const armAbout = () => document.querySelectorAll('#about [data-reveal]').forEach(elm => {
+  io.unobserve(elm);
+  gsap.set(elm.querySelectorAll('.ov > span, .ln > span'), { yPercent: 100, opacity: 0 });
+  io.observe(elm);
+});
+
+
+/* =========================================================
+   ROUTER + PAGE TRANSITIONS
+   ========================================================= */
+const ROUTES = { '/': { el: '#home', i: 0, title: 'Kapil Batra — AI UX & Product Designer' },
+                 '/projects': { el: '#projects', i: 1, title: 'Projects — Kapil Batra' },
+                 '/about': { el: '#about', i: 2, title: 'About — Kapil Batra' },
+                 '/contact': { el: '#contact', i: 3, title: 'Contact — Kapil Batra' } };
+const routeOf = () => ROUTES[location.hash.replace(/^#/, '') || '/'] ? (location.hash.replace(/^#/, '') || '/') : '/';
+let current = null, busy = false;
+
+const mount = (path, fromNav) => {
+  const R = ROUTES[path];
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p === $(R.el)));
+  document.title = R.title;
+  document.body.classList.toggle('on-about', path === '/about');
+  document.body.classList.toggle('lock', path === '/');
+  scrollTo(0, 0);
+  if (path === '/') fromNav ? Home.enterFromNav() : Home.enter();
+  if (path === '/projects') { Projects.enter(); Projects.reveal(); }
+  if (path === '/about') { armAbout(); revealEl($('#about .a-hero')); revealPhoto(); }
+  if (path === '/contact') {
+    revealEl($('#contact'));
+    gsap.fromTo('#contact .f, #contact .send, #contact .c-links a, #contact .c-resume', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: 'power4.out', stagger: .06, delay: .3 });
+  }
+};
+const unmount = path => {
+  if (path === '/') Home.leave();
+  if (path === '/projects') Projects.leave();
+};
+
+const go = path => {
+  if (busy || path === current) return;
+  busy = true;
+  sfx.softClick();
+  setTabs(ROUTES[path].i);
+  const out = $(ROUTES[current].el);
+  const outCanvas = null;
+  gsap.to([out, outCanvas].filter(Boolean), { y: -innerHeight * .25, opacity: 0, duration: .8, ease: 'expo.in', onComplete: () => {
+    unmount(current);
+    gsap.set([out, outCanvas].filter(Boolean), { clearProps: 'transform,opacity' });
+    const prev = current; current = path;
+    mount(path, true);
+    const inn = $(ROUTES[path].el);
+    gsap.fromTo(inn, { y: innerHeight * .2, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: 'expo.out', clearProps: 'transform', onComplete: () => { busy = false; } });
+  } });
+};
+
+TABS.forEach(t => t.addEventListener('click', e => {
+  e.preventDefault();
+  const path = t.dataset.route;
+  if (path !== current) { history.pushState(null, '', '#' + path); go(path); }
+}));
+addEventListener('popstate', () => { const p = routeOf(); if (p !== current) go(p); });
+addEventListener('hashchange', () => { const p = routeOf(); if (p !== current) go(p); });
+let aboutW = innerWidth;
+addEventListener('resize', () => {
+  measureTabs(); setTabs(ROUTES[current].i, false);
+  if (Math.abs(innerWidth - aboutW) > 40) { aboutW = innerWidth; renderAbout(); if (current === '/about') armAbout(); }
+});
+
+/* contact form → same FormSubmit endpoint as the current site */
+const cform = $('#cform');
+cform.addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = cform.querySelector('.send'), msg = cform.querySelector('.msg');
+  btn.disabled = true; btn.textContent = 'Sending...'; msg.textContent = '';
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/kapilbatrayt@gmail.com', { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(cform) });
+    if (!res.ok) throw new Error(res.status);
+    cform.reset();
+    msg.textContent = 'Message sent successfully! I’ll get back to you within a day or two.';
+    sfx.softClick();
+  } catch (err) {
+    msg.textContent = 'Message couldn’t be sent. Please try again or email me directly at kapilbatrayt@gmail.com.';
+  }
+  btn.disabled = false; btn.textContent = 'Send Message';
+});
+
+/* first load */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+const boot = async () => {
+  try { await document.fonts.load('400 16px Newsreader'); await document.fonts.ready; } catch (e) {}
+  renderAbout();   // re-split lines now the real font metrics are known
+  measureTabs();
+  current = routeOf();
+  setTabs(ROUTES[current].i, false);
+  if (current === '/') { mount('/'); return; }
+  // other pages: a short 001 → 100 preloader, then reveal
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p === $(ROUTES[current].el)));
+  gsap.set(ROUTES[current].el, { opacity: 0 });
+  counter.n = 1; paint();
+  await counterIn().then();
+  const imgs = [...document.querySelectorAll(`${ROUTES[current].el} img`)].slice(0, 3);
+  counterTo(90, 2.5);
+  await Promise.race([
+    Promise.all(imgs.map(im => im.complete ? 1 : new Promise(res => { im.onload = im.onerror = res; }))),
+    new Promise(res => setTimeout(res, 2500)),
+  ]);
+  await new Promise(res => counterTo(100, .5).eventCallback('onComplete', res));
+  counterOut();
+  gsap.set(ROUTES[current].el, { opacity: 1 });
+  dropNav();
+  mount(current);
+};
+boot();
+</script>
 </body>
-
 </html>

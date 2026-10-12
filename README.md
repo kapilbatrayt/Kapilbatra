@@ -1,11 +1,16 @@
 # Kapil Batra – Portfolio
 
-Static site: `index.html` loads React (CDN) plus a precompiled `app.js`.
+Static site in a single `index.html` (Three.js + GSAP from CDNs, no build step).
+
+- **Creative Space** – intro animation (circle → spin → stack → burst) into a draggable 3D sphere of case studies
+- **Projects** – case-study grid
+- **About** – bio, experience, testimonials, awards
+- **Contact** – form (FormSubmit) and resume download
 
 ```bash
-npm install
-npm run build   # src/app.jsx -> app.js, input.css -> output.css
-npm start       # http://localhost:8000
+python3 -m http.server 5173   # http://localhost:5173
 ```
 
-Edit `src/app.jsx` / `input.css`, rebuild, and commit the generated `app.js` and `output.css` (the site is served as-is).
+Vercel serves the committed files as-is (see `vercel.json`). Content lives in the `PROJECTS` and `ABOUT` objects inside `index.html`.
+
+The previous React version (`src/app.jsx` → `app.js`, `output.css`) is still in the repo but no longer loaded.
