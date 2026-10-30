@@ -32,7 +32,7 @@
   /* ---------- DESKTOP ---------- */
   #desk { position: fixed; inset: 0; height: 100dvh; overflow: hidden; background: #fff; }
   #wall { position: absolute; inset: 0; opacity: 0; transform: scale(1.06); background: #d9dde2 center / cover no-repeat; }
-  /* used until images/wallpaper.jpg exists */
+  /* used until images/wallpaper.png exists */
   #wall.fallback { background-image: radial-gradient(60% 55% at 50% 42%, rgba(255,214,170,.55), rgba(255,214,170,0) 70%), radial-gradient(130% 100% at 50% 30%, #8d929b 0%, #474b53 48%, #1b1c1f 100%); }
   #wall::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,0) 18%, rgba(0,0,0,0) 78%, rgba(0,0,0,.18)); }
   #icons { position: absolute; inset: 0; }
@@ -332,7 +332,7 @@
    CONTENT
    ========================================================= */
 const IMG = './images/';
-const WALLPAPER = IMG + 'wallpaper.jpg';
+const WALLPAPER = IMG + 'wallpaper.png';
 
 const PROJECTS = [
   { title: 'Certinia Work Planner', subtitle: 'UX Design', chip: 'Metacube', img: IMG + 'Certinia.webp', case: true,
@@ -514,7 +514,7 @@ const Desk = (() => {
   const sideWords = () => [...document.querySelectorAll('#side-words .w > span')];
   const logoParts = () => [...document.querySelectorAll('#center-logo span')];
 
-  // the wallpaper is optional: fall back to a soft gradient if images/wallpaper.jpg is missing
+  // the wallpaper is optional: fall back to a soft gradient if images/wallpaper.png is missing
   let wallReady = false;
   const wallImg = new Image();
   wallImg.onload = () => { wall.style.backgroundImage = `url("${WALLPAPER}")`; wallReady = true; };
