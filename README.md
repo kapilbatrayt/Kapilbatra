@@ -13,7 +13,7 @@ python3 -m http.server 5173   # http://localhost:5173
 Vercel serves the committed files as-is (see `vercel.json`).
 
 Content lives at the top of the script in `index.html`: `PROJECTS`, `SPOTS` (icon positions), `BLOG`, `EXTRA` and `ABOUT`.
-The wallpaper is `images/wallpaper.png`. Until that file exists, a gradient is shown instead.
+The wallpaper is `images/wallpaper.webp`. Until that file exists, a gradient is shown instead.
 Windows can be linked directly: `#/about`, `#/contact`, `#/blog`, `#/extra-curricular`, `#/resume`.
 
 The previous React version (`src/app.jsx` → `app.js`, `output.css`) is still in the repo but no longer loaded.
