@@ -187,6 +187,7 @@
   .hl .n { font-family: var(--grotesk); font-size: 11px; color: var(--muted); margin-bottom: 18px; }
   .hl h3 { font-family: var(--grotesk); font-weight: 500; font-size: 13px; margin-bottom: 8px; }
   .hl p { font-size: 15px; line-height: 1.4; color: #555; margin: 0; }
+  .doc .links { display: flex; flex-wrap: wrap; gap: 8px; }
 
   /* ---------- RESUME / QUICK LOOK ---------- */
   #w-resume .body { background: #525659; }
@@ -945,7 +946,10 @@ $('#extra').innerHTML = `
   ${EXTRA.paras.map(p => `<p>${p}</p>`).join('')}
   <div class="tags">${EXTRA.tags.map(t => `<span>${t}</span>`).join('')}</div>
   <div class="hl">${EXTRA.highlights.map((h, i) => `<div><p class="n">0${i + 1}</p><h3>${h.title}</h3><p>${h.desc}</p></div>`).join('')}</div>
-  <a class="btn-pill dark" href="https://www.instagram.com/kyayaarbatra/" target="_blank" rel="noopener">Watch on Instagram ↗</a>`;
+  <div class="links">
+    <a class="btn-pill dark" href="https://www.instagram.com/kapilbatra.design/" target="_blank" rel="noopener">Instagram ↗</a>
+    <a class="btn-pill dark" href="https://www.youtube.com/@kapilbatra.design" target="_blank" rel="noopener">YouTube ↗</a>
+  </div>`;
 
 /* contact form → same FormSubmit endpoint as before */
 const cform = $('#cform');
