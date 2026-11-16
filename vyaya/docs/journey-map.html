@@ -1,0 +1,937 @@
+<title>Vyaya Journey Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: a reading column for context, one full-width horizontally scrolling journey matrix (phases × lanes), then feature deep dives. */
+:root {
+  --bg: #F2F4F8;
+  --surface: #FFFFFF;
+  --surface-2: #F7F8FB;
+  --ink: #101A2C;
+  --muted: #586478;
+  --line: #DADFE8;
+  --accent: #2C47F5;
+  --accent-soft: #E7EBFF;
+  --heat: #E8562A;
+  --heat-soft: #FFEDE6;
+  --good: #16865A;
+  --good-soft: #E2F5EC;
+  --amber: #B7791F;
+  --amber-soft: #FDF3DC;
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "Public Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1019; --surface: #131A26; --surface-2: #182131; --ink: #E8EDF5; --muted: #95A1B5; --line: #243045;
+    --accent: #8396FF; --accent-soft: #1B2448; --heat: #FF8659; --heat-soft: #3A1E14;
+    --good: #45C98F; --good-soft: #12301F; --amber: #F0B95A; --amber-soft: #352812; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1019; --surface: #131A26; --surface-2: #182131; --ink: #E8EDF5; --muted: #95A1B5; --line: #243045;
+  --accent: #8396FF; --accent-soft: #1B2448; --heat: #FF8659; --heat-soft: #3A1E14;
+  --good: #45C98F; --good-soft: #12301F; --amber: #F0B95A; --amber-soft: #352812; color-scheme: dark;
+}
+
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 72px; display: flex; flex-direction: column; gap: 64px; }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 850; font-stretch: 125%; line-height: 1.0; }
+h2 { font-size: clamp(1.45rem, 3.2vw, 2rem); font-weight: 800; font-stretch: 118%; line-height: 1.1; }
+h3 { font-size: 1.05rem; font-weight: 700; line-height: 1.25; }
+h4 { font-size: 0.95rem; font-weight: 700; line-height: 1.3; }
+p { margin: 0; }
+ul { margin: 0; }
+.eyebrow { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 1.08rem; color: var(--muted); max-width: 64ch; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+section { display: flex; flex-direction: column; gap: 20px; }
+.sec-head { display: flex; flex-direction: column; gap: 8px; max-width: 72ch; }
+.sec-head p { color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.muted { color: var(--muted); }
+.small { font-size: 0.88rem; }
+a { color: var(--accent); }
+
+/* Header */
+header { display: flex; flex-direction: column; gap: 18px; }
+.status { display: flex; flex-wrap: wrap; gap: 8px; }
+.stage { font-family: var(--mono); font-size: 0.74rem; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.stage.now { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 600; }
+
+/* Persona / scenario */
+.context { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 12px; }
+@media (max-width: 900px) { .context { grid-template-columns: 1fr; } }
+.persona-row { display: flex; gap: 14px; align-items: center; }
+.avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--accent); color: var(--surface); display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 1.2rem; flex: none; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 0.9rem; margin: 0; }
+.facts dt { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+.facts dd { margin: 0; }
+.ticks { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 0.92rem; }
+.ticks li { display: grid; grid-template-columns: 18px 1fr; gap: 6px; }
+.ticks li::before { content: "✓"; color: var(--good); font-weight: 700; }
+.quote { font-family: var(--display); font-stretch: 100%; font-size: 1.1rem; font-weight: 600; line-height: 1.35; }
+
+/* Journey map */
+.map-tools { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.82rem; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.scroll-hint { font-family: var(--mono); font-size: 0.74rem; color: var(--muted); }
+.map-scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; -webkit-overflow-scrolling: touch; }
+.map { display: grid; grid-template-columns: 132px repeat(16, 212px); font-size: 0.86rem; }
+.map > div { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); padding: 12px 14px; min-width: 0; }
+.map .lane { position: sticky; left: 0; z-index: 2; background: var(--surface-2); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+.map .lane small { font-family: var(--body); letter-spacing: 0; text-transform: none; font-size: 0.74rem; }
+.map .phase { background: var(--ink); color: var(--bg); display: flex; justify-content: space-between; align-items: baseline; gap: 8px; border-right-color: var(--bg); }
+.map .phase b { font-family: var(--display); font-stretch: 115%; font-size: 0.95rem; }
+.map .phase span { font-family: var(--mono); font-size: 0.68rem; opacity: 0.75; white-space: nowrap; }
+.map .step b { font-family: var(--display); font-size: 0.95rem; display: block; }
+.map .step .num { font-size: 0.7rem; color: var(--accent); }
+.map .think { font-style: italic; }
+.map .emo { padding: 0; grid-column: 2 / -1; }
+.map .emo svg { display: block; width: 3392px; height: 150px; }
+.map .tps { display: flex; flex-wrap: wrap; gap: 4px; }
+.map .tp { font-family: var(--mono); font-size: 0.68rem; padding: 2px 7px; border-radius: 5px; background: var(--accent-soft); color: var(--accent); }
+.map ul { padding-left: 16px; display: flex; flex-direction: column; gap: 4px; }
+.map .pain { background: color-mix(in srgb, var(--heat-soft) 55%, var(--surface)); }
+.map .pain li::marker { color: var(--heat); }
+.map .opp { background: color-mix(in srgb, var(--good-soft) 55%, var(--surface)); }
+.map .opp li::marker { color: var(--good); }
+.map .lane.pain-l { color: var(--heat); }
+.map .lane.opp-l { color: var(--good); }
+.emo text { font-family: var(--mono); font-size: 10.5px; fill: var(--muted); }
+.emo .gl { stroke: var(--line); stroke-dasharray: 3 4; }
+.emo .curve { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+.emo .area { fill: var(--accent-soft); opacity: 0.7; }
+.emo .pt { stroke-width: 2.5; }
+.emo .lbl { font-family: var(--body); font-size: 11.5px; font-weight: 600; fill: var(--ink); }
+
+/* Moments */
+.moments { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.moment { border-top: 4px solid var(--heat); }
+.moment.peak { border-top-color: var(--good); }
+.moment .kind { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--heat); }
+.moment.peak .kind { color: var(--good); }
+.moment p { font-size: 0.9rem; }
+.moment .resp { color: var(--muted); }
+
+/* Feature sections */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { font-size: 0.8rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
+.pill.on { background: var(--accent-soft); border-color: transparent; color: var(--accent); }
+.cat-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.cat-head .num { color: var(--muted); font-size: 0.78rem; }
+.fieldlist { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px 18px; font-size: 0.9rem; }
+.fieldlist li b { display: block; font-weight: 600; }
+.fieldlist li span { color: var(--muted); font-size: 0.85rem; }
+
+/* Diet templates */
+.tpl .kcal { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); }
+.tpl ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 0.86rem; }
+.tpl ol li { display: grid; grid-template-columns: 74px 1fr; gap: 8px; }
+.tpl ol li span:first-child { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-top: 2px; }
+.tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag { font-family: var(--mono); font-size: 0.68rem; padding: 2px 7px; border-radius: 5px; background: var(--surface-2); border: 1px solid var(--line); color: var(--muted); }
+.tag.veg { color: var(--good); border-color: color-mix(in srgb, var(--good) 40%, transparent); }
+.tag.nonveg { color: var(--heat); border-color: color-mix(in srgb, var(--heat) 40%, transparent); }
+.tag.egg { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 40%, transparent); }
+
+/* Live nutrition demo */
+.demo { display: grid; grid-template-columns: 1.15fr 1fr; gap: 12px; align-items: start; }
+@media (max-width: 860px) { .demo { grid-template-columns: 1fr; } }
+.foods { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+.foods li { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.foods li:last-child { border-bottom: 0; }
+.foods .fname { font-weight: 600; font-size: 0.92rem; }
+.foods .fmeta { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+.stepper { display: flex; align-items: center; gap: 6px; }
+.stepper button { width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); font-size: 1.1rem; font-weight: 600; cursor: pointer; line-height: 1; }
+.stepper button:hover { border-color: var(--accent); color: var(--accent); }
+.stepper button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.stepper output { min-width: 24px; text-align: center; font-family: var(--mono); font-weight: 600; }
+.foods li.has .fname { color: var(--accent); }
+.totals { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+.big { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.big .num { font-size: 2.4rem; font-weight: 600; line-height: 1; }
+.big .of { color: var(--muted); font-family: var(--mono); }
+.bars { display: flex; flex-direction: column; gap: 12px; }
+.bar-row { display: flex; flex-direction: column; gap: 4px; }
+.bar-top { display: flex; justify-content: space-between; font-size: 0.86rem; }
+.bar-top span:last-child { font-family: var(--mono); color: var(--muted); }
+.track { height: 8px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; }
+.fill { height: 100%; border-radius: 99px; background: var(--accent); transition: width 0.25s ease; }
+.fill.over { background: var(--heat); }
+.fill.kcal { background: var(--ink); }
+.hint { font-size: 0.86rem; padding: 10px 12px; border-radius: 10px; background: var(--good-soft); color: var(--good); }
+.hint.warn { background: var(--heat-soft); color: var(--heat); }
+.reset { align-self: flex-start; font: inherit; font-size: 0.82rem; background: none; border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; color: var(--muted); cursor: pointer; }
+.reset:hover, .reset:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+.sample-note { font-size: 0.8rem; color: var(--muted); }
+.presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.sticker { border-radius: 12px; padding: 16px; background: repeating-conic-gradient(var(--surface-2) 0 25%, var(--line) 0 50%) 0 0 / 20px 20px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.sticker svg { width: 96px; height: 72px; flex: none; }
+.sticker path { fill: none; stroke: var(--heat); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.sticker .st { display: flex; gap: 16px; flex-wrap: wrap; }
+.sticker .st div { display: flex; flex-direction: column; }
+.sticker .st b { font-family: var(--display); font-stretch: 115%; font-size: 1.35rem; line-height: 1.1; }
+.sticker .st span { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.rules .eat { border-top: 4px solid var(--good); }
+.rules .avoid { border-top: 4px solid var(--heat); }
+.rules ul { padding-left: 18px; font-size: 0.9rem; display: flex; flex-direction: column; gap: 4px; }
+.decided { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; font-size: 0.92rem; }
+.decided dt { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+.decided dd { margin: 0; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 620px; }
+th, td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+tr:last-child td { border-bottom: 0; }
+.acc { display: inline-block; font-family: var(--mono); font-size: 0.75rem; padding: 2px 8px; border-radius: 6px; white-space: nowrap; }
+.acc.hi { background: var(--good-soft); color: var(--good); }
+.acc.mid { background: var(--accent-soft); color: var(--accent); }
+.acc.lo { background: var(--heat-soft); color: var(--heat); }
+
+/* App map */
+.tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.tab { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.tab.start { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.tab.start ul { color: var(--surface); opacity: 0.9; }
+.tab ul { padding-left: 18px; font-size: 0.86rem; color: var(--muted); display: flex; flex-direction: column; gap: 2px; }
+.tab .new { font-family: var(--mono); font-size: 0.62rem; color: var(--accent); margin-left: 4px; }
+.tab.start .new { color: var(--surface); }
+@media (max-width: 900px) { .tabbar { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tab.start { grid-column: 1 / -1; } }
+@media (max-width: 460px) { .tabbar { grid-template-columns: 1fr; } }
+
+.scope ul { padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 0.92rem; }
+.scope .v1 { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.scope .tagline { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+
+.questions { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; max-width: 75ch; }
+.questions li::marker { font-family: var(--mono); color: var(--accent); }
+.questions span { display: block; color: var(--muted); font-size: 0.9rem; }
+
+footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); padding-top: 18px; }
+@media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="status" aria-label="Project stage">
+    <span class="stage now">1 · User journey</span>
+    <span class="stage">2 · Wireframes</span>
+    <span class="stage">3 · Visual design</span>
+    <span class="stage">4 · SwiftUI build</span>
+  </div>
+  <span class="eyebrow">Vyaya · personal fitness and diet app for iPhone 13</span>
+  <h1>Train, eat, share.<br>One app, one phone.</h1>
+  <p class="lede">The end-to-end user journey map for Vyaya: routines for every kind of workout, recipes taken from your own diet chart and whiteboards, live calories, macros and micros, tracking without a watch, and Strava-style sharing with stickers and route maps.</p>
+</header>
+
+<section>
+  <div class="sec-head">
+    <span class="eyebrow">Persona, scenario, expectations</span>
+    <h2>Who is on this journey, and why</h2>
+  </div>
+  <div class="context">
+    <div class="card">
+      <div class="persona-row">
+        <div class="avatar" aria-hidden="true">KB</div>
+        <div><h3>Kapil</h3><p class="muted small">Designer who trains 5–6 days a week</p></div>
+      </div>
+      <dl class="facts">
+        <dt>Device</dt><dd>iPhone 13. No Apple Watch, no Dynamic Island.</dd>
+        <dt>Trains</dt><dd>Gym, yoga, running, cycling, home workouts</dd>
+        <dt>Goal</dt><dd>Lose fat, then hold the new weight</dd>
+        <dt>Eats</dt><dd>Vegetarian with egg. Home meals planned daily on a whiteboard, from a dietitian's chart.</dd>
+        <dt>Data</dt><dd>On this phone only. Apple Health is the one bridge.</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Scenario</span>
+      <p>Kapil starts a 12-week fat-loss phase. He wants one app that knows every exercise he does, holds his diet chart, shows his calories and macros as he eats, and gives him a story worth posting after every session.</p>
+      <p class="quote">“I want to know exactly what I ate, what I burned, and show off the good days.”</p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Expectations</span>
+      <ul class="ticks">
+        <li>Every exercise I do is already in the app, or takes seconds to add</li>
+        <li>Dal, roti, poha and paneer are there, in katori and roti portions</li>
+        <li>Calories, macros and key micros update the moment I pick a food</li>
+        <li>My printed chart and whiteboard meals become recipes I can pick from</li>
+        <li>The app can suggest my next meal from those recipes</li>
+        <li>Sharing a workout looks good without opening another app</li>
+        <li>Nothing leaves my phone</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="eyebrow">Journey map</span>
+    <h2>From first launch to maintenance</h2>
+    <p>7 phases and 16 steps. Each column shows what Kapil does, which screens he touches, what he's thinking, how he feels, what goes wrong in most apps, and how this app responds.</p>
+  </div>
+  <div class="map-tools">
+    <div class="legend">
+      <span><i style="background:var(--accent)"></i>Touchpoint (screen)</span>
+      <span><i style="background:var(--heat)"></i>Pain point</span>
+      <span><i style="background:var(--good)"></i>Opportunity</span>
+    </div>
+    <span class="scroll-hint">Scroll sideways →</span>
+  </div>
+  <div class="map-scroll" tabindex="0" aria-label="Journey map, scrolls horizontally">
+    <div class="map" id="map"></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="eyebrow">Moments that matter</span>
+    <h2>Three lows to fix, two highs to amplify</h2>
+    <p>Taken from the emotion curve above. These five screens get the most wireframe and design attention.</p>
+  </div>
+  <div class="moments">
+    <div class="card moment"><span class="kind">Low · step 04</span><h3>Setting up the diet chart</h3><p>Retyping a nutritionist's chart is where most people give up before they start.</p><p class="resp">Scan the chart, match each line to Indian foods, or start from a template.</p></div>
+    <div class="card moment"><span class="kind">Low · step 11</span><h3>Logging off-plan food</h3><p>A samosa with evening tea, no idea of the numbers, and the app only knows grams.</p><p class="resp">Indian dishes in katori portions, oil modifiers, live nutrition preview.</p></div>
+    <div class="card moment"><span class="kind">Low · step 15</span><h3>Scale goes up overnight</h3><p>A 0.6 kg jump from water or salt feels like a week wasted.</p><p class="resp">Lead with the 7-day trend; today's number sits smaller underneath.</p></div>
+    <div class="card moment peak"><span class="kind">High · step 07</span><h3>New personal record</h3><p>The best feeling in the gym, usually lost in a notebook.</p><p class="resp">Instant PR badge on the set, carried through to the share card.</p></div>
+    <div class="card moment peak"><span class="kind">High · step 09</span><h3>Sharing the story</h3><p>The reason to come back tomorrow.</p><p class="resp">Overlay templates that adapt to the photo, straight to Instagram Stories.</p></div>
+  </div>
+</section>
+
+<section id="targets">
+  <div class="sec-head">
+    <span class="eyebrow">Feature deep dive · Steps 01–02</span>
+    <h2>Vyaya asks, calculates, and lets you edit</h2>
+    <p>Setup is a short set of questions. From the answers Vyaya works out your calories, protein and every other target itself. Nothing is fixed: each number can be changed later.</p>
+  </div>
+  <div class="grid-3">
+    <div class="card">
+      <h3>What Vyaya asks</h3>
+      <ul class="ticks">
+        <li>Age, sex, height, current weight</li>
+        <li>Target weight and pace: 0.25, 0.5 or 0.75 kg a week</li>
+        <li>Your day outside workouts: mostly sitting, on your feet, or physical</li>
+        <li>How many sessions a week, and which types</li>
+        <li>Diet type (vegetarian with egg) and foods to avoid</li>
+        <li>Meals per day, wake-up and bedtime, for reminders</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>How it calculates</h3>
+      <ul class="ticks">
+        <li><span><strong>Resting burn:</strong> Mifflin-St Jeor formula from weight, height, age and sex</span></li>
+        <li><span><strong>Maintenance:</strong> resting burn × an activity factor from your answers</span></li>
+        <li><span><strong>Calorie target:</strong> maintenance minus the deficit for your pace (0.5 kg a week ≈ 550 kcal a day), never below your resting burn</span></li>
+        <li><span><strong>Protein:</strong> 1.6–2.0 g per kg. <strong>Fat:</strong> about 25% of calories. <strong>Carbs:</strong> the rest.</span></li>
+        <li><span><strong>Fibre:</strong> 14 g per 1,000 kcal. <strong>Water:</strong> 35 ml per kg.</span></li>
+      </ul>
+      <p class="small muted">Example: 75 kg, 175 cm, 30 years gives a resting burn of about <span class="num">1,700</span>, maintenance about <span class="num">2,450</span>, target about <span class="num">1,900 kcal</span> with <span class="num">135 g</span> protein.</p>
+    </div>
+    <div class="card">
+      <h3>Editing later</h3>
+      <ul class="ticks">
+        <li>Profile → Targets: change any number, or re-answer the questions</li>
+        <li>A number you set by hand is marked <strong>Custom</strong> and stays put</li>
+        <li><strong>Reset to calculated</strong> brings Vyaya's figure back</li>
+        <li>Every 4 weeks, or after a 2 kg change, Vyaya proposes updated targets. You accept or keep the old ones.</li>
+        <li>Reaching your target weight offers the switch to maintenance</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="exercises">
+  <div class="sec-head">
+    <span class="eyebrow">Feature deep dive · Steps 03, 05–07</span>
+    <h2>Every exercise, ready to add to a plan</h2>
+    <p>The library starts with 800+ strength exercises from the public-domain free-exercise-db, each with images, plus a yoga, pranayama and home-workout list written for this app. Anything missing can be added in seconds.</p>
+  </div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="cat-head"><h3>Strength</h3><span class="num">800+</span></div>
+      <p class="muted small">By muscle</p>
+      <div class="pills"><span class="pill">Chest</span><span class="pill">Back</span><span class="pill">Shoulders</span><span class="pill">Biceps</span><span class="pill">Triceps</span><span class="pill">Forearms</span><span class="pill">Quads</span><span class="pill">Hamstrings</span><span class="pill">Glutes</span><span class="pill">Calves</span><span class="pill">Core</span></div>
+      <p class="muted small">By equipment</p>
+      <div class="pills"><span class="pill">Barbell</span><span class="pill">Dumbbell</span><span class="pill">Machine</span><span class="pill">Cable</span><span class="pill">Smith</span><span class="pill">Kettlebell</span><span class="pill">Bands</span><span class="pill">Bodyweight</span></div>
+    </div>
+    <div class="card">
+      <div class="cat-head"><h3>Cardio</h3><span class="num">GPS or manual</span></div>
+      <p class="muted small">Outdoor, tracked by GPS</p>
+      <div class="pills"><span class="pill on">Run</span><span class="pill on">Ride</span><span class="pill on">Walk</span><span class="pill on">Hike</span></div>
+      <p class="muted small">Indoor, logged by time and distance</p>
+      <div class="pills"><span class="pill">Treadmill</span><span class="pill">Stationary bike</span><span class="pill">Elliptical</span><span class="pill">Rower</span><span class="pill">Stair climber</span><span class="pill">Skipping</span><span class="pill">Swimming</span></div>
+    </div>
+    <div class="card">
+      <div class="cat-head"><h3>Yoga and pranayama</h3><span class="num">Timed</span></div>
+      <div class="pills"><span class="pill on">Surya Namaskar</span><span class="pill">Standing</span><span class="pill">Balance</span><span class="pill">Seated</span><span class="pill">Backbends</span><span class="pill">Inversions</span><span class="pill">Restorative</span></div>
+      <div class="pills"><span class="pill on">Anulom Vilom</span><span class="pill on">Kapalbhati</span><span class="pill on">Bhramari</span></div>
+      <p class="muted small">Single poses with hold times, or saved flows</p>
+    </div>
+    <div class="card">
+      <div class="cat-head"><h3>Home and HIIT</h3><span class="num">Interval timer</span></div>
+      <div class="pills"><span class="pill">Burpees</span><span class="pill">Mountain climbers</span><span class="pill">Jumping jacks</span><span class="pill">Push-up variations</span><span class="pill">Lunges</span><span class="pill">Plank variations</span></div>
+      <p class="muted small">Work and rest intervals, rounds, voice cues</p>
+    </div>
+    <div class="card">
+      <div class="cat-head"><h3>Mobility</h3><span class="num">Timed</span></div>
+      <div class="pills"><span class="pill">Dynamic warm-up</span><span class="pill">Static stretches</span><span class="pill">Foam rolling</span><span class="pill">Hip and shoulder mobility</span></div>
+    </div>
+    <div class="card">
+      <div class="cat-head"><h3>Custom</h3><span class="num">≈ 10 sec</span></div>
+      <p class="small">Name, muscle, equipment and how it's tracked. Optional photo or video of your own form. Shows up in search next to the built-in ones.</p>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>What every exercise carries</h3>
+      <ul class="fieldlist">
+        <li><b>Name and aliases</b><span>“Lat pulldown”, “pulldown”</span></li>
+        <li><b>Muscles</b><span>Primary and secondary, shown on a body map</span></li>
+        <li><b>Equipment</b><span>Used to filter by what your gym has</span></li>
+        <li><b>How it's tracked</b><span>Weight × reps, reps, time, distance, or time + distance</span></li>
+        <li><b>Demo and form cues</b><span>Images plus 3 short cues</span></li>
+        <li><b>Your history</b><span>Last session, best set, estimated 1-rep max</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Building a plan</h3>
+      <p class="muted small">Start from a ready plan or a blank week:</p>
+      <div class="pills"><span class="pill on">Push / pull / legs · 6 days</span><span class="pill">Upper / lower · 4 days</span><span class="pill">Full body · 3 days</span><span class="pill on">Hybrid · 3 gym + 2 run + 1 yoga</span></div>
+      <ul class="ticks">
+        <li>Add exercises from the library or search, drag to reorder</li>
+        <li>Target sets, reps, weight and rest time per exercise</li>
+        <li>Supersets and circuits</li>
+        <li>Mix gym, runs, rides and yoga in the same week</li>
+        <li>Duplicate any plan and edit it</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="routines">
+  <div class="sec-head">
+    <span class="eyebrow">Feature deep dive · Steps 03, 05</span>
+    <h2>One routine picker for every kind of workout</h2>
+    <p>Plan or start anything from one screen. Each routine opens with its exercises filled in, and any exercise from the library can be added, swapped or removed.</p>
+  </div>
+  <div class="grid-3">
+    <div class="card"><div class="cat-head"><h3>Gym</h3><span class="num">Sets × reps</span></div><div class="pills"><span class="pill">Push</span><span class="pill">Pull</span><span class="pill">Legs</span><span class="pill">Upper body</span><span class="pill">Lower body</span><span class="pill">Full body</span><span class="pill">Chest and triceps</span><span class="pill">Back and biceps</span><span class="pill">Shoulders and core</span></div></div>
+    <div class="card"><div class="cat-head"><h3>Running</h3><span class="num">GPS</span></div><div class="pills"><span class="pill">Easy run</span><span class="pill">Intervals</span><span class="pill">Tempo run</span><span class="pill">Long run</span><span class="pill">Treadmill</span></div></div>
+    <div class="card"><div class="cat-head"><h3>Cycling</h3><span class="num">GPS</span></div><div class="pills"><span class="pill">Easy ride</span><span class="pill">Hill repeats</span><span class="pill">Long ride</span><span class="pill">Stationary bike</span></div></div>
+    <div class="card"><div class="cat-head"><h3>Walking</h3><span class="num">GPS</span></div><div class="pills"><span class="pill on">Morning walk · 30 min</span><span class="pill on">After-dinner walk · 10 min</span><span class="pill">Brisk walk</span><span class="pill">Hike</span></div><p class="small muted">The two highlighted walks come from your diet chart's instructions.</p></div>
+    <div class="card"><div class="cat-head"><h3>Yoga</h3><span class="num">Timed</span></div><div class="pills"><span class="pill">Surya Namaskar × 12</span><span class="pill">Morning flow · 20 min</span><span class="pill">Power yoga</span><span class="pill">Stretch and restore</span><span class="pill">Pranayama · 10 min</span></div></div>
+    <div class="card"><div class="cat-head"><h3>Home and HIIT</h3><span class="num">Intervals</span></div><div class="pills"><span class="pill">Bodyweight full body</span><span class="pill">Tabata · 4 min</span><span class="pill">Core · 15 min</span><span class="pill">Skipping intervals</span><span class="pill">Mobility warm-up</span></div></div>
+  </div>
+  <div class="card"><h3>Your starter plan</h3><p class="small muted">You're starting fresh, so Vyaya begins with a beginner week and builds from there.</p><div class="pills"><span class="pill on">Mon · Full body A</span><span class="pill">Tue · Walk or easy run</span><span class="pill on">Wed · Full body B</span><span class="pill">Thu · Yoga</span><span class="pill on">Fri · Full body A</span><span class="pill">Sat · Ride or long walk</span><span class="pill">Sun · Rest</span></div><p class="small muted">Each full-body day has 6 exercises with form images and light starting weights. After about 8 weeks Vyaya suggests moving to upper/lower or push/pull/legs. You can change the plan at any point.</p></div>
+  <div class="card"><h3>Custom routine</h3><p class="small muted">Start blank, or copy any routine above. Mix types in one session, such as a 10-minute run, then legs, then stretching. Save it, and it appears in the picker with the rest.</p></div>
+</section>
+
+<section id="yourchart">
+  <div class="sec-head">
+    <span class="eyebrow">From your 9 photos · Step 04</span>
+    <h2>Your chart and whiteboards, turned into Vyaya's food library</h2>
+    <p>I read both pages of the printed dietitian's chart and all seven whiteboard days (11 to 27 September). Vyaya keeps three things from them: the shape of the day, the eat-and-avoid rules, and every dish as a recipe you can pick.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card tpl">
+      <h3>The shape of your day</h3>
+      <ol>
+        <li><span>On waking</span><span>1 glass water, 5 almonds + 2 walnuts (soaked), tea without sugar</span></li>
+        <li><span>8–9 am</span><span>One of: chapati, dalia, 2 idli, 2 egg whites, sprouts, poha, upma, 2 chilla. Your whiteboards add oatmeal, avocado toast and paneer sandwich.</span></li>
+        <li><span>11 am</span><span>100 g fruit: guava, orange, apple, pear, jamun, mausambi, pomegranate or kiwi</span></li>
+        <li><span>1–2 pm</span><span>Salad, 1–2 bejad roti, dal, sabzi, chaach or curd</span></li>
+        <li><span>5 pm</span><span>Tea with roasted chana, makhana, peanuts or 40 g paneer</span></li>
+        <li><span>8–9 pm</span><span>Salad, 1–2 roti, dal, sabzi. A 10-minute walk after.</span></li>
+      </ol>
+    </div>
+    <div class="card">
+      <div class="cat-head"><h3>Recipes from your photos, plus eggs</h3><span class="num">50</span></div>
+      <p class="muted small">Breakfast</p>
+      <div class="pills"><span class="pill">Oatmeal</span><span class="pill">Avocado toast</span><span class="pill">Paneer sandwich</span><span class="pill">Poha</span><span class="pill">Besan chilla</span><span class="pill">Vegetable dalia</span><span class="pill">Upma</span><span class="pill">Idli</span><span class="pill">Sprouts bowl</span><span class="pill">Egg whites</span></div>
+      <p class="muted small">Lunch and dinner</p>
+      <div class="pills"><span class="pill">Besan mirchi</span><span class="pill">Gwar sabzi</span><span class="pill">Bhindi</span><span class="pill">Kala chana masala</span><span class="pill">Chole</span><span class="pill">Lauki</span><span class="pill">Pyaz paneer</span><span class="pill">Beans ki sabzi</span><span class="pill">Kaddu</span><span class="pill">Dal</span><span class="pill">Roasted paneer</span><span class="pill">Paneer uttapam</span></div>
+      <p class="muted small">Sides</p>
+      <div class="pills"><span class="pill">Bejad roti</span><span class="pill">Multigrain chapati</span><span class="pill">Salad (radish, tomato, onion, cucumber)</span><span class="pill">Raita</span><span class="pill">Chaach</span><span class="pill">Dahi</span><span class="pill">Green chutney</span></div>
+      <p class="muted small">Snacks and fruit</p>
+      <div class="pills"><span class="pill">Soaked nuts</span><span class="pill">Tea without sugar</span><span class="pill">Makhana</span><span class="pill">Peanuts</span><span class="pill">Roasted chana</span><span class="pill">Apple with yogurt</span><span class="pill">Kiwi</span><span class="pill">Guava</span><span class="pill">Biscuit</span></div>
+      <p class="muted small">Egg recipes, added at your request</p>
+      <div class="pills"><span class="pill on">Boiled eggs</span><span class="pill on">Egg bhurji</span><span class="pill on">Masala omelette</span><span class="pill on">Egg white omelette</span><span class="pill on">Egg curry</span><span class="pill on">Scrambled eggs on toast</span><span class="pill on">Egg sandwich</span><span class="pill on">Egg chaat</span><span class="pill on">Egg salad</span><span class="pill on">Egg dosa</span><span class="pill on">Bhurji roti roll</span><span class="pill on">Shakshuka</span></div>
+      <p class="small muted">Each one gets calories, macros and micros per portion. Add your own with <strong>Custom recipe</strong>.</p>
+    </div>
+  </div>
+  <div class="rules">
+    <div class="card eat"><h3>Eat, in the suggested quantity</h3><ul>
+      <li>Whole grains: bejad, bajra, jowar, oats, barley, ragi</li>
+      <li>Raw vegetables and salad</li>
+      <li>Guava, orange, mausambi, apple, pear, jamun, pomegranate, papaya</li>
+      <li>Double-toned milk, curd without cream, chaach</li>
+      <li>Lemon water, coconut water, vegetable soup, sattu, all without sugar</li>
+      <li>Danamethi, jamun, karela</li>
+      <li>Whole and husked pulses, roasted chana, sprouts</li>
+    </ul></div>
+    <div class="card avoid"><h3>Avoid</h3><ul>
+      <li>Refined flour foods</li>
+      <li>Potato, arbi, sweet potato, yam</li>
+      <li>Mango, banana, cheeku, grapes, litchi, dates, melons</li>
+      <li>Full-cream milk, cream, mawa, ice cream</li>
+      <li>Egg yolk, on the printed chart only. You've chosen whole eggs, so Vyaya doesn't flag them.</li>
+      <li>Sugar, jaggery, honey, juices, cold drinks, sweets</li>
+      <li>Fried food: puri, parantha, samosa, kachori, chips, namkeen</li>
+    </ul><p class="small muted">Vyaya shows a small flag when you log one of these, like the samosa on 26 September. It never blocks you.</p></div>
+  </div>
+  <div class="grid-3">
+    <div class="card"><h3>Chart instructions become app behaviour</h3><ul class="ticks">
+      <li>Bejad roti (wheat 3 kg, barley 1 kg, black chana ½ kg) saved as its own recipe</li>
+      <li>Oil 2 tsp a day: an oil counter on the day view</li>
+      <li>Water 3–4 litres: the daily water target</li>
+      <li>Last meal 2 hours before sleep: a cut-off reminder</li>
+      <li>Fixed meal times: reminders at the chart's times</li>
+    </ul></div>
+    <div class="card"><h3>Suggest me</h3><p class="small muted">One tap on any empty meal. Vyaya picks from your recipes what fits the calories and protein left today, follows the eat-and-avoid rules, and skips what you ate yesterday.</p><p class="small"><strong>Dinner idea:</strong> kala chana, 1 katori dal, 2 bejad roti <span class="num">≈ 560 kcal · 27 g protein</span></p></div>
+    <div class="card"><h3>Calories: Vyaya calculates</h3><p class="small muted">The printed chart is set at <span class="num">1,200 kcal, 55 g protein</span>, and by my rough estimate your whiteboard days come to about <span class="num">1,200–1,700 kcal</span>. Vyaya keeps the chart's foods and rules but sets the amounts from your own answers, and scales portions to match.</p></div>
+  </div>
+</section>
+
+<section id="diet">
+  <div class="sec-head">
+    <span class="eyebrow">Feature deep dive · Step 04</span>
+    <h2>More charts: ready-made, scanned or your own</h2>
+    <p>Beyond your own chart, Vyaya ships with full Indian days that scale to your calorie target. Vegetarian with egg is your default. Every item can be swapped, and every chart can be copied and edited.</p>
+  </div>
+  <div class="grid-3">
+    <div class="card tpl">
+      <div class="cat-head"><h3>Veg fat loss</h3><span class="kcal">1,600 kcal</span></div>
+      <div class="tags"><span class="tag veg">Veg</span><span class="tag">P 95 g</span><span class="tag">Fibre 32 g</span></div>
+      <ol>
+        <li><span>07:00</span><span>Jeera water, 5 soaked almonds</span></li>
+        <li><span>08:30</span><span>2 besan chilla, mint chutney</span></li>
+        <li><span>13:30</span><span>2 roti, dal, sabzi, salad</span></li>
+        <li><span>17:00</span><span>Chaas, roasted chana</span></li>
+        <li><span>20:30</span><span>Paneer bhurji, 1 roti</span></li>
+      </ol>
+    </div>
+    <div class="card tpl">
+      <div class="cat-head"><h3>High-protein veg</h3><span class="kcal">1,900 kcal</span></div>
+      <div class="tags"><span class="tag veg">Veg</span><span class="tag">P 135 g</span><span class="tag">Fibre 34 g</span></div>
+      <ol>
+        <li><span>07:00</span><span>Whey in water, 1 banana</span></li>
+        <li><span>08:30</span><span>Moong dal chilla, curd</span></li>
+        <li><span>13:30</span><span>2 roti, rajma, soya sabzi</span></li>
+        <li><span>17:00</span><span>Sprouts chaat</span></li>
+        <li><span>20:30</span><span>Tofu tikka, dal, salad</span></li>
+      </ol>
+    </div>
+    <div class="card tpl">
+      <div class="cat-head"><h3>Eggetarian</h3><span class="kcal">1,800 kcal</span></div>
+      <div class="tags"><span class="tag egg">Egg</span><span class="tag">P 120 g</span><span class="tag">Fibre 30 g</span></div>
+      <ol>
+        <li><span>07:00</span><span>Warm water, 5 almonds</span></li>
+        <li><span>08:30</span><span>3-egg bhurji, 1 multigrain toast</span></li>
+        <li><span>13:30</span><span>Rice, dal, sabzi, curd</span></li>
+        <li><span>17:00</span><span>2 boiled eggs, fruit</span></li>
+        <li><span>20:30</span><span>Egg curry, 1 roti, salad</span></li>
+      </ol>
+    </div>
+    <div class="card tpl">
+      <div class="cat-head"><h3>Non-veg</h3><span class="kcal">2,000 kcal</span></div>
+      <div class="tags"><span class="tag nonveg">Non-veg</span><span class="tag">P 150 g</span><span class="tag">Fibre 30 g</span></div>
+      <ol>
+        <li><span>07:00</span><span>Black coffee, 5 almonds</span></li>
+        <li><span>08:30</span><span>Poha with peanuts, 2 boiled eggs</span></li>
+        <li><span>13:30</span><span>Chicken curry, rice, salad</span></li>
+        <li><span>17:00</span><span>Greek yogurt, fruit</span></li>
+        <li><span>20:30</span><span>Grilled fish, 2 roti, sabzi</span></li>
+      </ol>
+    </div>
+    <div class="card tpl">
+      <div class="cat-head"><h3>Jain</h3><span class="kcal">1,700 kcal</span></div>
+      <div class="tags"><span class="tag veg">Veg</span><span class="tag">No onion, garlic, roots</span></div>
+      <ol>
+        <li><span>07:00</span><span>Warm water, soaked walnuts</span></li>
+        <li><span>08:30</span><span>Moong dal dhokla, chutney</span></li>
+        <li><span>13:30</span><span>2 roti, lauki sabzi, dal, chaas</span></li>
+        <li><span>17:00</span><span>Makhana, fruit</span></li>
+        <li><span>19:00</span><span>Paneer tikka, moong soup</span></li>
+      </ol>
+    </div>
+    <div class="card tpl">
+      <div class="cat-head"><h3>Maintenance</h3><span class="kcal">2,400 kcal</span></div>
+      <div class="tags"><span class="tag veg">Veg</span><span class="tag">P 130 g</span><span class="tag">Fibre 35 g</span></div>
+      <ol>
+        <li><span>07:00</span><span>Banana, peanut butter toast</span></li>
+        <li><span>08:30</span><span>2 aloo paratha, curd</span></li>
+        <li><span>13:30</span><span>Rice, rajma, sabzi, salad</span></li>
+        <li><span>17:00</span><span>Whey shake, chana chaat</span></li>
+        <li><span>20:30</span><span>Paneer curry, 2 roti, dal</span></li>
+      </ol>
+    </div>
+  </div>
+  <div class="grid-3">
+    <div class="card"><h3>Scan your nutritionist's chart</h3><p class="small muted">Photo, WhatsApp screenshot or PDF. Text is read on the phone, sorted into meals and times, and each line is matched to a food. Unsure words are highlighted for a quick fix.</p></div>
+    <div class="card"><h3>Build your own</h3><p class="small muted">Add meals, set times, add foods from search, your recipes or quick entries. Totals update live against your targets while you build.</p></div>
+    <div class="card"><h3>Chart variations</h3><p class="small muted">Training day and rest day versions (more carbs when you train), weekday and weekend versions, and swap-ins for any item, such as poha ↔ upma.</p></div>
+  </div>
+</section>
+
+<section id="nutrition">
+  <div class="sec-head">
+    <span class="eyebrow">Feature deep dive · Steps 10–12</span>
+    <h2>Indian food, live nutrition</h2>
+    <p>Try the behaviour below with foods from your own whiteboards: change portions and every nutrient updates instantly, before anything is saved. Load a whiteboard day to see what it adds up to. Values are approximate, per portion shown.</p>
+  </div>
+  <div class="demo">
+    <div class="card">
+      <div class="cat-head"><h3>Today's food</h3><span class="sample-note">Sample day, not your data</span></div>
+      <ul class="foods" id="foods"></ul>
+    </div>
+    <div class="card totals" aria-live="polite">
+      <span class="eyebrow">Live totals</span>
+      <div class="big"><span class="num" id="kcal">0</span><span class="of">/ 1,900 kcal</span></div>
+      <div class="bars" id="bars"></div>
+      <div class="hint" id="hint"></div>
+      <span class="eyebrow">Load a whiteboard day</span>
+      <div class="presets"><button class="reset" id="day-17" type="button">17 Sept</button><button class="reset" id="day-26" type="button">26 Sept</button><button class="reset" id="day-27" type="button">27 Sept</button><button class="reset" id="day-clear" type="button">Clear</button></div>
+    </div>
+  </div>
+  <div class="grid-3">
+    <div class="card">
+      <h3>Indian food database</h3>
+      <p class="small muted">Built on India's food composition tables (IFCT 2017, NIN), plus Open Food Facts for packaged food barcodes.</p>
+      <div class="pills"><span class="pill">Breads</span><span class="pill">Rice</span><span class="pill">Dals and curries</span><span class="pill">Sabzi</span><span class="pill">Breakfast</span><span class="pill">Dairy</span><span class="pill">Eggs and meat</span><span class="pill">Street food</span><span class="pill">Sweets</span><span class="pill">Chai and drinks</span><span class="pill">Fruit and dry fruit</span><span class="pill">Supplements</span></div>
+      <div class="pills"><span class="pill on">North</span><span class="pill on">South</span><span class="pill on">Gujarati</span><span class="pill on">Maharashtrian</span><span class="pill on">Bengali</span></div>
+    </div>
+    <div class="card">
+      <h3>Portions people actually use</h3>
+      <div class="pills"><span class="pill on">1 katori</span><span class="pill on">1 roti</span><span class="pill on">1 piece</span><span class="pill on">1 plate</span><span class="pill on">1 glass</span><span class="pill">1 tbsp</span><span class="pill">1 cup</span><span class="pill">grams</span></div>
+      <p class="small muted">Plus cooking modifiers: <strong>+1 tsp ghee</strong>, <strong>+1 tsp oil</strong>, and “restaurant style”, which adds the extra oil and cream eating out usually means.</p>
+    </div>
+    <div class="card">
+      <h3>Custom foods and recipes</h3>
+      <p class="small muted"><strong>Custom food:</strong> type the label or scan it. <strong>Recipe builder:</strong> add ingredients and servings once (“Mom's rajma, serves 4”) and get per-katori nutrition forever. Favourites and recent foods sit at the top of search.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>What's tracked, and the targets</h3>
+    <div class="table-wrap" style="border:0;border-radius:0">
+      <table>
+        <thead><tr><th>Nutrient</th><th>Shown</th><th>Daily target (example, 75 kg, fat loss)</th><th>How the target is set</th></tr></thead>
+        <tbody>
+          <tr><td><b>Calories</b></td><td>Big number + ring</td><td class="num">1,900 kcal</td><td>Maintenance from body stats and activity, minus the deficit for your chosen pace</td></tr>
+          <tr><td><b>Protein</b></td><td>Bar, always visible</td><td class="num">135 g</td><td>1.8 g per kg body weight, protects muscle in a deficit</td></tr>
+          <tr><td><b>Carbs</b></td><td>Bar</td><td class="num">215 g</td><td>What's left after protein and fat; higher on training days</td></tr>
+          <tr><td><b>Fat</b></td><td>Bar</td><td class="num">55 g</td><td>About 25% of calories</td></tr>
+          <tr><td><b>Fibre</b></td><td>Bar</td><td class="num">30 g</td><td>Keeps you full on fewer calories</td></tr>
+          <tr><td><b>Calcium</b></td><td>Bar</td><td class="num">1,000 mg</td><td>Indian recommended daily amount for adults</td></tr>
+          <tr><td><b>Iron</b></td><td>Bar</td><td class="num">19 mg</td><td>Indian recommended daily amount for men; matters on a vegetarian diet</td></tr>
+          <tr><td>Vitamin B12, vitamin D, sugar, sodium, saturated fat</td><td>Detail view</td><td class="num">—</td><td>Shown when you open the day's detail, where the food data has them</td></tr>
+          <tr><td>Water and oil</td><td>Quick-add counters</td><td class="num">3–4 L · 2 tsp</td><td>From your chart</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="share">
+  <div class="sec-head">
+    <span class="eyebrow">Feature deep dive · Steps 08–09</span>
+    <h2>Share like Strava: stories, transparent stickers, route maps</h2>
+    <p>Every finished session can leave the app three ways. Runs, walks, rides and hikes carry their GPS path with them.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Transparent sticker</h3>
+      <div class="sticker" role="img" aria-label="Sample sticker on a transparent background: a route line with distance 5.2 km, pace 5:48 per km and time 30:10">
+        <svg viewBox="0 0 96 72"><path d="M8 60 C14 40 26 44 30 30 S46 8 58 16 S62 40 74 38 S88 22 90 12"/></svg>
+        <div class="st"><div><span>Distance</span><b>5.2 km</b></div><div><span>Pace</span><b>5:48 /km</b></div><div><span>Time</span><b>30:10</b></div></div>
+      </div>
+      <p class="small muted">Stats and route with no background, saved as a PNG or copied. Paste it over any photo or video in Instagram, the way Strava stickers work. Sample figures.</p>
+    </div>
+    <div class="card">
+      <h3>Instagram Stories</h3>
+      <p class="small muted">Your photo plus an overlay goes straight into the Stories composer at 9:16. Overlay text switches between light and dark to stay readable on the photo.</p>
+      <h3>Gym, yoga and home sessions</h3>
+      <p class="small muted">No route, so the sticker shows duration, calories, kg lifted, PR badges and the muscles worked.</p>
+    </div>
+  </div>
+  <div class="grid-3">
+    <div class="card"><h3>GPS paths</h3><p class="small muted">Recorded on the phone for runs, walks, rides and hikes. Drawn as a line, optionally coloured by pace, with km markers and splits.</p></div>
+    <div class="card"><h3>Map styles</h3><div class="pills"><span class="pill on">Route only</span><span class="pill">Standard map</span><span class="pill">Satellite</span><span class="pill">Dark map</span></div><p class="small muted">Maps come from Apple Maps on the phone. No account or key needed.</p></div>
+    <div class="card"><h3>Hide your home</h3><p class="small muted">Optionally trim the first and last 200 m of a route before sharing, so the start point isn't shown.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="eyebrow">No watch, so how?</span>
+    <h2>How calories burned are estimated</h2>
+    <p>From activity type, your weight and what you logged. Only <em>active</em> calories count, so nothing is double-counted against your target. Every figure shows “≈”.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Activity</th><th>Based on</th><th>Typical values</th><th>Accuracy</th></tr></thead>
+      <tbody>
+        <tr><td>Running</td><td>Distance and body weight</td><td class="num">≈ 1.0 kcal × kg × km</td><td><span class="acc hi">± 10%</span></td></tr>
+        <tr><td>Cycling</td><td>Average speed</td><td class="num">MET 6.8 → 10 by speed</td><td><span class="acc mid">± 20%</span></td></tr>
+        <tr><td>Daily steps</td><td>iPhone motion data via Apple Health</td><td class="num">Read, not calculated</td><td><span class="acc mid">± 15%</span></td></tr>
+        <tr><td>Gym</td><td>Active time and sets per minute</td><td class="num">MET 3.5 → 6.0</td><td><span class="acc lo">± 25%</span></td></tr>
+        <tr><td>Yoga</td><td>Duration and intensity</td><td class="num">MET 2.5 → 4.0</td><td><span class="acc lo">± 25%</span></td></tr>
+        <tr><td>Home / HIIT</td><td>Duration and effort</td><td class="num">MET 4 → 8</td><td><span class="acc lo">± 25%</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="eyebrow">Screen inventory</span>
+    <h2>Four tabs and a start button</h2>
+    <p>Every touchpoint in the map lives in one of these. This is the list we wireframe next. <span class="num" style="color:var(--accent)">NEW</span> marks screens added in this round.</p>
+  </div>
+  <div class="tabbar">
+    <div class="tab"><h3>Today</h3><ul><li>Calorie and macro rings</li><li>Planned meals</li><li>Today's session</li><li>Water, steps, weight</li><li>Profile and targets</li></ul></div>
+    <div class="tab"><h3>Train</h3><ul><li>Routine picker, all workout types<span class="new">NEW</span></li><li>Plan builder<span class="new">NEW</span></li><li>Exercise library<span class="new">NEW</span></li><li>Exercise detail<span class="new">NEW</span></li><li>Custom exercise<span class="new">NEW</span></li><li>History</li></ul></div>
+    <div class="tab start"><h3>Start</h3><ul><li>Gym logger</li><li>Run / ride tracker</li><li>Yoga and HIIT timer</li><li>Summary</li><li>Share card editor</li><li>Sticker and map styles<span class="new">NEW</span></li></ul></div>
+    <div class="tab"><h3>Diet</h3><ul><li>Today's meal cards</li><li>Food search and portions</li><li>Live nutrition panel<span class="new">NEW</span></li><li>Chart templates<span class="new">NEW</span></li><li>Chart editor and scanner</li><li>Recipe builder<span class="new">NEW</span></li><li>Custom food<span class="new">NEW</span></li><li>Suggest me<span class="new">NEW</span></li></ul></div>
+    <div class="tab"><h3>Progress</h3><ul><li>Weight trend</li><li>Progress photos</li><li>PRs and calendar</li><li>Weekly recaps</li></ul></div>
+  </div>
+</section>
+
+<section class="scope">
+  <div class="sec-head">
+    <span class="eyebrow">Scope</span>
+    <h2>What ships first</h2>
+  </div>
+  <div class="grid-3">
+    <div class="card v1"><span class="tagline">Version 1 · daily use</span><h3>Core loop</h3><ul>
+      <li>Setup, goal and nutrient targets</li>
+      <li>Full exercise library + custom exercises</li>
+      <li>Plan builder with ready plans</li>
+      <li>Gym logger, run/ride GPS, yoga/HIIT timer</li>
+      <li>Routines for every workout type</li>
+      <li>Stories share, transparent sticker, route maps</li>
+      <li>Your chart and whiteboard recipes, scan, custom charts</li>
+      <li>Indian food database with real portions</li>
+      <li>Live calories, macros, fibre, calcium, iron</li>
+      <li>Suggest me, light and dark themes</li>
+      <li>Custom foods and recipes</li>
+      <li>Weight trend, Apple Health sync</li>
+    </ul></div>
+    <div class="card"><span class="tagline">Version 1.1 · polish</span><h3>Less effort</h3><ul>
+      <li>Lock screen Live Activities</li>
+      <li>Barcode and nutrition label scan</li>
+      <li>Progress photos with pose guide</li>
+      <li>Weekly recap card</li>
+      <li>Widgets and audio cues</li>
+    </ul></div>
+    <div class="card"><span class="tagline">Later</span><h3>Smarter</h3><ul>
+      <li>Muscle heatmap</li>
+      <li>Plateau detection, maintenance switch</li>
+      <li>Meal and workout suggestions</li>
+      <li>Siri shortcuts, iCloud backup</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="eyebrow">Before wireframes</span>
+    <h2>Everything is decided</h2>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Decided</h3>
+      <dl class="decided">
+        <dt>Name</dt><dd>Vyaya</dd>
+        <dt>Diet</dt><dd>Vegetarian with whole eggs</dd>
+        <dt>Targets</dt><dd>Vyaya calculates calories, protein and the rest from setup questions. Every number is editable later.</dd>
+        <dt>Food library</dt><dd>50 recipes (38 from your chart and whiteboards, 12 egg recipes), the Indian food database, custom foods and recipes</dd>
+        <dt>Workouts</dt><dd>One routine picker covering every workout type, with the full exercise library</dd>
+        <dt>Starting plan</dt><dd>Beginner week: 3 full-body gym days, a walk or run, yoga, a ride</dd>
+        <dt>Sharing</dt><dd>Instagram Stories, transparent sticker, GPS routes, four map styles</dd>
+        <dt>Theme</dt><dd>Light by default, dark available from settings</dd>
+        <dt>Blood sugar</dt><dd>Not tracked</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <h3>Reminders, on by default</h3>
+      <ul class="ticks">
+        <li><span><span class="num">07:00</span> Water, soaked nuts and weigh-in, as one notification</span></li>
+        <li><span>Meals at your chart's times: <span class="num">8:30, 11:00, 1:30, 5:00, 8:30</span></span></li>
+        <li><span>Water, only if you're behind the 3–4 litre pace by mid-afternoon</span></li>
+        <li><span>Workout, an hour before your planned session</span></li>
+        <li><span>After-dinner walk, when you log dinner</span></li>
+        <li><span>Evening review at <span class="num">21:30</span>, with the last-meal cut-off</span></li>
+        <li><span>Sunday recap, and a monthly progress photo</span></li>
+      </ul>
+      <p class="small muted">Each one can be switched off or moved. Meal reminders are skipped once that meal is logged.</p>
+    </div>
+  </div>
+  <p class="muted">Nothing is blocking the next stage. Wireframes come next, starting with the five moments that matter and the setup questions.</p>
+</section>
+
+<footer>Vyaya · Stage 1 of 4 · User journey map · Personal iPhone 13 fitness and diet app · November 2026</footer>
+</div>
+
+<script>
+(function () {
+  /* ---------- Journey map ---------- */
+  var steps = [
+    { p: "Set up", w: "Day 1", t: "Create profile", d: "Opens the app; Apple Health fills height, weight and age. Picks kg and km.", tp: ["Welcome", "About you", "Health access"], th: "“Will this take forever?”", e: 3, pain: ["Long sign-up forms", "Every permission asked at once"], opp: ["Prefill from Apple Health", "Ask each permission when first needed"] },
+    { p: "Set up", w: "Day 1", t: "Set goal and targets", d: "Chooses fat loss at 0.5 kg a week. Sees calories, protein, carbs, fat and fibre targets.", tp: ["Goal", "Your targets"], th: "“1,900 kcal, 135 g protein. Is that right for me?”", e: 4, pain: ["Targets with no explanation", "Targets can't be changed"], opp: ["One-line reason under each target", "Every target editable"] },
+    { p: "Plan", w: "Day 1", t: "Build workout plan", d: "Picks the hybrid plan (3 gym, 2 run, 1 yoga) and swaps in exercises from the library.", tp: ["Plans", "Exercise library", "Plan builder"], th: "“Is my incline cable fly in here?”", e: 3, pain: ["Variations missing", "No demo, unsure of form", "Gym apps ignore yoga and runs"], opp: ["800+ exercises with images and filters", "Custom exercise in 10 seconds", "All five activity types in one week"] },
+    { p: "Plan", w: "Day 1", t: "Set up diet chart", d: "Photographs the dietitian's printed chart (Hindi and English, with handwritten notes) and the kitchen whiteboard. Vyaya turns them into recipes.", tp: ["Chart scanner", "Recipe library", "Chart editor"], th: "“Can it read handwriting on a whiteboard?”", e: 2, pain: ["Retyping a full chart", "Food lists with no dal or roti", "Chart has no calories on it"], opp: ["Reads print, Hindi and handwriting on the phone", "Match lines to Indian foods", "Live chart totals vs targets"] },
+    { p: "Train", w: "4–5× a week", t: "Start session", d: "Taps Start on Today or the widget. Today's push day is already loaded.", tp: ["Today", "Start button", "Widget"], th: "“What's on today? Push day.”", e: 4, pain: ["Rebuilding the workout every time"], opp: ["One-tap start of the planned session"] },
+    { p: "Train", w: "4–5× a week", t: "Log sets or track", d: "Logs weight × reps prefilled from last time. Rest timer on the lock screen. Runs by GPS, yoga by timer.", tp: ["Gym logger", "Run tracker", "Yoga timer", "Lock screen"], th: "“Sweaty hands. Just let me tap.”", e: 3, pain: ["Tiny number fields", "Losing your place when the phone locks", "Guessing the weight"], opp: ["Large steppers, last session prefilled", "Auto rest timer with haptics", "Next-weight suggestion"] },
+    { p: "Train", w: "4–5× a week", t: "Hit a PR", d: "Ticks a heavier set than ever before.", tp: ["Gym logger", "PR badge"], th: "“62.5 kg. New best!”", e: 5, pain: ["PRs go unnoticed"], opp: ["Instant PR badge, carried to the share card"] },
+    { p: "Finish & share", w: "After each session", t: "Review summary", d: "Sees duration, active calories, volume or distance, PRs and the change since last time.", tp: ["Summary"], th: "“Was that a good session?”", e: 4, pain: ["Calories feel made up without a watch"], opp: ["Show ≈ and how it was estimated", "Compare with the same session last week"] },
+    { p: "Finish & share", w: "After each session", t: "Share to Instagram", d: "Adds a photo and overlay for Stories, or saves a transparent sticker with the GPS route on it.", tp: ["Photo picker", "Overlay editor", "Instagram"], th: "“This looks good enough to post.”", e: 5, pain: ["Overlays clash with the photo", "Editing in a second app"], opp: ["Text colour adapts to the photo", "Stories, transparent sticker, route on a map"] },
+    { p: "Eat & track", w: "4–6× a day", t: "Tick planned meal", d: "Ate the planned breakfast. Ticks the meal card.", tp: ["Meal card", "Meal reminder"], th: "“Had exactly this. Done.”", e: 4, pain: ["Logging feels like homework"], opp: ["One tap ✓ for planned meals"] },
+    { p: "Eat & track", w: "4–6× a day", t: "Log off-plan food", d: "Samosa with evening tea, not on the whiteboard. Searches it, sees it's on the chart's avoid list, logs it anyway.", tp: ["Food search", "Portion picker", "Recipe builder", "Custom food"], th: "“How many calories in this thali?”", e: 2, pain: ["Indian dishes missing or wrong", "Portions only in grams", "Oil levels vary"], opp: ["Indian database in katori, roti, piece", "Ghee, oil and restaurant modifiers", "Custom foods and recipes saved"] },
+    { p: "Eat & track", w: "4–6× a day", t: "Watch nutrition live", d: "Sees calories, protein, carbs, fat, fibre, calcium and iron change while picking the portion. Asks Vyaya to suggest dinner.", tp: ["Live nutrition panel", "Day rings"], th: "“Still 40 g short on protein.”", e: 4, pain: ["Totals only after saving", "Only calories tracked"], opp: ["Live preview of every nutrient", "Suggest me: a meal from your recipes that fits what's left"] },
+    { p: "Review", w: "Nightly, Sundays", t: "Evening review", d: "Checks eaten vs burned and macros hit. Logs dinner.", tp: ["Day summary", "Evening nudge"], th: "“Did I stay in a deficit?”", e: 4, pain: ["Workouts and diet in separate apps"], opp: ["Net calories in one view"] },
+    { p: "Review", w: "Nightly, Sundays", t: "Weekly recap", d: "Workouts, kg lifted, km covered, average deficit, protein days hit.", tp: ["Weekly recap", "Share card"], th: "“4 workouts, 5 protein days. Good week.”", e: 4, pain: ["No sense of the bigger picture"], opp: ["Recap card in the same share style"] },
+    { p: "Progress", w: "Daily, monthly", t: "Morning weigh-in", d: "Enters weight. Up 0.6 kg from yesterday.", tp: ["Weigh-in", "Weight trend"], th: "“Up again? I ate clean all week.”", e: 2, pain: ["Water and salt swings look like failure"], opp: ["Lead with the 7-day trend"] },
+    { p: "Progress", w: "Daily, monthly", t: "Reach target", d: "Hits target weight. Compares progress photos. Switches to maintenance.", tp: ["Progress", "Photo compare", "Maintenance"], th: "“I actually did it. Now what?”", e: 5, pain: ["Not knowing how much to eat after a diet"], opp: ["Calories raised ≈ 100 a week to maintenance"] }
+  ];
+  var COL = 212, LABELS = ["", "Frustrated", "Unsure", "Neutral", "Positive", "Delighted"];
+  var map = document.getElementById("map");
+  function el(cls, html, style) { var d = document.createElement("div"); d.className = cls; if (html != null) d.innerHTML = html; if (style) d.setAttribute("style", style); map.appendChild(d); return d; }
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+
+  // Phase row
+  el("lane", "Phase");
+  var i = 0;
+  while (i < steps.length) {
+    var j = i; while (j < steps.length && steps[j].p === steps[i].p) j++;
+    el("phase", "<b>" + esc(steps[i].p) + "</b><span>" + esc(steps[i].w) + "</span>", "grid-column: span " + (j - i));
+    i = j;
+  }
+  // Step row
+  el("lane", "Step");
+  steps.forEach(function (s, k) { el("step", '<span class="num">' + String(k + 1).padStart(2, "0") + "</span><b>" + esc(s.t) + "</b>"); });
+  // Doing
+  el("lane", "Doing<small>Actions</small>");
+  steps.forEach(function (s) { el("", esc(s.d)); });
+  // Touchpoints
+  el("lane", "Touchpoints<small>Screens</small>");
+  steps.forEach(function (s) { el("tps", s.tp.map(function (t) { return '<span class="tp">' + esc(t) + "</span>"; }).join("")); });
+  // Thinking
+  el("lane", "Thinking");
+  steps.forEach(function (s) { el("think", esc(s.th)); });
+  // Feeling (emotion curve)
+  el("lane", "Feeling<small>Emotion curve</small>");
+  var W = COL * steps.length, H = 150, top = 22, bottom = 118;
+  function y(e) { return bottom - (e - 1) * (bottom - top) / 4; }
+  var pts = steps.map(function (s, k) { return [k * COL + COL / 2, y(s.e)]; });
+  var d = "M" + pts[0][0] + "," + pts[0][1];
+  for (var k = 1; k < pts.length; k++) {
+    var p0 = pts[k - 1], p1 = pts[k], mx = (p0[0] + p1[0]) / 2;
+    d += " C" + mx + "," + p0[1] + " " + mx + "," + p1[1] + " " + p1[0] + "," + p1[1];
+  }
+  var svg = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Emotion curve across the 16 steps. Lows at diet chart setup, off-plan food logging and morning weigh-in. Peaks at personal record, sharing, and reaching target.">';
+  [1, 3, 5].forEach(function (e) { svg += '<line class="gl" x1="0" x2="' + W + '" y1="' + y(e) + '" y2="' + y(e) + '"/>'; });
+  svg += '<path class="area" d="' + d + " L" + pts[pts.length - 1][0] + "," + (bottom + 8) + " L" + pts[0][0] + "," + (bottom + 8) + ' Z"/>';
+  svg += '<path class="curve" d="' + d + '"/>';
+  steps.forEach(function (s, k) {
+    var c = s.e <= 2 ? "var(--heat)" : s.e >= 5 ? "var(--good)" : "var(--accent)";
+    var fill = s.e >= 5 || s.e <= 2 ? c : "var(--surface)";
+    svg += '<circle class="pt" cx="' + pts[k][0] + '" cy="' + pts[k][1] + '" r="7" fill="' + fill + '" stroke="' + c + '"/>';
+    var ly = s.e <= 2 ? pts[k][1] + 24 : pts[k][1] - 14;
+    svg += '<text class="lbl" text-anchor="middle" x="' + pts[k][0] + '" y="' + ly + '">' + LABELS[s.e] + "</text>";
+  });
+  svg += "</svg>";
+  el("emo", svg);
+  // Pain points
+  el("lane pain-l", "Pain points<small>In most apps</small>");
+  steps.forEach(function (s) { el("pain", "<ul>" + s.pain.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>"); });
+  // Opportunities
+  el("lane opp-l", "Opportunities<small>This app</small>");
+  steps.forEach(function (s) { el("opp", "<ul>" + s.opp.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>"); });
+
+  /* ---------- Live nutrition demo ---------- */
+  var foods = [
+    { n: "Soaked nuts", u: "5 almonds + 2 walnuts", k: 90, p: 2.5, c: 2.5, f: 8.3, fb: 1.3, ca: 25, fe: 0.5 },
+    { n: "Tea, no sugar", u: "1 cup", k: 35, p: 1.5, c: 2.5, f: 1.5, fb: 0, ca: 50, fe: 0 },
+    { n: "Avocado toast", u: "1 slice", k: 190, p: 4, c: 17, f: 12, fb: 5, ca: 30, fe: 1 },
+    { n: "Besan chilla", u: "1", k: 120, p: 6, c: 15, f: 4, fb: 3, ca: 20, fe: 1.5 },
+    { n: "Poha", u: "1 plate", k: 250, p: 5, c: 40, f: 8, fb: 2, ca: 20, fe: 2.5 },
+    { n: "Vegetable dalia", u: "1 katori", k: 160, p: 5, c: 28, f: 3, fb: 4, ca: 25, fe: 1.5 },
+    { n: "Egg whites", u: "2", k: 34, p: 7.2, c: 0.4, f: 0.1, fb: 0, ca: 4, fe: 0 },
+    { n: "Boiled egg", u: "1 large", k: 78, p: 6.3, c: 0.6, f: 5.3, fb: 0, ca: 25, fe: 0.9 },
+    { n: "Masala omelette", u: "2 eggs", k: 220, p: 13, c: 3, f: 17, fb: 0.5, ca: 60, fe: 2 },
+    { n: "Apple", u: "1 medium", k: 95, p: 0.5, c: 25, f: 0.3, fb: 4.4, ca: 11, fe: 0.2 },
+    { n: "Curd or raita", u: "100 g", k: 60, p: 3.3, c: 4.7, f: 3, fb: 0, ca: 120, fe: 0.1 },
+    { n: "Chaach", u: "1 glass", k: 40, p: 2, c: 3, f: 1.5, fb: 0, ca: 90, fe: 0.1 },
+    { n: "Salad", u: "½ plate", k: 30, p: 1.5, c: 6, f: 0.2, fb: 2.5, ca: 30, fe: 0.6 },
+    { n: "Bejad roti", u: "1", k: 100, p: 3.5, c: 19, f: 1, fb: 3.5, ca: 15, fe: 1.2 },
+    { n: "Dal", u: "1 katori", k: 150, p: 8, c: 20, f: 4, fb: 4, ca: 30, fe: 2 },
+    { n: "Kala chana masala", u: "1 katori", k: 210, p: 11, c: 30, f: 5, fb: 9, ca: 60, fe: 3.5 },
+    { n: "Sabzi (bhindi, lauki, kaddu)", u: "1 katori", k: 90, p: 2.5, c: 9, f: 5, fb: 3.5, ca: 50, fe: 0.8 },
+    { n: "Pyaz paneer", u: "1 katori", k: 240, p: 12, c: 8, f: 18, fb: 1.5, ca: 300, fe: 0.5 },
+    { n: "Makhana", u: "1 katori", k: 70, p: 2, c: 15, f: 0.1, fb: 0.5, ca: 12, fe: 0.3 },
+    { n: "Peanuts", u: "1 handful", k: 115, p: 5, c: 3, f: 10, fb: 1.7, ca: 18, fe: 0.9 },
+    { n: "Samosa", u: "1 · on your avoid list", k: 260, p: 4, c: 30, f: 14, fb: 2, ca: 20, fe: 1 }
+  ];
+  var DAYS = {
+    "17": { "Soaked nuts": 1, "Avocado toast": 1, "Tea, no sugar": 2, "Apple": 1, "Curd or raita": 2, "Salad": 1, "Sabzi (bhindi, lauki, kaddu)": 1, "Kala chana masala": 2, "Bejad roti": 4, "Makhana": 1, "Dal": 1 },
+    "26": { "Soaked nuts": 1, "Tea, no sugar": 2, "Poha": 1, "Apple": 1, "Sabzi (bhindi, lauki, kaddu)": 1, "Bejad roti": 1, "Salad": 1, "Chaach": 1, "Samosa": 1, "Vegetable dalia": 1 },
+    "27": { "Soaked nuts": 1, "Tea, no sugar": 2, "Besan chilla": 2, "Apple": 1, "Pyaz paneer": 1, "Bejad roti": 3, "Salad": 1, "Curd or raita": 1, "Peanuts": 1, "Sabzi (bhindi, lauki, kaddu)": 1, "Dal": 1 },
+    "clear": {}
+  };
+  var T = { k: 1900, p: 135, c: 215, f: 55, fb: 30, ca: 1000, fe: 19 };
+  var KEYS = ["k", "p", "c", "f", "fb", "ca", "fe"];
+  var qty = {};
+  function loadDay(d) { foods.forEach(function (f) { qty[f.n] = DAYS[d][f.n] || 0; }); }
+  loadDay("17");
+  var list = document.getElementById("foods");
+  foods.forEach(function (f, idx) {
+    var li = document.createElement("li");
+    li.innerHTML = '<div><div class="fname">' + f.n + '</div><div class="fmeta">' + f.u + " · " + f.k + " kcal · P " + f.p + " · C " + f.c + " · F " + f.f + " · Fb " + f.fb + '</div></div>' +
+      '<div class="stepper"><button type="button" id="dec-' + idx + '" aria-label="Remove one ' + f.u + " " + f.n + '">−</button><output id="q-' + idx + '">0</output><button type="button" id="inc-' + idx + '" aria-label="Add one ' + f.u + " " + f.n + '">+</button></div>';
+    list.appendChild(li);
+    li.querySelector("#dec-" + idx).addEventListener("click", function () { qty[f.n] = Math.max(0, qty[f.n] - 1); render(); });
+    li.querySelector("#inc-" + idx).addEventListener("click", function () { qty[f.n] = Math.min(9, qty[f.n] + 1); render(); });
+  });
+  Object.keys(DAYS).forEach(function (d) { document.getElementById("day-" + d).addEventListener("click", function () { loadDay(d); render(); }); });
+  var bars = document.getElementById("bars");
+  var defs = [["p", "Protein", "g"], ["c", "Carbs", "g"], ["f", "Fat", "g"], ["fb", "Fibre", "g"], ["ca", "Calcium", "mg"], ["fe", "Iron", "mg"]];
+  bars.innerHTML = '<div class="bar-row"><div class="bar-top"><span>Calories</span><span id="t-k"></span></div><div class="track"><div class="fill kcal" id="b-k"></div></div></div>' +
+    defs.map(function (x) { return '<div class="bar-row"><div class="bar-top"><span>' + x[1] + '</span><span id="t-' + x[0] + '"></span></div><div class="track"><div class="fill" id="b-' + x[0] + '"></div></div></div>'; }).join("");
+  function fmt(v) { return Math.round(v).toLocaleString("en-IN"); }
+  function render() {
+    var s = { k: 0, p: 0, c: 0, f: 0, fb: 0, ca: 0, fe: 0 };
+    foods.forEach(function (f, idx) {
+      var q = qty[f.n]; document.getElementById("q-" + idx).textContent = q;
+      list.children[idx].classList.toggle("has", q > 0);
+      KEYS.forEach(function (key) { s[key] += f[key] * q; });
+    });
+    document.getElementById("kcal").textContent = fmt(s.k);
+    [["k", "kcal"]].concat(defs.map(function (x) { return [x[0], x[2]]; })).forEach(function (x) {
+      var key = x[0], pct = Math.min(100, s[key] / T[key] * 100);
+      var b = document.getElementById("b-" + key); b.style.width = pct + "%";
+      b.classList.toggle("over", s[key] > T[key]);
+      document.getElementById("t-" + key).textContent = fmt(s[key]) + " / " + fmt(T[key]) + " " + x[1];
+    });
+    var hint = document.getElementById("hint"), left = T.k - s.k, pLeft = T.p - s.p;
+    hint.classList.remove("warn");
+    if (left < 0) { hint.classList.add("warn"); hint.textContent = fmt(-left) + " kcal over target. Tomorrow's chart can absorb it, or add a 30-minute ride (≈ 300 kcal)."; }
+    else if (pLeft > 20) { hint.textContent = fmt(left) + " kcal left and " + fmt(pLeft) + " g protein to go. From your recipes: a masala omelette (13 g), pyaz paneer (12 g) or kala chana masala (11 g)."; }
+    else if (pLeft > 0) { hint.textContent = "Almost there: " + fmt(pLeft) + " g protein and " + fmt(left) + " kcal left."; }
+    else { hint.textContent = "Protein target hit, with " + fmt(left) + " kcal left."; }
+  }
+  render();
+})();
+</script>

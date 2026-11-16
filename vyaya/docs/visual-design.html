@@ -1,0 +1,196 @@
+<title>Vyaya Visual Design</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a wall of iPhone 13 screens. Soft paper ground, white rounded cards, grey selection tiles, the signal red to ember gradient from the filter marks the primary action. */
+:root { --bg:#E6E4DF; --fg:#121214; --dim:#6F6D68; --bezel:#121214; --sans:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --l-paper:#F4F3EF; --l-surface:#FFFFFF; --l-tile:#EBE9E4; --l-ink:#121214; --l-mute:#76746F; --l-line:#E4E2DC; --l-g1:#E8281E; --l-g2:#F26A1B; --l-sig:#E8281E;
+  --d-paper:#0A0A0B; --d-surface:#17171A; --d-tile:#232327; --d-ink:#F4F3EF; --d-mute:#94928D; --d-line:#2A2A2E; --d-g1:#FF3B2F; --d-g2:#FF7A2E; --d-sig:#FF3B2F }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#000; --fg:#F4F3EF; --dim:#94928D; --bezel:#38383C; color-scheme:dark } }
+:root[data-theme="dark"] { --bg:#000; --fg:#F4F3EF; --dim:#94928D; --bezel:#38383C; color-scheme:dark }
+body { background:var(--bg); color:var(--fg); font-family:var(--sans); font-size:16px; line-height:1.45 }
+.wrap { max-width:1320px; margin:0 auto; padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px)); padding-block:40px 80px; display:flex; flex-direction:column; gap:44px }
+h1 { margin:0; font-size:clamp(2.4rem,7vw,4.4rem); font-weight:800; line-height:.95; letter-spacing:-.035em; text-wrap:balance }
+p { margin:0 } .lede { color:var(--dim); max-width:62ch; font-size:1.05rem }
+.lab { font-family:var(--mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--dim) }
+header { display:flex; flex-direction:column; gap:14px }
+.idn { display:flex; flex-wrap:wrap; gap:10px; align-items:center }
+.sw { width:44px; height:44px; border-radius:14px } .sw.w { width:120px }
+.wall { display:grid; grid-template-columns:repeat(auto-fill,minmax(296px,1fr)); gap:40px 26px; justify-items:center }
+figure { margin:0; display:flex; flex-direction:column; gap:12px; width:100%; max-width:304px }
+figcaption b { display:block } figcaption span { color:var(--dim); font-size:.88rem }
+.ph { --paper:var(--l-paper); --surface:var(--l-surface); --tile:var(--l-tile); --ink:var(--l-ink); --mute:var(--l-mute); --line:var(--l-line); --g1:var(--l-g1); --g2:var(--l-g2); --sig:var(--l-sig);
+  background:var(--paper); color:var(--ink); border:6px solid var(--bezel); border-radius:42px; height:628px; overflow:hidden; display:flex; flex-direction:column; position:relative; font-size:13px }
+.ph.dk { --paper:var(--d-paper); --surface:var(--d-surface); --tile:var(--d-tile); --ink:var(--d-ink); --mute:var(--d-mute); --line:var(--d-line); --g1:var(--d-g1); --g2:var(--d-g2); --sig:var(--d-sig) }
+.sb { display:flex; justify-content:space-between; padding:11px 24px 2px; font-weight:700; font-size:12px; position:relative; z-index:2 }
+.sb::after { content:""; position:absolute; left:50%; top:8px; width:78px; height:21px; margin-left:-39px; background:#000; border-radius:12px }
+.in { flex:1; padding:12px 16px 16px; display:flex; flex-direction:column; gap:10px; min-height:0; position:relative; z-index:1 }
+.m { font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--mute) }
+.h { font-size:26px; font-weight:800; letter-spacing:-.03em; line-height:1.05 } .sub { color:var(--mute); font-size:12.5px }
+.n { font-weight:800; letter-spacing:-.045em; line-height:.95; font-variant-numeric:tabular-nums }
+.r { display:flex; justify-content:space-between; align-items:center; gap:8px }
+.card { background:var(--surface); border-radius:22px; padding:14px; display:flex; flex-direction:column; gap:8px }
+.tile { background:var(--tile); border-radius:16px; padding:12px; display:flex; flex-direction:column; gap:14px; font-weight:600 } .tile.on { background:var(--ink); color:var(--paper) }
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:8px } .g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:10px }
+.btn { background:linear-gradient(135deg,var(--g1),var(--g2)); color:#fff; text-align:center; padding:15px; font-weight:700; font-size:14px; border-radius:18px; box-shadow:0 10px 22px -12px var(--g1) }
+.btn.o { background:var(--tile); color:var(--ink); box-shadow:none } .btn.k { background:var(--ink); color:var(--paper); box-shadow:none }
+.pill { background:var(--tile); border-radius:99px; padding:6px 12px; font-weight:600; font-size:12px; white-space:nowrap } .pill.g { background:linear-gradient(135deg,var(--g1),var(--g2)); color:#fff } .pill.on { background:var(--ink); color:var(--paper) }
+.bar { height:6px; border-radius:9px; background:var(--tile); overflow:hidden } .bar i { display:block; height:100%; border-radius:9px; background:var(--ink) } .bar.g i { background:linear-gradient(90deg,var(--g1),var(--g2)) }
+.ic { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex:none }
+.rnd { width:36px; height:36px; border-radius:50%; background:var(--tile); display:grid; place-items:center; flex:none } .rnd.g { background:linear-gradient(135deg,var(--g1),var(--g2)); color:#fff } .rnd.k { background:var(--ink); color:var(--paper) } .rnd.s { width:26px; height:26px } .rnd.s .ic { width:14px; height:14px }
+.pad { margin-top:auto; display:flex; flex-direction:column; gap:8px }
+.dots { display:flex; gap:5px } .dots i { height:4px; flex:1; border-radius:9px; background:var(--tile) } .dots i.on { background:var(--ink) }
+.wk { display:grid; grid-template-columns:repeat(7,1fr); text-align:center; gap:2px } .wk span { display:flex; flex-direction:column; align-items:center; gap:5px }
+.wk i { width:20px; height:20px; border-radius:50%; border:1.5px solid var(--line); display:grid; place-items:center; font-style:normal } .wk i.d { background:var(--ink); border-color:var(--ink); color:var(--paper) } .wk i.t { border-color:var(--sig) } .wk .ic { width:11px; height:11px; stroke-width:2.6 }
+.ring { position:relative; width:112px; height:112px; flex:none } .ring svg { width:100%; height:100%; transform:rotate(-90deg) } .ring .tr { stroke:var(--tile) } .ring div { position:absolute; inset:0; display:grid; place-content:center; text-align:center }
+.tabs { margin:0 14px 14px; background:var(--surface); border-radius:28px; padding:8px 10px; display:grid; grid-template-columns:repeat(5,1fr); align-items:center; text-align:center; font-size:9.5px; font-weight:600; color:var(--mute); position:relative; z-index:2; box-shadow:0 8px 24px -14px rgba(0,0,0,.35) }
+.tabs > * { display:flex; flex-direction:column; align-items:center; gap:3px } .tabs b { color:var(--ink) } .tabs .go { justify-self:center; width:46px; height:46px; border-radius:50%; background:linear-gradient(135deg,var(--g1),var(--g2)); color:#fff; justify-content:center; box-shadow:0 8px 18px -8px var(--g1) }
+.set { background:var(--surface); border-radius:16px; padding:10px 12px }
+.pr { font-family:var(--mono); font-size:9px; letter-spacing:.1em; background:linear-gradient(135deg,var(--g1),var(--g2)); color:#fff; padding:2px 7px; border-radius:99px }
+.glow { position:absolute; inset:34% -30% -10% -10%; background:linear-gradient(90deg,transparent,var(--g1) 45%,var(--g2)); filter:blur(50px); opacity:.75 }
+.shot { position:relative; flex:1; min-height:0; background:#050505; border-radius:24px; overflow:hidden; color:#F4F3EF; display:flex; flex-direction:column; justify-content:space-between; padding:14px }
+.shot::before { content:""; position:absolute; left:46%; top:14%; width:62px; height:76px; border-radius:50%; background:#E8281E; filter:blur(3px); box-shadow:-30px 0 26px 4px #E8281E,-90px 4px 46px 6px rgba(232,40,30,.7) }
+.shot::after { content:""; position:absolute; left:-20%; right:14%; top:36%; bottom:-10%; background:linear-gradient(90deg,transparent,#B81A12 35%,#E8281E 70%,#F26A1B); clip-path:polygon(0 30%,62% 6%,86% 0,100% 16%,100% 100%,0 100%); filter:blur(7px) }
+.shot > * { position:relative; z-index:1 } .shot .m { color:#F4F3EF }
+.lock { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:10px } .lock .m:last-child { text-align:right } .lock svg { width:26px; height:26px; display:block }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="vg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8281E"/><stop offset="1" stop-color="#F26A1B"/></linearGradient>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M5 12l-2 0l9 -9l9 9l-2 0" /> <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /> <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /></symbol>
+<symbol id="i-gym" viewBox="0 0 24 24"><path d="M2 12h1" /> <path d="M6 8h-2a1 1 0 0 0 -1 1v6a1 1 0 0 0 1 1h2" /> <path d="M6 7v10a1 1 0 0 0 1 1h1a1 1 0 0 0 1 -1v-10a1 1 0 0 0 -1 -1h-1a1 1 0 0 0 -1 1z" /> <path d="M9 12h6" /> <path d="M15 7v10a1 1 0 0 0 1 1h1a1 1 0 0 0 1 -1v-10a1 1 0 0 0 -1 -1h-1a1 1 0 0 0 -1 1z" /> <path d="M18 8h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2" /> <path d="M22 12h-1" /></symbol>
+<symbol id="i-play" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" /></symbol>
+<symbol id="i-diet" viewBox="0 0 24 24"><path d="M4 11h16a1 1 0 0 1 1 1v.5c0 1.5 -2.517 5.573 -4 6.5v1a1 1 0 0 1 -1 1h-8a1 1 0 0 1 -1 -1v-1c-1.687 -1.054 -4 -5 -4 -6.5v-.5a1 1 0 0 1 1 -1z" /> <path d="M18.5 11c.351 -1.017 .426 -2.236 .5 -3.714v-1.286h-2.256c-2.83 0 -4.616 .804 -5.64 2.076" /> <path d="M5.255 11.008a12.204 12.204 0 0 1 -.255 -2.008v-1h1.755c.98 0 1.801 .124 2.479 .35" /> <path d="M8 8l1 -4l4 2.5" /> <path d="M13 11v-.5a2.5 2.5 0 1 0 -5 0v.5" /></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 13a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /> <path d="M15 9a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /> <path d="M9 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /> <path d="M4 20h14" /></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /> <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></symbol>
+<symbol id="i-run" viewBox="0 0 24 24"><path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /> <path d="M4 17l5 1l.75 -1.5" /> <path d="M15 21l0 -4l-4 -3l1 -6" /> <path d="M7 12l0 -3l5 -1l3 3l3 1" /></symbol>
+<symbol id="i-ride" viewBox="0 0 24 24"><path d="M5 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /> <path d="M19 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /> <path d="M12 19l0 -4l-3 -3l5 -4l2 3l3 0" /> <path d="M17 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></symbol>
+<symbol id="i-walk" viewBox="0 0 24 24"><path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /> <path d="M7 21l3 -4" /> <path d="M16 21l-2 -4l-3 -3l1 -6" /> <path d="M6 12l2 -3l4 -1l3 3l3 1" /></symbol>
+<symbol id="i-yoga" viewBox="0 0 24 24"><path d="M12 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /> <path d="M4 20h4l1.5 -3" /> <path d="M17 20l-1 -5h-5l1 -7" /> <path d="M4 10l4 -1l4 -1l4 1.5l4 1.5" /></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /> <path d="M21 21l-6 -6" /></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 7v-1a2 2 0 0 1 2 -2h2" /> <path d="M4 17v1a2 2 0 0 0 2 2h2" /> <path d="M16 4h2a2 2 0 0 1 2 2v1" /> <path d="M16 20h2a2 2 0 0 0 2 -2v-1" /> <path d="M5 11h1v2h-1z" /> <path d="M10 11l0 2" /> <path d="M14 11h1v2h-1z" /> <path d="M19 11l0 2" /></symbol>
+<symbol id="i-spark" viewBox="0 0 24 24"><path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z" /></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 5a5 5 0 0 1 7 0a5 5 0 0 0 7 0v9a5 5 0 0 1 -7 0a5 5 0 0 0 -7 0v-9z" /> <path d="M5 21v-7" /></symbol>
+<symbol id="i-drop" viewBox="0 0 24 24"><path d="M7.502 19.423c2.602 2.105 6.395 2.105 8.996 0c2.602 -2.105 3.262 -5.708 1.566 -8.546l-4.89 -7.26c-.42 -.625 -1.287 -.803 -1.936 -.397a1.376 1.376 0 0 0 -.41 .397l-4.893 7.26c-1.695 2.838 -1.035 6.441 1.567 8.546z" /></symbol>
+<symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 10.941c2.333 -3.308 .167 -7.823 -1 -8.941c0 3.395 -2.235 5.299 -3.667 6.706c-1.43 1.408 -2.333 3.621 -2.333 5.588c0 3.704 3.134 6.706 7 6.706s7 -3.002 7 -6.706c0 -1.712 -1.232 -4.403 -2.333 -5.588c-2.084 3.353 -3.257 3.353 -4.667 2.235" /></symbol>
+<symbol id="i-timer" viewBox="0 0 24 24"><path d="M5 13a7 7 0 1 0 14 0a7 7 0 0 0 -14 0z" /> <path d="M14.5 10.5l-2.5 2.5" /> <path d="M17 8l1 -1" /> <path d="M14 3h-4" /></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6l-12 12" /> <path d="M6 6l12 12" /></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M5 12l14 0" /> <path d="M5 12l6 6" /> <path d="M5 12l6 -6" /></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5l0 14" /> <path d="M5 12l14 0" /></symbol>
+<symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12l14 0" /></symbol>
+<symbol id="i-share" viewBox="0 0 24 24"><path d="M8 9h-1a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-8a2 2 0 0 0 -2 -2h-1" /> <path d="M12 14v-11" /> <path d="M9 6l3 -3l3 3" /></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /> <path d="M7 11l5 5l5 -5" /> <path d="M12 4l0 12" /></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5l10 -10" /></symbol>
+<symbol id="i-meal" viewBox="0 0 24 24"><path d="M19 3v12h-5c-.023 -3.681 .184 -7.406 5 -12zm0 12v6h-1v-3m-10 -14v17m-3 -17v3a3 3 0 1 0 6 0v-3" /></symbol>
+</defs></svg>
+
+<div class="wrap">
+<header>
+  <span class="lab">Vyaya · Stage 3 of 4 · Visual design v2 · iPhone 13</span>
+  <h1>Softer and rounder, same signal red</h1>
+  <p class="lede">The primary colour is the original signal red. Main buttons, the Start button, the calorie ring and the PR badge use the same red-to-ember gradient as the photo filter. Cards and tiles are rounded on a soft paper ground. Type, mono labels, the lockup and the photo filter stay from the design system. Figures are examples. Icons are from Tabler Icons, a free open-source set (MIT licence).</p>
+  <div class="idn"><span class="sw w" style="background:linear-gradient(135deg,#E8281E,#F26A1B)"></span><span class="sw" style="background:#121214"></span><span class="sw" style="background:#F4F3EF;border:1px solid #D9D7D0"></span><span class="sw" style="background:#EBE9E4"></span><span class="sw" style="background:#FFFFFF;border:1px solid #D9D7D0"></span><span class="lab">Signal #E8281E → Ember #F26A1B · Ink · Paper · Tile · Card</span></div>
+</header>
+
+<div class="wall">
+
+<figure><div class="ph"><div class="sb"><span>9:41</span><span>●●●</span></div><div class="in">
+  <div class="r"><span class="rnd"><svg class="ic"><use href="#i-back"/></svg></span><span class="m">4 of 6</span></div>
+  <div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+  <div class="h">What do you want to train?</div>
+  <div class="sub">Pick as many as you like. You can change this later.</div>
+  <div class="g2">
+    <div class="tile on"><svg class="ic"><use href="#i-gym"/></svg>Gym</div><div class="tile on"><svg class="ic"><use href="#i-run"/></svg>Run</div>
+    <div class="tile"><svg class="ic"><use href="#i-ride"/></svg>Ride</div><div class="tile on"><svg class="ic"><use href="#i-walk"/></svg>Walk</div>
+    <div class="tile on"><svg class="ic"><use href="#i-yoga"/></svg>Yoga</div><div class="tile"><svg class="ic"><use href="#i-home"/></svg>Home</div>
+  </div>
+  <div class="pad"><div class="btn">Continue</div></div>
+</div></div><figcaption><b>Setup question</b><span>Grey tiles with icons; chosen ones turn ink. One gradient button.</span></figcaption></figure>
+
+<figure><div class="ph"><div class="sb"><span>9:41</span><span>●●●</span></div><div class="in">
+  <div class="r"><span class="rnd"><svg class="ic"><use href="#i-back"/></svg></span><span class="m">6 of 6</span></div>
+  <div class="h">Your daily target</div>
+  <div class="sub">Calculated from your answers: maintenance 2,450, minus 550 to lose 0.5 kg a week.</div>
+  <div class="r" style="justify-content:center;gap:18px;padding:14px 0"><span class="rnd k"><svg class="ic"><use href="#i-minus"/></svg></span><div style="text-align:center"><div class="n" style="font-size:60px">1,900</div><div class="m">kcal a day</div></div><span class="rnd k"><svg class="ic"><use href="#i-plus"/></svg></span></div>
+  <div class="card">
+    <div class="r"><span>Protein</span><b>135 g</b></div><div class="r"><span>Carbs</span><b>215 g</b></div><div class="r"><span>Fat</span><b>55 g</b></div><div class="r"><span>Fibre · Water</span><b>30 g · 3 L</b></div>
+  </div>
+  <div class="sub">Tap any number to edit. You can change these any time in Profile.</div>
+  <div class="pad"><div class="btn">Looks right</div></div>
+</div></div><figcaption><b>Targets</b><span>Vyaya's number, with plus and minus to adjust it yourself.</span></figcaption></figure>
+
+<figure><div class="ph"><div class="sb"><span>9:41</span><span>●●●</span></div><div class="in" style="padding-bottom:6px">
+  <div class="r"><div><div class="h">Today</div><div class="sub">Mon 16 Nov</div></div><span class="rnd"><svg class="ic"><use href="#i-user"/></svg></span></div>
+  <div class="wk m"><span>M<i class="d"><svg class="ic"><use href="#i-check"/></svg></i></span><span>T<i class="d"><svg class="ic"><use href="#i-check"/></svg></i></span><span>W<i></i></span><span>T<i class="d"><svg class="ic"><use href="#i-check"/></svg></i></span><span>F<i class="d"><svg class="ic"><use href="#i-check"/></svg></i></span><span>S<i></i></span><span>S<i class="t"></i></span></div>
+  <div class="card"><div class="r">
+    <div class="ring"><svg viewBox="0 0 120 120"><circle class="tr" cx="60" cy="60" r="50" fill="none" stroke-width="13"/><circle cx="60" cy="60" r="50" fill="none" stroke="url(#vg)" stroke-width="13" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="204"/></svg><div><div class="n" style="font-size:24px">1,240</div><div class="m">kcal left</div></div></div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:8px"><div><div class="m">Eaten</div><b>660 kcal</b></div><div><div class="m">Burned</div><b>≈ 0 kcal</b></div><div><div class="m">Water</div><b>1.2 / 3 L</b></div></div>
+  </div></div>
+  <div class="card"><div class="g3"><div><div class="m">Protein</div><b>62</b><span class="sub"> /135</span><div class="bar" style="margin-top:5px"><i style="width:46%"></i></div></div><div><div class="m">Carbs</div><b>98</b><span class="sub"> /215</span><div class="bar" style="margin-top:5px"><i style="width:45%"></i></div></div><div><div class="m">Fat</div><b>21</b><span class="sub"> /55</span><div class="bar" style="margin-top:5px"><i style="width:38%"></i></div></div></div></div>
+  <div class="card"><div class="r"><span class="rnd"><svg class="ic"><use href="#i-gym"/></svg></span><div style="flex:1"><b>Full body A</b><div class="sub">6 exercises · about 50 min</div></div><span class="pill g">Start</span></div></div>
+  <div class="card"><div class="r"><span class="rnd"><svg class="ic"><use href="#i-meal"/></svg></span><div style="flex:1"><b>Lunch · 1:30</b><div class="sub">Salad, 2 roti, dal, sabzi</div></div><span class="pill">Log</span></div></div>
+</div><div class="tabs"><b><svg class="ic"><use href="#i-home"/></svg>Today</b><span><svg class="ic"><use href="#i-gym"/></svg>Train</span><span class="go"><svg class="ic" role="img" aria-label="Start workout"><use href="#i-play"/></svg></span><span><svg class="ic"><use href="#i-diet"/></svg>Diet</span><span><svg class="ic"><use href="#i-chart"/></svg>Progress</span></div></div>
+<figcaption><b>Today</b><span>Calorie ring, macros, session and next meal as cards. Floating tab bar with a round Start.</span></figcaption></figure>
+
+<figure><div class="ph"><div class="sb"><span>9:41</span><span>●●●</span></div><div class="in" style="padding-bottom:6px">
+  <div class="r"><div class="h">Diet</div><span class="pill"><svg class="ic" style="width:12px;height:12px;vertical-align:-2px"><use href="#i-spark"/></svg> Suggest me</span></div>
+  <div class="card"><div class="r"><div><span class="n" style="font-size:22px">660</span><span class="sub"> / 1,900 kcal</span></div><span class="sub">1,240 left</span></div><div class="bar g"><i style="width:35%"></i></div></div>
+  <div class="card"><div class="r"><span class="rnd k"><svg class="ic"><use href="#i-check"/></svg></span><div style="flex:1"><b>Breakfast · 8:30</b><div class="sub">Nuts, tea, 2 besan chilla · 365 kcal</div></div></div></div>
+  <div class="card"><div class="r"><span class="rnd k"><svg class="ic"><use href="#i-check"/></svg></span><div style="flex:1"><b>Fruit · 11:00</b><div class="sub">Apple with yogurt · 155 kcal</div></div></div></div>
+  <div class="card"><div class="r"><span class="rnd"><svg class="ic"><use href="#i-meal"/></svg></span><div style="flex:1"><b>Lunch · 1:30</b><div class="sub">Salad, 2 roti, dal, sabzi</div></div><span class="pill g">Log</span></div></div>
+  <div class="card"><div class="r"><span class="rnd"><svg class="ic"><use href="#i-meal"/></svg></span><div style="flex:1"><b>Dinner · 8:30</b><div class="sub">Kala chana, dal, 2 roti</div></div><span class="pill">Log</span></div></div>
+  <div class="g3" style="gap:8px"><div class="tile" style="gap:8px;align-items:center;font-size:11px"><svg class="ic"><use href="#i-search"/></svg>Search</div><div class="tile" style="gap:8px;align-items:center;font-size:11px"><svg class="ic"><use href="#i-scan"/></svg>Scan</div><div class="tile" style="gap:8px;align-items:center;font-size:11px"><svg class="ic"><use href="#i-drop"/></svg>Water</div></div>
+</div><div class="tabs"><span><svg class="ic"><use href="#i-home"/></svg>Today</span><span><svg class="ic"><use href="#i-gym"/></svg>Train</span><span class="go"><svg class="ic" role="img" aria-label="Start workout"><use href="#i-play"/></svg></span><b><svg class="ic"><use href="#i-diet"/></svg>Diet</b><span><svg class="ic"><use href="#i-chart"/></svg>Progress</span></div></div>
+<figcaption><b>Diet</b><span>Meals as cards with a Log pill. The next meal's pill carries the gradient.</span></figcaption></figure>
+
+<figure><div class="ph"><div class="sb"><span>9:41</span><span>●●●</span></div><div class="in">
+  <div class="r"><span class="rnd"><svg class="ic"><use href="#i-back"/></svg></span><b>Add to snack</b><span class="rnd"><svg class="ic"><use href="#i-search"/></svg></span></div>
+  <div class="r"><div class="h">Samosa</div><span class="pill" style="color:var(--sig)"><svg class="ic" style="width:12px;height:12px;vertical-align:-2px"><use href="#i-flag"/></svg> Avoid list</span></div>
+  <div class="card"><div class="r"><span>Portion</span><div class="r"><span class="rnd s"><svg class="ic"><use href="#i-minus"/></svg></span><b>1 piece</b><span class="rnd s"><svg class="ic"><use href="#i-plus"/></svg></span></div></div></div>
+  <div class="card"><div class="r">
+    <div class="ring" style="width:88px;height:88px"><svg viewBox="0 0 120 120"><circle class="tr" cx="60" cy="60" r="50" fill="none" stroke-width="13"/><circle cx="60" cy="60" r="50" fill="none" stroke="url(#vg)" stroke-width="13" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="271"/></svg><div><div class="n" style="font-size:22px">260</div><div class="m">kcal</div></div></div>
+    <div class="g3" style="flex:1;text-align:center;gap:4px"><div><b>30 g</b><div class="m">Carbs</div></div><div><b>14 g</b><div class="m">Fat</div></div><div><b>4 g</b><div class="m">Protein</div></div></div>
+  </div></div>
+  <div class="card"><div class="m">Your day after adding</div>
+    <div class="r"><span>Calories</span><b>920 / 1,900</b></div><div class="bar g"><i style="width:48%"></i></div>
+    <div class="r"><span>Protein</span><b>66 / 135 g</b></div><div class="bar"><i style="width:49%"></i></div>
+    <div class="r"><span class="sub">Fibre 16 g · Calcium 410 mg · Iron 9 mg</span></div></div>
+  <div class="pad"><div class="btn">Add to snack</div></div>
+</div></div><figcaption><b>Food entry</b><span>Ring and macros for the food, then what your day looks like after adding it.</span></figcaption></figure>
+
+<figure><div class="ph"><div class="sb"><span>9:41</span><span>●●●</span></div><div class="in">
+  <div class="r"><span class="rnd"><svg class="ic"><use href="#i-back"/></svg></span><span class="m">Full body A · 2 of 6</span><span class="pill">24:10</span></div>
+  <div class="h">Bench press</div><div class="sub">Last time 60 kg × 8. Try 62.5 kg today.</div>
+  <div class="set r"><span class="m">Set 1</span><b>60 kg × 8</b><span class="rnd s k"><svg class="ic"><use href="#i-check"/></svg></span></div>
+  <div class="set r"><span class="m">Set 2</span><span><b>62.5 kg × 8</b> <span class="pr">PR</span></span><span class="rnd s k"><svg class="ic"><use href="#i-check"/></svg></span></div>
+  <div class="card"><div class="m">Set 3</div><div class="g2">
+    <div class="r"><span class="rnd"><svg class="ic"><use href="#i-minus"/></svg></span><div style="text-align:center"><div class="n" style="font-size:30px">62.5</div><div class="m">kg</div></div><span class="rnd"><svg class="ic"><use href="#i-plus"/></svg></span></div>
+    <div class="r"><span class="rnd"><svg class="ic"><use href="#i-minus"/></svg></span><div style="text-align:center"><div class="n" style="font-size:30px">8</div><div class="m">reps</div></div><span class="rnd"><svg class="ic"><use href="#i-plus"/></svg></span></div></div></div>
+  <div class="set r"><span class="r"><svg class="ic"><use href="#i-timer"/></svg><span>Rest</span></span><span class="n" style="font-size:22px">1:12</span><span class="pill">+30 s</span></div>
+  <div class="pad"><div class="btn">Done</div><div class="g2"><div class="btn o">Next exercise</div><div class="btn o">Finish</div></div></div>
+</div></div><figcaption><b>Gym logger</b><span>Round steppers sized for a thumb. PR badge and Done share the gradient.</span></figcaption></figure>
+
+<figure><div class="ph dk"><div class="glow"></div><div class="sb"><span>9:41</span><span>●●●</span></div><div class="in">
+  <div class="r"><span class="m">Mon 16 Nov · 52 min</span><span class="rnd"><svg class="ic"><use href="#i-close"/></svg></span></div>
+  <div class="h" style="font-size:32px">Full body A,<br>done.</div>
+  <div style="margin-top:auto"><div class="m" style="color:var(--ink)">Lifted</div><div class="n" style="font-size:66px">4,280<span style="font-size:20px;letter-spacing:0"> kg</span></div></div>
+  <div class="g2"><div class="card"><svg class="ic"><use href="#i-flame"/></svg><b>≈ 310 kcal</b><span class="m">Active</span></div><div class="card"><span class="pr" style="align-self:flex-start">PR</span><b>62.5 kg × 8</b><span class="m">Bench press</span></div></div>
+  <div class="card"><div class="r"><span class="m">Vs last time</span><b>+180 kg · 3 min faster</b></div></div>
+  <div class="pad"><div class="btn"><svg class="ic" style="vertical-align:-4px;margin-right:6px"><use href="#i-share"/></svg>Share</div><div class="btn o">Done</div></div>
+</div></div><figcaption><b>Summary</b><span>Dark, with the red-to-ember glow. The reward screen after every session.</span></figcaption></figure>
+
+<figure><div class="ph dk"><div class="sb"><span>9:41</span><span>●●●</span></div><div class="in">
+  <div class="r"><div class="r" style="gap:6px"><span class="pill on">Photo</span><span class="pill">Sticker</span><span class="pill">Map</span></div><span class="rnd"><svg class="ic"><use href="#i-close"/></svg></span></div>
+  <div class="shot">
+    <div class="m">16 Nov 2026</div>
+    <div class="lock"><span class="m">Vyaya</span><svg viewBox="0 0 34 34" aria-label="Vyaya mark"><path d="M3 4h8l6 12 6-12h8L17 31z" fill="#F4F3EF"/></svg><span class="m">Full body A</span></div>
+    <div><div class="n" style="font-size:42px">4,280 KG</div><div class="m" style="margin-top:6px">52 min · ≈ 310 kcal · 1 PR</div></div>
+  </div>
+  <div class="r" style="gap:6px;justify-content:flex-start;flex-wrap:wrap"><span class="pill on">Signal</span><span class="pill">Dusk</span><span class="pill">Paper</span><span class="pill">Chrome</span><span class="pill">None</span></div>
+  <div class="r"><span class="m">Blur · person only</span><div class="bar g" style="flex:1;max-width:130px"><i style="width:60%"></i></div></div>
+  <div class="pad"><div class="btn"><svg class="ic" style="vertical-align:-4px;margin-right:6px"><use href="#i-share"/></svg>Instagram Stories</div><div class="btn o"><svg class="ic" style="vertical-align:-4px;margin-right:6px"><use href="#i-save"/></svg>Save to Photos</div></div>
+</div></div><figcaption><b>Share card</b><span>Filtered photo with the lockup and stats. Photo is a drawn stand-in.</span></figcaption></figure>
+
+</div>
+<p class="lab">Next · Stage 4 · SwiftUI build</p>
+</div>
